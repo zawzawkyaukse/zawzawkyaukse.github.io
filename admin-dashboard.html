@@ -1,0 +1,2185 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Admin Dashboard | EduManage</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --primary: #3157d5;
+        --primary-light: #eef2ff;
+        --bg: #f5f7fb;
+        --white: #ffffff;
+        --text: #172033;
+        --muted: #778298;
+        --border: #e5e8ef;
+        --success: #18a56b;
+        --warning: #e49a16;
+        --danger: #dc4d5b;
+        --sidebar: #172033;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    button,
+    input,
+    select {
+        font-family: inherit;
+    }
+
+    /* ================= SIDEBAR ================= */
+
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+
+        width: 245px;
+
+        background: var(--sidebar);
+        color: white;
+
+        z-index: 1000;
+
+        display: flex;
+        flex-direction: column;
+
+        transition: 0.3s;
+    }
+
+    .brand {
+        height: 75px;
+
+        display: flex;
+        align-items: center;
+
+        padding: 0 22px;
+
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .brand-icon {
+        width: 38px;
+        height: 38px;
+
+        border-radius: 10px;
+
+        background: var(--primary);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-right: 10px;
+    }
+
+    .admin-label {
+        padding: 20px 22px 10px;
+
+        color: #8995ac;
+
+        font-size: 10px;
+        font-weight: 700;
+
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .sidebar-nav {
+        flex: 1;
+
+        overflow-y: auto;
+
+        padding: 0 12px;
+    }
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+
+        gap: 12px;
+
+        padding: 11px 13px;
+
+        margin-bottom: 3px;
+
+        border-radius: 8px;
+
+        color: #aeb8ca;
+
+        font-size: 12px;
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+    }
+
+    .nav-item:hover {
+        background: rgba(255,255,255,0.06);
+        color: white;
+    }
+
+    .nav-item.active {
+        background: var(--primary);
+        color: white;
+    }
+
+    .nav-icon {
+        width: 20px;
+        text-align: center;
+        font-size: 15px;
+    }
+
+    .sidebar-bottom {
+        padding: 15px 12px;
+
+        border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .logout-btn {
+        width: 100%;
+
+        border: none;
+        background: rgba(255,255,255,0.06);
+
+        color: #c6cede;
+
+        border-radius: 8px;
+
+        padding: 11px;
+
+        cursor: pointer;
+
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .logout-btn:hover {
+        background: rgba(220,77,91,0.15);
+        color: #ff8893;
+    }
+
+    /* ================= MAIN ================= */
+
+    .main {
+        margin-left: 245px;
+
+        min-height: 100vh;
+
+        transition: 0.3s;
+    }
+
+    /* ================= TOPBAR ================= */
+
+    .topbar {
+        height: 75px;
+
+        background: var(--white);
+
+        border-bottom: 1px solid var(--border);
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 0 28px;
+
+        position: sticky;
+        top: 0;
+
+        z-index: 900;
+    }
+
+    .topbar-left {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .menu-toggle {
+        display: none;
+
+        border: none;
+        background: transparent;
+
+        font-size: 22px;
+
+        cursor: pointer;
+    }
+
+    .page-title h1 {
+        font-size: 20px;
+    }
+
+    .page-title p {
+        color: var(--muted);
+        font-size: 11px;
+        margin-top: 4px;
+    }
+
+    .topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+    }
+
+    .notification {
+        position: relative;
+
+        width: 36px;
+        height: 36px;
+
+        border-radius: 9px;
+
+        background: #f5f7fb;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        cursor: pointer;
+    }
+
+    .notification-badge {
+        position: absolute;
+
+        top: -3px;
+        right: -3px;
+
+        width: 16px;
+        height: 16px;
+
+        background: var(--danger);
+        color: white;
+
+        border-radius: 50%;
+
+        font-size: 8px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .profile {
+        display: flex;
+        align-items: center;
+
+        gap: 9px;
+
+        cursor: pointer;
+    }
+
+    .avatar {
+        width: 37px;
+        height: 37px;
+
+        border-radius: 50%;
+
+        background: var(--primary-light);
+        color: var(--primary);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .profile-info strong {
+        display: block;
+        font-size: 11px;
+    }
+
+    .profile-info span {
+        display: block;
+
+        color: var(--muted);
+
+        font-size: 9px;
+
+        margin-top: 3px;
+    }
+
+    /* ================= CONTENT ================= */
+
+    .content {
+        padding: 28px;
+    }
+
+    .welcome {
+        margin-bottom: 25px;
+    }
+
+    .welcome h2 {
+        font-size: 22px;
+    }
+
+    .welcome p {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    /* ================= STAT CARDS ================= */
+
+    .stats {
+        display: grid;
+
+        grid-template-columns: repeat(4, 1fr);
+
+        gap: 15px;
+
+        margin-bottom: 22px;
+    }
+
+    .stat-card {
+        background: white;
+
+        border: 1px solid var(--border);
+
+        border-radius: 12px;
+
+        padding: 20px;
+
+        position: relative;
+    }
+
+    .stat-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .stat-icon {
+        width: 42px;
+        height: 42px;
+
+        border-radius: 10px;
+
+        background: var(--primary-light);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 20px;
+    }
+
+    .stat-change {
+        font-size: 9px;
+        font-weight: 700;
+
+        color: var(--success);
+    }
+
+    .stat-card h3 {
+        font-size: 25px;
+
+        margin-top: 14px;
+    }
+
+    .stat-card p {
+        color: var(--muted);
+
+        font-size: 10px;
+
+        margin-top: 4px;
+    }
+
+    /* ================= GRID ================= */
+
+    .dashboard-grid {
+        display: grid;
+
+        grid-template-columns: 1.5fr 1fr;
+
+        gap: 18px;
+
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background: white;
+
+        border: 1px solid var(--border);
+
+        border-radius: 12px;
+
+        overflow: hidden;
+    }
+
+    .card-header {
+        min-height: 58px;
+
+        padding: 15px 18px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        border-bottom: 1px solid var(--border);
+    }
+
+    .card-header h3 {
+        font-size: 14px;
+    }
+
+    .card-header a {
+        color: var(--primary);
+
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    /* ================= TABLE ================= */
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+
+        border-collapse: collapse;
+    }
+
+    th {
+        background: #fafbfc;
+
+        color: #7b8699;
+
+        font-size: 9px;
+        font-weight: 700;
+
+        text-align: left;
+
+        padding: 12px 15px;
+
+        white-space: nowrap;
+    }
+
+    td {
+        padding: 13px 15px;
+
+        border-top: 1px solid #f0f2f6;
+
+        font-size: 10px;
+
+        white-space: nowrap;
+    }
+
+    .student-cell {
+        display: flex;
+        align-items: center;
+
+        gap: 9px;
+    }
+
+    .student-avatar {
+        width: 29px;
+        height: 29px;
+
+        border-radius: 50%;
+
+        background: var(--primary-light);
+
+        color: var(--primary);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 9px;
+        font-weight: 800;
+    }
+
+    .student-name strong {
+        display: block;
+        font-size: 10px;
+    }
+
+    .student-name span {
+        display: block;
+
+        color: var(--muted);
+
+        font-size: 8px;
+
+        margin-top: 2px;
+    }
+
+    .status {
+        display: inline-block;
+
+        padding: 4px 8px;
+
+        border-radius: 20px;
+
+        font-size: 8px;
+        font-weight: 700;
+    }
+
+    .status.present {
+        color: #16865b;
+        background: #e8f8f1;
+    }
+
+    .status.absent {
+        color: #c33d4b;
+        background: #ffedef;
+    }
+
+    /* ================= ATTENDANCE ================= */
+
+    .attendance-content {
+        padding: 20px;
+    }
+
+    .attendance-number {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        margin-bottom: 18px;
+    }
+
+    .attendance-number strong {
+        font-size: 30px;
+    }
+
+    .attendance-number span {
+        color: var(--success);
+
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .progress-bar {
+        height: 10px;
+
+        background: #edf0f5;
+
+        border-radius: 20px;
+
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+
+        width: 94.6%;
+
+        background: var(--primary);
+
+        border-radius: 20px;
+    }
+
+    .attendance-list {
+        margin-top: 20px;
+    }
+
+    .attendance-row {
+        display: flex;
+
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 10px 0;
+
+        border-bottom: 1px solid #f0f2f6;
+
+        font-size: 10px;
+    }
+
+    .attendance-row:last-child {
+        border-bottom: none;
+    }
+
+    .attendance-row span {
+        color: var(--muted);
+    }
+
+    /* ================= QUICK ACTIONS ================= */
+
+    .quick-actions {
+        display: grid;
+
+        grid-template-columns: repeat(4, 1fr);
+
+        gap: 12px;
+
+        margin-bottom: 20px;
+    }
+
+    .quick-action {
+        border: 1px solid var(--border);
+
+        background: white;
+
+        border-radius: 10px;
+
+        padding: 15px;
+
+        text-align: center;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+    }
+
+    .quick-action:hover {
+        transform: translateY(-2px);
+
+        border-color: #cbd4f8;
+
+        box-shadow: 0 8px 20px rgba(30,45,90,0.06);
+    }
+
+    .quick-action-icon {
+        font-size: 21px;
+
+        margin-bottom: 7px;
+    }
+
+    .quick-action strong {
+        display: block;
+
+        font-size: 10px;
+    }
+
+    /* ================= NOTICE ================= */
+
+    .notice-list {
+        padding: 7px 18px 15px;
+    }
+
+    .notice {
+        display: flex;
+
+        gap: 10px;
+
+        padding: 12px 0;
+
+        border-bottom: 1px solid #f0f2f6;
+    }
+
+    .notice:last-child {
+        border-bottom: none;
+    }
+
+    .notice-icon {
+        width: 31px;
+        height: 31px;
+
+        border-radius: 8px;
+
+        background: var(--primary-light);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+    }
+
+    .notice-content strong {
+        display: block;
+
+        font-size: 10px;
+    }
+
+    .notice-content p {
+        color: var(--muted);
+
+        font-size: 9px;
+
+        margin-top: 4px;
+
+        line-height: 1.5;
+    }
+
+    /* ================= SEARCH ================= */
+
+    .search-box {
+        position: relative;
+    }
+
+    .search-box input {
+        width: 190px;
+
+        height: 34px;
+
+        border: 1px solid var(--border);
+
+        border-radius: 8px;
+
+        outline: none;
+
+        padding: 0 12px;
+
+        font-size: 10px;
+    }
+
+    .search-box input:focus {
+        border-color: var(--primary);
+    }
+
+    /* ================= MODAL ================= */
+
+    .modal {
+        display: none;
+
+        position: fixed;
+
+        inset: 0;
+
+        background: rgba(15,23,42,0.45);
+
+        z-index: 3000;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 20px;
+    }
+
+    .modal.show {
+        display: flex;
+    }
+
+    .modal-box {
+        width: 100%;
+        max-width: 400px;
+
+        background: white;
+
+        border-radius: 14px;
+
+        padding: 25px;
+
+        box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+
+    .modal-box h3 {
+        font-size: 17px;
+
+        margin-bottom: 8px;
+    }
+
+    .modal-box p {
+        color: var(--muted);
+
+        font-size: 11px;
+
+        line-height: 1.6;
+    }
+
+    .modal-buttons {
+        display: flex;
+
+        justify-content: flex-end;
+
+        gap: 8px;
+
+        margin-top: 20px;
+    }
+
+    .modal-btn {
+        border: none;
+
+        border-radius: 7px;
+
+        padding: 9px 15px;
+
+        font-size: 10px;
+        font-weight: 700;
+
+        cursor: pointer;
+    }
+
+    .cancel-btn {
+        background: #eef0f4;
+        color: #59657a;
+    }
+
+    .confirm-btn {
+        background: var(--danger);
+        color: white;
+    }
+
+    /* ================= DARK MODE ================= */
+
+    body.dark {
+        --bg: #0f1523;
+        --white: #171e2e;
+        --text: #edf1f8;
+        --muted: #8e9ab0;
+        --border: #283246;
+    }
+
+    body.dark .topbar,
+    body.dark .card,
+    body.dark .stat-card,
+    body.dark .quick-action {
+        background: #171e2e;
+    }
+
+    body.dark th {
+        background: #1c2536;
+    }
+
+    body.dark .search-box input {
+        background: #111827;
+        color: white;
+    }
+
+    .theme-btn {
+        width: 36px;
+        height: 36px;
+
+        border: none;
+
+        border-radius: 9px;
+
+        background: #f5f7fb;
+
+        cursor: pointer;
+
+        font-size: 15px;
+    }
+
+    body.dark .theme-btn {
+        background: #222c3e;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media(max-width:1100px) {
+
+        .stats {
+            grid-template-columns: repeat(2,1fr);
+        }
+
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .quick-actions {
+            grid-template-columns: repeat(2,1fr);
+        }
+    }
+
+    @media(max-width:800px) {
+
+        .sidebar {
+            transform: translateX(-100%);
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .main {
+            margin-left: 0;
+        }
+
+        .menu-toggle {
+            display: block;
+        }
+
+        .topbar {
+            padding: 0 18px;
+        }
+
+        .profile-info {
+            display: none;
+        }
+
+        .content {
+            padding: 20px 15px;
+        }
+    }
+
+    @media(max-width:550px) {
+
+        .stats {
+            grid-template-columns: 1fr;
+        }
+
+        .quick-actions {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .search-box {
+            display: none;
+        }
+
+        .page-title h1 {
+            font-size: 17px;
+        }
+
+        .welcome h2 {
+            font-size: 19px;
+        }
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<!-- ==================================================
+     SIDEBAR
+================================================== -->
+
+<aside class="sidebar" id="sidebar">
+
+```
+<div class="brand">
+
+    <div class="brand-icon">
+        🎓
+    </div>
+
+    EduManage
+
+</div>
+
+
+<div class="admin-label">
+    Administration
+</div>
+
+
+<nav class="sidebar-nav">
+
+    <a href="admin-dashboard.html"
+       class="nav-item active">
+
+        <span class="nav-icon">📊</span>
+        Dashboard
+
+    </a>
+
+
+    <a href="students.html"
+       class="nav-item">
+
+        <span class="nav-icon">👨‍🎓</span>
+        Students
+
+    </a>
+
+
+    <a href="teachers.html"
+       class="nav-item">
+
+        <span class="nav-icon">👩‍🏫</span>
+        Teachers
+
+    </a>
+
+
+    <a href="classes.html"
+       class="nav-item">
+
+        <span class="nav-icon">🏫</span>
+        Classes
+
+    </a>
+
+
+    <a href="attendance.html"
+       class="nav-item">
+
+        <span class="nav-icon">✅</span>
+        Attendance
+
+    </a>
+
+
+    <a href="exams.html"
+       class="nav-item">
+
+        <span class="nav-icon">📝</span>
+        Exams & Results
+
+    </a>
+
+
+    <a href="fees.html"
+       class="nav-item">
+
+        <span class="nav-icon">💰</span>
+        Fees & Payments
+
+    </a>
+
+
+    <a href="timetable.html"
+       class="nav-item">
+
+        <span class="nav-icon">🗓️</span>
+        Timetable
+
+    </a>
+
+
+    <a href="notices.html"
+       class="nav-item">
+
+        <span class="nav-icon">🔔</span>
+        Notices
+
+    </a>
+
+
+    <a href="reports.html"
+       class="nav-item">
+
+        <span class="nav-icon">📈</span>
+        Reports
+
+    </a>
+
+
+    <div class="admin-label">
+        System
+    </div>
+
+
+    <a href="profile.html"
+       class="nav-item">
+
+        <span class="nav-icon">👤</span>
+        Profile
+
+    </a>
+
+
+    <a href="settings.html"
+       class="nav-item">
+
+        <span class="nav-icon">⚙️</span>
+        Settings
+
+    </a>
+
+</nav>
+
+
+<div class="sidebar-bottom">
+
+    <button
+        class="logout-btn"
+        id="logoutButton">
+
+        🚪 &nbsp; Logout
+
+    </button>
+
+</div>
+```
+
+</aside>
+
+<!-- ==================================================
+     MAIN
+================================================== -->
+
+<main class="main">
+
+```
+<!-- TOPBAR -->
+
+<header class="topbar">
+
+    <div class="topbar-left">
+
+        <button
+            class="menu-toggle"
+            id="menuToggle">
+
+            ☰
+
+        </button>
+
+
+        <div class="page-title">
+
+            <h1>
+                Admin Dashboard
+            </h1>
+
+            <p>
+                School Management System
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="topbar-right">
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="globalSearch"
+                placeholder="Search students...">
+
+        </div>
+
+
+        <button
+            class="theme-btn"
+            id="themeButton">
+
+            🌙
+
+        </button>
+
+
+        <div
+            class="notification"
+            id="notificationButton">
+
+            🔔
+
+            <span class="notification-badge">
+                4
+            </span>
+
+        </div>
+
+
+        <div class="profile">
+
+            <div class="avatar">
+                AD
+            </div>
+
+            <div class="profile-info">
+
+                <strong>
+                    Administrator
+                </strong>
+
+                <span>
+                    Super Admin
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- CONTENT -->
+
+<section class="content">
+
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h2>
+            Good Morning, Administrator 👋
+        </h2>
+
+        <p>
+            Here's what's happening in your school today.
+        </p>
+
+    </div>
+
+
+    <!-- ==================================================
+         STAT CARDS
+    ================================================== -->
+
+    <div class="stats">
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+                    👨‍🎓
+                </div>
+
+                <span class="stat-change">
+                    +8.2%
+                </span>
+
+            </div>
+
+            <h3>
+                1,248
+            </h3>
+
+            <p>
+                Total Students
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+                    👩‍🏫
+                </div>
+
+                <span class="stat-change">
+                    +4.5%
+                </span>
+
+            </div>
+
+            <h3>
+                86
+            </h3>
+
+            <p>
+                Total Teachers
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+                    🏫
+                </div>
+
+                <span class="stat-change">
+                    +2
+                </span>
+
+            </div>
+
+            <h3>
+                32
+            </h3>
+
+            <p>
+                Total Classes
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+                    💰
+                </div>
+
+                <span class="stat-change">
+                    +12.4%
+                </span>
+
+            </div>
+
+            <h3>
+                $24.8K
+            </h3>
+
+            <p>
+                Monthly Revenue
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         QUICK ACTIONS
+    ================================================== -->
+
+    <div class="quick-actions">
+
+
+        <div
+            class="quick-action"
+            onclick="openPage('students.html')">
+
+            <div class="quick-action-icon">
+                ➕
+            </div>
+
+            <strong>
+                Add Student
+            </strong>
+
+        </div>
+
+
+        <div
+            class="quick-action"
+            onclick="openPage('teachers.html')">
+
+            <div class="quick-action-icon">
+                👩‍🏫
+            </div>
+
+            <strong>
+                Add Teacher
+            </strong>
+
+        </div>
+
+
+        <div
+            class="quick-action"
+            onclick="openPage('attendance.html')">
+
+            <div class="quick-action-icon">
+                ✅
+            </div>
+
+            <strong>
+                Attendance
+            </strong>
+
+        </div>
+
+
+        <div
+            class="quick-action"
+            onclick="openPage('notices.html')">
+
+            <div class="quick-action-icon">
+                📢
+            </div>
+
+            <strong>
+                New Notice
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         DASHBOARD GRID
+    ================================================== -->
+
+    <div class="dashboard-grid">
+
+
+        <!-- RECENT STUDENTS -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h3>
+                    Recent Students
+                </h3>
+
+                <a href="students.html">
+                    View All →
+                </a>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table id="studentTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                STUDENT
+                            </th>
+
+                            <th>
+                                CLASS
+                            </th>
+
+                            <th>
+                                GENDER
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+
+                                <div class="student-cell">
+
+                                    <div class="student-avatar">
+                                        AK
+                                    </div>
+
+                                    <div class="student-name">
+
+                                        <strong>
+                                            Aung Ko Ko
+                                        </strong>
+
+                                        <span>
+                                            STU-2026-001
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                Grade 10-A
+                            </td>
+
+                            <td>
+                                Male
+                            </td>
+
+                            <td>
+                                <span class="status present">
+                                    Active
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+
+                                <div class="student-cell">
+
+                                    <div class="student-avatar">
+                                        MS
+                                    </div>
+
+                                    <div class="student-name">
+
+                                        <strong>
+                                            May Su
+                                        </strong>
+
+                                        <span>
+                                            STU-2026-002
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                Grade 9-B
+                            </td>
+
+                            <td>
+                                Female
+                            </td>
+
+                            <td>
+                                <span class="status present">
+                                    Active
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+
+                                <div class="student-cell">
+
+                                    <div class="student-avatar">
+                                        TM
+                                    </div>
+
+                                    <div class="student-name">
+
+                                        <strong>
+                                            Thiha Min
+                                        </strong>
+
+                                        <span>
+                                            STU-2026-003
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                Grade 8-A
+                            </td>
+
+                            <td>
+                                Male
+                            </td>
+
+                            <td>
+                                <span class="status present">
+                                    Active
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+
+                                <div class="student-cell">
+
+                                    <div class="student-avatar">
+                                        NH
+                                    </div>
+
+                                    <div class="student-name">
+
+                                        <strong>
+                                            Nandar Hla
+                                        </strong>
+
+                                        <span>
+                                            STU-2026-004
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                Grade 10-B
+                            </td>
+
+                            <td>
+                                Female
+                            </td>
+
+                            <td>
+                                <span class="status present">
+                                    Active
+                                </span>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- ATTENDANCE -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h3>
+                    Today's Attendance
+                </h3>
+
+                <a href="attendance.html">
+                    Details →
+                </a>
+
+            </div>
+
+
+            <div class="attendance-content">
+
+                <div class="attendance-number">
+
+                    <strong>
+                        94.6%
+                    </strong>
+
+                    <span>
+                        ▲ 2.4%
+                    </span>
+
+                </div>
+
+
+                <div class="progress-bar">
+
+                    <div class="progress-fill"></div>
+
+                </div>
+
+
+                <div class="attendance-list">
+
+                    <div class="attendance-row">
+
+                        <span>
+                            Present
+                        </span>
+
+                        <strong>
+                            1,181
+                        </strong>
+
+                    </div>
+
+
+                    <div class="attendance-row">
+
+                        <span>
+                            Absent
+                        </span>
+
+                        <strong>
+                            42
+                        </strong>
+
+                    </div>
+
+
+                    <div class="attendance-row">
+
+                        <span>
+                            Late
+                        </span>
+
+                        <strong>
+                            25
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         BOTTOM GRID
+    ================================================== -->
+
+    <div class="dashboard-grid">
+
+
+        <!-- NOTICES -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h3>
+                    Recent Notices
+                </h3>
+
+                <a href="notices.html">
+                    View All →
+                </a>
+
+            </div>
+
+
+            <div class="notice-list">
+
+
+                <div class="notice">
+
+                    <div class="notice-icon">
+                        📢
+                    </div>
+
+                    <div class="notice-content">
+
+                        <strong>
+                            Mid-Term Examination
+                        </strong>
+
+                        <p>
+                            Mid-term examinations will begin
+                            next Monday.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="notice">
+
+                    <div class="notice-icon">
+                        🏫
+                    </div>
+
+                    <div class="notice-content">
+
+                        <strong>
+                            Parent Meeting
+                        </strong>
+
+                        <p>
+                            Parent-teacher meeting scheduled
+                            for September 20.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="notice">
+
+                    <div class="notice-icon">
+                        🗓️
+                    </div>
+
+                    <div class="notice-content">
+
+                        <strong>
+                            Holiday Announcement
+                        </strong>
+
+                        <p>
+                            School will be closed on the
+                            upcoming public holiday.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- FEE SUMMARY -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h3>
+                    Fee Summary
+                </h3>
+
+                <a href="fees.html">
+                    Details →
+                </a>
+
+            </div>
+
+
+            <div class="attendance-content">
+
+                <div class="attendance-row">
+
+                    <span>
+                        Total Fees
+                    </span>
+
+                    <strong>
+                        $32,500
+                    </strong>
+
+                </div>
+
+
+                <div class="attendance-row">
+
+                    <span>
+                        Paid
+                    </span>
+
+                    <strong style="color:var(--success);">
+                        $24,800
+                    </strong>
+
+                </div>
+
+
+                <div class="attendance-row">
+
+                    <span>
+                        Pending
+                    </span>
+
+                    <strong style="color:var(--warning);">
+                        $7,700
+                    </strong>
+
+                </div>
+
+
+                <div style="margin-top:18px;">
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress-fill"
+                            style="width:76%;">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+```
+
+</main>
+
+<!-- ==================================================
+     LOGOUT MODAL
+================================================== -->
+
+<div class="modal" id="logoutModal">
+
+```
+<div class="modal-box">
+
+    <h3>
+        Logout?
+    </h3>
+
+    <p>
+        Are you sure you want to logout from the
+        administrator account?
+    </p>
+
+
+    <div class="modal-buttons">
+
+        <button
+            class="modal-btn cancel-btn"
+            id="cancelLogout">
+
+            Cancel
+
+        </button>
+
+
+        <button
+            class="modal-btn confirm-btn"
+            id="confirmLogout">
+
+            Logout
+
+        </button>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<script>
+
+    /* ================================================
+       MOBILE SIDEBAR
+    ================================================ */
+
+    const menuToggle =
+        document.getElementById("menuToggle");
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+
+    menuToggle.addEventListener("click", function() {
+
+        sidebar.classList.toggle("open");
+
+    });
+
+
+    /* ================================================
+       CLOSE MOBILE SIDEBAR WHEN LINK CLICKED
+    ================================================ */
+
+    document.querySelectorAll(".nav-item").forEach(function(item) {
+
+        item.addEventListener("click", function() {
+
+            if (window.innerWidth <= 800) {
+
+                sidebar.classList.remove("open");
+
+            }
+
+        });
+
+    });
+
+
+    /* ================================================
+       QUICK ACTION
+    ================================================ */
+
+    function openPage(page) {
+
+        window.location.href = page;
+
+    }
+
+
+    /* ================================================
+       DARK MODE
+    ================================================ */
+
+    const themeButton =
+        document.getElementById("themeButton");
+
+
+    themeButton.addEventListener("click", function() {
+
+        document.body.classList.toggle("dark");
+
+
+        if (document.body.classList.contains("dark")) {
+
+            themeButton.textContent = "☀️";
+
+            localStorage.setItem(
+                "theme",
+                "dark"
+            );
+
+        }
+
+        else {
+
+            themeButton.textContent = "🌙";
+
+            localStorage.setItem(
+                "theme",
+                "light"
+            );
+
+        }
+
+    });
+
+
+    // Remember theme
+
+    if (localStorage.getItem("theme") === "dark") {
+
+        document.body.classList.add("dark");
+
+        themeButton.textContent = "☀️";
+
+    }
+
+
+    /* ================================================
+       NOTIFICATION
+    ================================================ */
+
+    document
+        .getElementById("notificationButton")
+        .addEventListener("click", function() {
+
+            alert(
+                "You have 4 new notifications."
+            );
+
+        });
+
+
+    /* ================================================
+       GLOBAL SEARCH
+    ================================================ */
+
+    const searchInput =
+        document.getElementById("globalSearch");
+
+    const tableRows =
+        document.querySelectorAll(
+            "#studentTable tbody tr"
+        );
+
+
+    searchInput.addEventListener("input", function() {
+
+        const value =
+            searchInput.value.toLowerCase().trim();
+
+
+        tableRows.forEach(function(row) {
+
+            const text =
+                row.textContent.toLowerCase();
+
+            if (text.includes(value)) {
+
+                row.style.display = "";
+
+            }
+
+            else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+    });
+
+
+    /* ================================================
+       LOGOUT
+    ================================================ */
+
+    const logoutButton =
+        document.getElementById("logoutButton");
+
+    const logoutModal =
+        document.getElementById("logoutModal");
+
+    const cancelLogout =
+        document.getElementById("cancelLogout");
+
+    const confirmLogout =
+        document.getElementById("confirmLogout");
+
+
+    logoutButton.addEventListener("click", function() {
+
+        logoutModal.classList.add("show");
+
+    });
+
+
+    cancelLogout.addEventListener("click", function() {
+
+        logoutModal.classList.remove("show");
+
+    });
+
+
+    confirmLogout.addEventListener("click", function() {
+
+        /*
+            Backend မရှိသေးတဲ့အတွက်
+            login page ကိုပဲ ပြန်သွားမယ်။
+        */
+
+        window.location.href =
+            "login.html";
+
+    });
+
+
+    // Click outside modal
+
+    logoutModal.addEventListener("click", function(event) {
+
+        if (event.target === logoutModal) {
+
+            logoutModal.classList.remove("show");
+
+        }
+
+    });
+
+
+    /* ================================================
+       ESC KEY CLOSE MODAL
+    ================================================ */
+
+    document.addEventListener("keydown", function(event) {
+
+        if (event.key === "Escape") {
+
+            logoutModal.classList.remove("show");
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
