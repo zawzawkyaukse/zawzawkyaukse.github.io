@@ -1,0 +1,830 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notices - School Management System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #111827;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 13px 15px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* Main */
+        .main {
+            margin-left: 240px;
+            padding: 25px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+        }
+
+        .user {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        /* Toolbar */
+        .toolbar {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .search-box input {
+            width: 100%;
+            max-width: 350px;
+            padding: 11px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #2563eb;
+        }
+
+        .filter {
+            padding: 11px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            background: white;
+        }
+
+        .add-btn {
+            padding: 11px 17px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .add-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Notice Cards */
+        .notices {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .notice-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 5px solid #2563eb;
+        }
+
+        .notice-card.important {
+            border-left-color: #ef4444;
+        }
+
+        .notice-card.event {
+            border-left-color: #f59e0b;
+        }
+
+        .notice-card.holiday {
+            border-left-color: #10b981;
+        }
+
+        .notice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .notice-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .badge {
+            font-size: 11px;
+            padding: 5px 9px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .badge.general {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .badge.important {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .badge.event {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge.holiday {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .notice-text {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .notice-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 13px;
+        }
+
+        .date {
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 7px;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 7px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .view {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .edit {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .delete {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            outline: none;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .cancel-btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 7px;
+            background: #e5e7eb;
+            cursor: pointer;
+        }
+
+        .save-btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                margin-left: 190px;
+                padding: 15px;
+            }
+
+            .topbar h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            🏫 School Management
+        </div>
+
+        <nav class="menu">
+            <a href="index.html">📊 Dashboard</a>
+            <a href="students.html">👨‍🎓 Students</a>
+            <a href="teachers.html">👨‍🏫 Teachers</a>
+            <a href="classes.html">🏫 Classes</a>
+            <a href="attendance.html">📋 Attendance</a>
+            <a href="timetable.html">🗓️ Timetable</a>
+            <a href="exams.html">📝 Exams</a>
+            <a href="fees.html">💰 Fees</a>
+            <a href="notices.html" class="active">📢 Notices</a>
+            <a href="reports.html">📊 Reports</a>
+            <a href="profile.html">👤 Profile</a>
+            <a href="settings.html">⚙️ Settings</a>
+        </nav>
+
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+
+        <div class="topbar">
+            <h1>Notices</h1>
+
+            <div class="user">
+                👤 Admin
+            </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="🔍 Search notices..."
+                    onkeyup="searchNotices()"
+                >
+            </div>
+
+            <select class="filter" id="categoryFilter" onchange="filterNotices()">
+                <option value="all">All Categories</option>
+                <option value="general">General</option>
+                <option value="important">Important</option>
+                <option value="event">Event</option>
+                <option value="holiday">Holiday</option>
+            </select>
+
+            <button class="add-btn" onclick="openModal()">
+                + Add Notice
+            </button>
+
+        </div>
+
+        <!-- Notices -->
+        <div class="notices" id="noticeList">
+
+            <div class="notice-card important" data-category="important">
+
+                <div class="notice-header">
+                    <div class="notice-title">
+                        Final Examination Announcement
+                    </div>
+
+                    <span class="badge important">
+                        Important
+                    </span>
+                </div>
+
+                <div class="notice-text">
+                    The final examination will begin on 15 October.
+                    All students are requested to prepare according to
+                    the examination timetable.
+                </div>
+
+                <div class="notice-footer">
+                    <span class="date">
+                        📅 09 Sep 2026
+                    </span>
+
+                    <div class="actions">
+                        <button class="action-btn view"
+                            onclick="viewNotice('Final Examination Announcement')">
+                            View
+                        </button>
+
+                        <button class="action-btn edit"
+                            onclick="editNotice()">
+                            Edit
+                        </button>
+
+                        <button class="action-btn delete"
+                            onclick="deleteNotice(this)">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="notice-card event" data-category="event">
+
+                <div class="notice-header">
+                    <div class="notice-title">
+                        School Sports Day
+                    </div>
+
+                    <span class="badge event">
+                        Event
+                    </span>
+                </div>
+
+                <div class="notice-text">
+                    Annual School Sports Day will be held on Friday.
+                    Students are encouraged to participate in all
+                    sports activities.
+                </div>
+
+                <div class="notice-footer">
+                    <span class="date">
+                        📅 07 Sep 2026
+                    </span>
+
+                    <div class="actions">
+                        <button class="action-btn view"
+                            onclick="viewNotice('School Sports Day')">
+                            View
+                        </button>
+
+                        <button class="action-btn edit"
+                            onclick="editNotice()">
+                            Edit
+                        </button>
+
+                        <button class="action-btn delete"
+                            onclick="deleteNotice(this)">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="notice-card holiday" data-category="holiday">
+
+                <div class="notice-header">
+                    <div class="notice-title">
+                        School Holiday
+                    </div>
+
+                    <span class="badge holiday">
+                        Holiday
+                    </span>
+                </div>
+
+                <div class="notice-text">
+                    The school will be closed on Monday due to
+                    the public holiday. Classes will resume on Tuesday.
+                </div>
+
+                <div class="notice-footer">
+                    <span class="date">
+                        📅 05 Sep 2026
+                    </span>
+
+                    <div class="actions">
+                        <button class="action-btn view"
+                            onclick="viewNotice('School Holiday')">
+                            View
+                        </button>
+
+                        <button class="action-btn edit"
+                            onclick="editNotice()">
+                            Edit
+                        </button>
+
+                        <button class="action-btn delete"
+                            onclick="deleteNotice(this)">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="notice-card" data-category="general">
+
+                <div class="notice-header">
+                    <div class="notice-title">
+                        Parent Meeting
+                    </div>
+
+                    <span class="badge general">
+                        General
+                    </span>
+                </div>
+
+                <div class="notice-text">
+                    A parent-teacher meeting will be conducted next
+                    week. Parents are requested to attend the meeting
+                    according to the provided schedule.
+                </div>
+
+                <div class="notice-footer">
+                    <span class="date">
+                        📅 03 Sep 2026
+                    </span>
+
+                    <div class="actions">
+                        <button class="action-btn view"
+                            onclick="viewNotice('Parent Meeting')">
+                            View
+                        </button>
+
+                        <button class="action-btn edit"
+                            onclick="editNotice()">
+                            Edit
+                        </button>
+
+                        <button class="action-btn delete"
+                            onclick="deleteNotice(this)">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- Add Notice Modal -->
+    <div class="modal" id="noticeModal">
+
+        <div class="modal-content">
+
+            <h2>Add New Notice</h2>
+
+            <div class="form-group">
+                <label>Notice Title</label>
+                <input
+                    type="text"
+                    id="noticeTitle"
+                    placeholder="Enter notice title"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+
+                <select id="noticeCategory">
+                    <option value="general">General</option>
+                    <option value="important">Important</option>
+                    <option value="event">Event</option>
+                    <option value="holiday">Holiday</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+
+                <textarea
+                    id="noticeDescription"
+                    placeholder="Enter notice description"
+                ></textarea>
+            </div>
+
+            <div class="modal-actions">
+
+                <button class="cancel-btn" onclick="closeModal()">
+                    Cancel
+                </button>
+
+                <button class="save-btn" onclick="addNotice()">
+                    Save Notice
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        /* Open Modal */
+        function openModal() {
+            document.getElementById("noticeModal").style.display = "flex";
+        }
+
+
+        /* Close Modal */
+        function closeModal() {
+            document.getElementById("noticeModal").style.display = "none";
+        }
+
+
+        /* Add Notice */
+        function addNotice() {
+
+            const title =
+                document.getElementById("noticeTitle").value.trim();
+
+            const category =
+                document.getElementById("noticeCategory").value;
+
+            const description =
+                document.getElementById("noticeDescription").value.trim();
+
+            if (!title || !description) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            const categoryName =
+                category.charAt(0).toUpperCase() + category.slice(1);
+
+            const today = new Date();
+
+            const date =
+                today.toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                });
+
+            const card = document.createElement("div");
+
+            card.className = "notice-card " + category;
+            card.dataset.category = category;
+
+            card.innerHTML = `
+                <div class="notice-header">
+
+                    <div class="notice-title">
+                        ${title}
+                    </div>
+
+                    <span class="badge ${category}">
+                        ${categoryName}
+                    </span>
+
+                </div>
+
+                <div class="notice-text">
+                    ${description}
+                </div>
+
+                <div class="notice-footer">
+
+                    <span class="date">
+                        📅 ${date}
+                    </span>
+
+                    <div class="actions">
+
+                        <button class="action-btn view"
+                            onclick="viewNotice('${title}')">
+                            View
+                        </button>
+
+                        <button class="action-btn edit"
+                            onclick="editNotice()">
+                            Edit
+                        </button>
+
+                        <button class="action-btn delete"
+                            onclick="deleteNotice(this)">
+                            Delete
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+            document.getElementById("noticeList")
+                .prepend(card);
+
+            document.getElementById("noticeTitle").value = "";
+            document.getElementById("noticeDescription").value = "";
+
+            closeModal();
+        }
+
+
+        /* View Notice */
+        function viewNotice(title) {
+            alert("Notice: " + title);
+        }
+
+
+        /* Edit Notice */
+        function editNotice() {
+            alert("Edit function will be connected to backend later.");
+        }
+
+
+        /* Delete Notice */
+        function deleteNotice(button) {
+
+            if (confirm("Are you sure you want to delete this notice?")) {
+                button.closest(".notice-card").remove();
+            }
+
+        }
+
+
+        /* Search */
+        function searchNotices() {
+
+            const search =
+                document.getElementById("searchInput")
+                    .value.toLowerCase();
+
+            const cards =
+                document.querySelectorAll(".notice-card");
+
+            cards.forEach(card => {
+
+                const text =
+                    card.innerText.toLowerCase();
+
+                card.style.display =
+                    text.includes(search) ? "" : "none";
+
+            });
+
+        }
+
+
+        /* Filter */
+        function filterNotices() {
+
+            const filter =
+                document.getElementById("categoryFilter").value;
+
+            const cards =
+                document.querySelectorAll(".notice-card");
+
+            cards.forEach(card => {
+
+                if (filter === "all" ||
+                    card.dataset.category === filter) {
+
+                    card.style.display = "";
+
+                } else {
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+        }
+
+
+        /* Close modal when clicking outside */
+        window.onclick = function(event) {
+
+            const modal =
+                document.getElementById("noticeModal");
+
+            if (event.target === modal) {
+                closeModal();
+            }
+
+        };
+
+    </script>
+
+</body>
+</html>
+```
