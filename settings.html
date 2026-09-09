@@ -1,0 +1,1189 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - School Management System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #111827;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 13px 15px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 240px;
+            padding: 25px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+        }
+
+        .user {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        /* ================= SETTINGS LAYOUT ================= */
+
+        .settings-layout {
+            display: grid;
+            grid-template-columns: 230px 1fr;
+            gap: 20px;
+        }
+
+        .settings-menu {
+            background: white;
+            padding: 12px;
+            border-radius: 12px;
+            height: fit-content;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .settings-menu button {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 5px;
+            border: none;
+            background: transparent;
+            text-align: left;
+            border-radius: 7px;
+            cursor: pointer;
+            color: #4b5563;
+            font-size: 14px;
+        }
+
+        .settings-menu button:hover,
+        .settings-menu button.active {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        /* ================= CONTENT ================= */
+
+        .settings-content {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .settings-section {
+            display: none;
+        }
+
+        .settings-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+
+        .section-description {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 18px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info h3 {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .setting-info p {
+            color: #6b7280;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* ================= INPUT ================= */
+
+        .input-box {
+            width: 230px;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            outline: none;
+            background: white;
+        }
+
+        .input-box:focus {
+            border-color: #2563eb;
+        }
+
+        .select-box {
+            width: 180px;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            background: white;
+            outline: none;
+        }
+
+        /* ================= TOGGLE ================= */
+
+        .switch {
+            position: relative;
+            width: 48px;
+            height: 25px;
+            display: inline-block;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #d1d5db;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            width: 19px;
+            height: 19px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+
+        input:checked + .slider {
+            background: #2563eb;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(23px);
+        }
+
+        /* ================= BUTTONS ================= */
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .btn {
+            padding: 10px 17px;
+            border-radius: 7px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .reset-btn {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .save-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* ================= DANGER ================= */
+
+        .danger-zone {
+            margin-top: 25px;
+            padding: 18px;
+            border: 1px solid #fecaca;
+            background: #fef2f2;
+            border-radius: 8px;
+        }
+
+        .danger-zone h3 {
+            color: #b91c1c;
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .danger-zone p {
+            color: #7f1d1d;
+            font-size: 12px;
+            margin-bottom: 13px;
+        }
+
+        .danger-btn {
+            padding: 9px 14px;
+            border: none;
+            border-radius: 6px;
+            background: #dc2626;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 850px) {
+
+            .settings-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-menu {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 5px;
+            }
+
+            .settings-menu button {
+                margin: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                margin-left: 190px;
+                padding: 15px;
+            }
+
+            .topbar h1 {
+                font-size: 22px;
+            }
+
+            .setting-row {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .input-box,
+            .select-box {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            🏫 School Management
+        </div>
+
+        <nav class="menu">
+
+            <a href="index.html">
+                📊 Dashboard
+            </a>
+
+            <a href="students.html">
+                👨‍🎓 Students
+            </a>
+
+            <a href="teachers.html">
+                👨‍🏫 Teachers
+            </a>
+
+            <a href="classes.html">
+                🏫 Classes
+            </a>
+
+            <a href="attendance.html">
+                📋 Attendance
+            </a>
+
+            <a href="timetable.html">
+                🗓️ Timetable
+            </a>
+
+            <a href="exams.html">
+                📝 Exams
+            </a>
+
+            <a href="fees.html">
+                💰 Fees
+            </a>
+
+            <a href="notices.html">
+                📢 Notices
+            </a>
+
+            <a href="reports.html">
+                📊 Reports
+            </a>
+
+            <a href="profile.html">
+                👤 Profile
+            </a>
+
+            <a href="settings.html" class="active">
+                ⚙️ Settings
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <h1>Settings</h1>
+
+            <div class="user">
+                👤 Admin
+            </div>
+
+        </div>
+
+
+        <div class="settings-layout">
+
+            <!-- ================= SETTINGS MENU ================= -->
+
+            <div class="settings-menu">
+
+                <button
+                    class="active"
+                    onclick="showSection('general', this)">
+                    ⚙️ General
+                </button>
+
+                <button
+                    onclick="showSection('appearance', this)">
+                    🎨 Appearance
+                </button>
+
+                <button
+                    onclick="showSection('notifications', this)">
+                    🔔 Notifications
+                </button>
+
+                <button
+                    onclick="showSection('security', this)">
+                    🔐 Security
+                </button>
+
+                <button
+                    onclick="showSection('system', this)">
+                    🖥️ System
+                </button>
+
+            </div>
+
+
+            <!-- ================= SETTINGS CONTENT ================= -->
+
+            <div class="settings-content">
+
+
+                <!-- ================= GENERAL ================= -->
+
+                <section
+                    id="general"
+                    class="settings-section active">
+
+                    <h2 class="section-title">
+                        General Settings
+                    </h2>
+
+                    <p class="section-description">
+                        Manage basic school information and preferences.
+                    </p>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>School Name</h3>
+
+                            <p>
+                                Name displayed throughout the system.
+                            </p>
+
+                        </div>
+
+                        <input
+                            class="input-box"
+                            id="schoolName"
+                            type="text"
+                            value="My School">
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>School Email</h3>
+
+                            <p>
+                                Main contact email address.
+                            </p>
+
+                        </div>
+
+                        <input
+                            class="input-box"
+                            id="schoolEmail"
+                            type="email"
+                            value="info@myschool.com">
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Phone Number</h3>
+
+                            <p>
+                                Main school contact number.
+                            </p>
+
+                        </div>
+
+                        <input
+                            class="input-box"
+                            id="schoolPhone"
+                            type="text"
+                            value="+95 9 123 456 789">
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Language</h3>
+
+                            <p>
+                                Select the system language.
+                            </p>
+
+                        </div>
+
+                        <select
+                            class="select-box"
+                            id="language">
+
+                            <option>English</option>
+                            <option>Myanmar</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Timezone</h3>
+
+                            <p>
+                                Timezone used for dates and schedules.
+                            </p>
+
+                        </div>
+
+                        <select
+                            class="select-box"
+                            id="timezone">
+
+                            <option>Asia/Yangon</option>
+                            <option>Asia/Bangkok</option>
+                            <option>Asia/Singapore</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="actions">
+
+                        <button
+                            class="btn reset-btn"
+                            onclick="resetGeneral()">
+                            Reset
+                        </button>
+
+                        <button
+                            class="btn save-btn"
+                            onclick="saveSettings('General')">
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ================= APPEARANCE ================= -->
+
+                <section
+                    id="appearance"
+                    class="settings-section">
+
+                    <h2 class="section-title">
+                        Appearance
+                    </h2>
+
+                    <p class="section-description">
+                        Customize how the school management system looks.
+                    </p>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Dark Mode</h3>
+
+                            <p>
+                                Use dark colors throughout the interface.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                id="darkMode"
+                                onchange="toggleDarkMode()">
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Compact Sidebar</h3>
+
+                            <p>
+                                Reduce the width of the navigation sidebar.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox">
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Animations</h3>
+
+                            <p>
+                                Enable interface animations and transitions.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="actions">
+
+                        <button
+                            class="btn reset-btn"
+                            onclick="location.reload()">
+                            Reset
+                        </button>
+
+                        <button
+                            class="btn save-btn"
+                            onclick="saveSettings('Appearance')">
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ================= NOTIFICATIONS ================= -->
+
+                <section
+                    id="notifications"
+                    class="settings-section">
+
+                    <h2 class="section-title">
+                        Notifications
+                    </h2>
+
+                    <p class="section-description">
+                        Choose which notifications you want to receive.
+                    </p>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>New Student Notifications</h3>
+
+                            <p>
+                                Notify administrators when a new student
+                                is registered.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Attendance Alerts</h3>
+
+                            <p>
+                                Receive alerts about attendance issues.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Fee Payment Notifications</h3>
+
+                            <p>
+                                Receive notifications when fees are paid.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Exam Notifications</h3>
+
+                            <p>
+                                Receive notifications about upcoming exams.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox">
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="actions">
+
+                        <button
+                            class="btn save-btn"
+                            onclick="saveSettings('Notification')">
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ================= SECURITY ================= -->
+
+                <section
+                    id="security"
+                    class="settings-section">
+
+                    <h2 class="section-title">
+                        Security
+                    </h2>
+
+                    <p class="section-description">
+                        Manage account security settings.
+                    </p>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Two-Factor Authentication</h3>
+
+                            <p>
+                                Add an extra layer of security to your account.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox">
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Login Notifications</h3>
+
+                            <p>
+                                Notify you when your account is accessed.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="danger-zone">
+
+                        <h3>
+                            ⚠️ Reset Account Settings
+                        </h3>
+
+                        <p>
+                            This will restore account preferences
+                            to their default values.
+                        </p>
+
+                        <button
+                            class="danger-btn"
+                            onclick="resetAccount()">
+                            Reset Settings
+                        </button>
+
+                    </div>
+
+
+                    <div class="actions">
+
+                        <button
+                            class="btn save-btn"
+                            onclick="saveSettings('Security')">
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ================= SYSTEM ================= -->
+
+                <section
+                    id="system"
+                    class="settings-section">
+
+                    <h2 class="section-title">
+                        System Settings
+                    </h2>
+
+                    <p class="section-description">
+                        Manage system-level preferences.
+                    </p>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Auto Backup</h3>
+
+                            <p>
+                                Automatically backup school data.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Maintenance Mode</h3>
+
+                            <p>
+                                Temporarily disable access for users.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox">
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Date Format</h3>
+
+                            <p>
+                                Select the format used to display dates.
+                            </p>
+
+                        </div>
+
+                        <select class="select-box">
+
+                            <option>DD/MM/YYYY</option>
+                            <option>MM/DD/YYYY</option>
+                            <option>YYYY-MM-DD</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Currency</h3>
+
+                            <p>
+                                Currency used for school fees.
+                            </p>
+
+                        </div>
+
+                        <select class="select-box">
+
+                            <option>MMK - Myanmar Kyat</option>
+                            <option>USD - US Dollar</option>
+                            <option>THB - Thai Baht</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="actions">
+
+                        <button
+                            class="btn save-btn"
+                            onclick="saveSettings('System')">
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        /* ================= SHOW SETTINGS SECTION ================= */
+
+        function showSection(sectionId, button) {
+
+            const sections =
+                document.querySelectorAll(".settings-section");
+
+            const buttons =
+                document.querySelectorAll(".settings-menu button");
+
+
+            sections.forEach(section => {
+                section.classList.remove("active");
+            });
+
+
+            buttons.forEach(btn => {
+                btn.classList.remove("active");
+            });
+
+
+            document
+                .getElementById(sectionId)
+                .classList.add("active");
+
+
+            button.classList.add("active");
+
+        }
+
+
+        /* ================= SAVE ================= */
+
+        function saveSettings(type) {
+
+            alert(
+                type +
+                " settings saved successfully."
+            );
+
+        }
+
+
+        /* ================= RESET GENERAL ================= */
+
+        function resetGeneral() {
+
+            document.getElementById("schoolName").value =
+                "My School";
+
+            document.getElementById("schoolEmail").value =
+                "info@myschool.com";
+
+            document.getElementById("schoolPhone").value =
+                "+95 9 123 456 789";
+
+            document.getElementById("language").value =
+                "English";
+
+            document.getElementById("timezone").value =
+                "Asia/Yangon";
+
+        }
+
+
+        /* ================= DARK MODE ================= */
+
+        function toggleDarkMode() {
+
+            const darkMode =
+                document.getElementById("darkMode").checked;
+
+
+            if (darkMode) {
+
+                document.body.style.background = "#111827";
+                document.body.style.color = "#f9fafb";
+
+            } else {
+
+                document.body.style.background = "#f5f7fb";
+                document.body.style.color = "#1f2937";
+
+            }
+
+        }
+
+
+        /* ================= RESET ACCOUNT ================= */
+
+        function resetAccount() {
+
+            const confirmReset =
+                confirm(
+                    "Are you sure you want to reset account settings?"
+                );
+
+
+            if (confirmReset) {
+
+                alert(
+                    "Account settings have been reset."
+                );
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
+```
