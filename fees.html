@@ -1,0 +1,2164 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fees & Payments | EduManage</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+--primary:#3157d5;
+--primary-light:#eef2ff;
+--bg:#f5f7fb;
+--white:#fff;
+--text:#172033;
+--muted:#778298;
+--border:#e4e8ef;
+--success:#18a56b;
+--success-light:#eaf8f2;
+--danger:#dc4d5b;
+--danger-light:#fff0f1;
+--warning:#e39a20;
+--warning-light:#fff7e7;
+}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
+color:var(--text)
+}
+
+button,input,select{font-family:inherit}
+a{text-decoration:none;color:inherit}
+
+/* SIDEBAR */
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+bottom:0;
+width:245px;
+background:#172033;
+color:#fff;
+z-index:1000;
+display:flex;
+flex-direction:column
+}
+
+.brand{
+height:75px;
+display:flex;
+align-items:center;
+padding:0 22px;
+border-bottom:1px solid rgba(255,255,255,.08);
+font-size:18px;
+font-weight:800
+}
+
+.brand-icon{
+width:38px;
+height:38px;
+border-radius:10px;
+background:var(--primary);
+display:flex;
+align-items:center;
+justify-content:center;
+margin-right:10px
+}
+
+.admin-label{
+padding:20px 22px 10px;
+color:#8995ac;
+font-size:10px;
+font-weight:700;
+text-transform:uppercase;
+letter-spacing:1px
+}
+
+.sidebar-nav{
+flex:1;
+overflow-y:auto;
+padding:0 12px
+}
+
+.nav-item{
+display:flex;
+align-items:center;
+gap:12px;
+padding:11px 13px;
+margin-bottom:3px;
+border-radius:8px;
+color:#aeb8ca;
+font-size:12px;
+font-weight:600
+}
+
+.nav-item:hover{
+background:rgba(255,255,255,.06);
+color:#fff
+}
+
+.nav-item.active{
+background:var(--primary);
+color:#fff
+}
+
+.nav-icon{
+width:20px;
+text-align:center
+}
+
+.sidebar-bottom{
+padding:15px 12px;
+border-top:1px solid rgba(255,255,255,.08)
+}
+
+.logout-btn{
+width:100%;
+border:none;
+background:rgba(255,255,255,.06);
+color:#c6cede;
+border-radius:8px;
+padding:11px;
+cursor:pointer;
+font-size:12px;
+font-weight:600
+}
+
+.logout-btn:hover{
+background:rgba(220,77,91,.15);
+color:#ff8893
+}
+
+/* MAIN */
+
+.main{
+margin-left:245px;
+min-height:100vh
+}
+
+.topbar{
+height:75px;
+background:#fff;
+border-bottom:1px solid var(--border);
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 28px;
+position:sticky;
+top:0;
+z-index:900
+}
+
+.topbar-left{
+display:flex;
+align-items:center;
+gap:15px
+}
+
+.menu-toggle{
+display:none;
+border:none;
+background:none;
+font-size:22px;
+cursor:pointer
+}
+
+.page-title h1{font-size:20px}
+
+.page-title p{
+color:var(--muted);
+font-size:11px;
+margin-top:4px
+}
+
+.topbar-right{
+display:flex;
+align-items:center;
+gap:18px
+}
+
+.notification{
+width:36px;
+height:36px;
+border-radius:9px;
+background:#f5f7fb;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+position:relative
+}
+
+.badge{
+position:absolute;
+top:-3px;
+right:-3px;
+width:16px;
+height:16px;
+border-radius:50%;
+background:var(--danger);
+color:#fff;
+font-size:8px;
+display:flex;
+align-items:center;
+justify-content:center
+}
+
+.profile{
+display:flex;
+align-items:center;
+gap:9px
+}
+
+.avatar{
+width:37px;
+height:37px;
+border-radius:50%;
+background:var(--primary-light);
+color:var(--primary);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:11px;
+font-weight:800
+}
+
+.profile-info strong{
+display:block;
+font-size:11px
+}
+
+.profile-info span{
+display:block;
+color:var(--muted);
+font-size:9px;
+margin-top:3px
+}
+
+/* CONTENT */
+
+.content{padding:28px}
+
+.heading{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:22px
+}
+
+.heading h2{font-size:22px}
+
+.heading p{
+color:var(--muted);
+font-size:11px;
+margin-top:5px
+}
+
+.btn{
+border:none;
+border-radius:8px;
+padding:11px 16px;
+cursor:pointer;
+font-size:11px;
+font-weight:700
+}
+
+.btn-primary{
+background:var(--primary);
+color:#fff
+}
+
+.btn-primary:hover{background:#2447bd}
+
+.btn-success{
+background:var(--success);
+color:#fff
+}
+
+.btn-danger{
+background:var(--danger);
+color:#fff
+}
+
+.btn-light{
+background:#eef0f4;
+color:#59657a
+}
+
+/* SUMMARY */
+
+.summary{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-bottom:20px
+}
+
+.summary-card{
+background:#fff;
+border:1px solid var(--border);
+border-radius:12px;
+padding:18px;
+display:flex;
+align-items:center;
+gap:13px
+}
+
+.summary-icon{
+width:42px;
+height:42px;
+border-radius:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:18px
+}
+
+.blue{background:var(--primary-light)}
+.green{background:var(--success-light)}
+.yellow{background:var(--warning-light)}
+.red{background:var(--danger-light)}
+
+.summary-card span{
+display:block;
+color:var(--muted);
+font-size:9px
+}
+
+.summary-card strong{
+display:block;
+font-size:20px;
+margin-top:4px
+}
+
+/* FILTER */
+
+.filter-card{
+background:#fff;
+border:1px solid var(--border);
+border-radius:12px;
+padding:18px;
+margin-bottom:18px
+}
+
+.filter-title{
+font-size:12px;
+font-weight:700;
+margin-bottom:14px
+}
+
+.filters{
+display:grid;
+grid-template-columns:1fr 1fr 1fr 1.5fr;
+gap:10px
+}
+
+.form-control{
+width:100%;
+height:40px;
+border:1px solid var(--border);
+border-radius:8px;
+padding:0 11px;
+font-size:10px;
+outline:none;
+background:#fff
+}
+
+.form-control:focus{
+border-color:var(--primary)
+}
+
+/* TABLE */
+
+.table-card{
+background:#fff;
+border:1px solid var(--border);
+border-radius:12px;
+overflow:hidden
+}
+
+.table-header{
+padding:17px 18px;
+border-bottom:1px solid var(--border);
+display:flex;
+justify-content:space-between;
+align-items:center
+}
+
+.table-header h3{font-size:13px}
+
+.table-header p{
+color:var(--muted);
+font-size:9px;
+margin-top:4px
+}
+
+.table-wrapper{
+width:100%;
+overflow-x:auto
+}
+
+table{
+width:100%;
+min-width:950px;
+border-collapse:collapse
+}
+
+thead{background:#f8f9fb}
+
+th{
+text-align:left;
+padding:13px 15px;
+font-size:9px;
+color:#69758a;
+border-bottom:1px solid var(--border)
+}
+
+td{
+padding:13px 15px;
+font-size:10px;
+border-bottom:1px solid #edf0f4
+}
+
+tbody tr:hover{background:#fafbfe}
+
+.student strong{
+display:block;
+font-size:10px
+}
+
+.student span{
+display:block;
+color:var(--muted);
+font-size:8px;
+margin-top:4px
+}
+
+.payment-badge{
+display:inline-block;
+padding:5px 8px;
+border-radius:20px;
+font-size:8px;
+font-weight:700
+}
+
+.paid{
+background:var(--success-light);
+color:var(--success)
+}
+
+.pending{
+background:var(--warning-light);
+color:#b5790e
+}
+
+.overdue{
+background:var(--danger-light);
+color:var(--danger)
+}
+
+.actions{
+display:flex;
+gap:5px
+}
+
+.action-btn{
+width:30px;
+height:30px;
+border:1px solid var(--border);
+background:#fff;
+border-radius:6px;
+cursor:pointer;
+font-size:11px
+}
+
+.action-btn:hover{background:#f3f5f9}
+
+.action-btn.delete:hover{
+background:var(--danger-light)
+}
+
+/* FOOTER */
+
+.table-footer{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 18px
+}
+
+.table-footer p{
+color:var(--muted);
+font-size:9px
+}
+
+.pagination{
+display:flex;
+gap:5px
+}
+
+.page-btn{
+width:29px;
+height:29px;
+border:1px solid var(--border);
+background:#fff;
+border-radius:6px;
+cursor:pointer;
+font-size:9px
+}
+
+.page-btn.active{
+background:var(--primary);
+color:#fff;
+border-color:var(--primary)
+}
+
+/* MODAL */
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(15,23,42,.5);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:3000;
+padding:20px
+}
+
+.modal.show{display:flex}
+
+.modal-box{
+width:100%;
+max-width:500px;
+max-height:90vh;
+overflow-y:auto;
+background:#fff;
+border-radius:14px;
+padding:25px
+}
+
+.modal-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:20px
+}
+
+.modal-header h3{font-size:16px}
+
+.close{
+border:none;
+background:#f2f4f8;
+width:30px;
+height:30px;
+border-radius:7px;
+cursor:pointer
+}
+
+.form-group{margin-bottom:14px}
+
+.form-group label{
+display:block;
+font-size:10px;
+font-weight:700;
+margin-bottom:7px
+}
+
+.modal-actions{
+display:flex;
+justify-content:flex-end;
+gap:8px;
+margin-top:20px
+}
+
+/* PAYMENT INFO */
+
+.payment-info{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-bottom:18px
+}
+
+.info-box{
+background:#f8f9fb;
+padding:14px;
+border-radius:9px
+}
+
+.info-box span{
+color:var(--muted);
+font-size:9px
+}
+
+.info-box strong{
+display:block;
+font-size:14px;
+margin-top:5px
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+.summary{
+grid-template-columns:repeat(2,1fr)
+}
+
+.filters{
+grid-template-columns:1fr 1fr
+}
+
+}
+
+@media(max-width:800px){
+
+.sidebar{
+transform:translateX(-100%);
+transition:.3s
+}
+
+.sidebar.open{
+transform:translateX(0)
+}
+
+.main{
+margin-left:0
+}
+
+.menu-toggle{
+display:block
+}
+
+.profile-info{
+display:none
+}
+
+.content{
+padding:20px 15px
+}
+
+}
+
+@media(max-width:600px){
+
+.summary{
+grid-template-columns:1fr
+}
+
+.filters{
+grid-template-columns:1fr
+}
+
+.heading{
+flex-direction:column;
+align-items:flex-start;
+gap:12px
+}
+
+.payment-info{
+grid-template-columns:1fr
+}
+
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+<div class="brand">
+<div class="brand-icon">🎓</div>
+EduManage
+</div>
+
+<div class="admin-label">Administration</div>
+
+<nav class="sidebar-nav">
+
+<a href="admin-dashboard.html" class="nav-item">
+<span class="nav-icon">📊</span>
+Dashboard
+</a>
+
+<a href="students.html" class="nav-item">
+<span class="nav-icon">👨‍🎓</span>
+Students
+</a>
+
+<a href="teachers.html" class="nav-item">
+<span class="nav-icon">👩‍🏫</span>
+Teachers
+</a>
+
+<a href="classes.html" class="nav-item">
+<span class="nav-icon">🏫</span>
+Classes
+</a>
+
+<a href="attendance.html" class="nav-item">
+<span class="nav-icon">✅</span>
+Attendance
+</a>
+
+<a href="exams.html" class="nav-item">
+<span class="nav-icon">📝</span>
+Exams & Results
+</a>
+
+<a href="fees.html" class="nav-item active">
+<span class="nav-icon">💰</span>
+Fees & Payments
+</a>
+
+<a href="timetable.html" class="nav-item">
+<span class="nav-icon">🗓️</span>
+Timetable
+</a>
+
+<a href="notices.html" class="nav-item">
+<span class="nav-icon">🔔</span>
+Notices
+</a>
+
+<a href="reports.html" class="nav-item">
+<span class="nav-icon">📈</span>
+Reports
+</a>
+
+<div class="admin-label">System</div>
+
+<a href="profile.html" class="nav-item">
+<span class="nav-icon">👤</span>
+Profile
+</a>
+
+<a href="settings.html" class="nav-item">
+<span class="nav-icon">⚙️</span>
+Settings
+</a>
+
+</nav>
+
+<div class="sidebar-bottom">
+
+<button class="logout-btn" onclick="openLogout()">
+🚪 &nbsp; Logout
+</button>
+
+</div>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+<div class="topbar-left">
+
+<button class="menu-toggle" id="menuToggle">
+☰
+</button>
+
+<div class="page-title">
+
+<h1>Fees & Payments</h1>
+
+<p>
+Manage student fees, payments and outstanding balances
+</p>
+
+</div>
+
+</div>
+
+<div class="topbar-right">
+
+<div class="notification" onclick="showNotification()">
+
+🔔
+
+<span class="badge">3</span>
+
+</div>
+
+<div class="profile">
+
+<div class="avatar">
+AD
+</div>
+
+<div class="profile-info">
+
+<strong>Administrator</strong>
+
+<span>Super Admin</span>
+
+</div>
+
+</div>
+
+</div>
+
+</header>
+
+<section class="content">
+
+<div class="heading">
+
+<div>
+
+<h2>Fees & Payments</h2>
+
+<p>
+Track school fees and student payment records.
+</p>
+
+</div>
+
+<button class="btn btn-primary" onclick="openPaymentModal()">
+＋ Add Payment
+</button>
+
+</div>
+
+<!-- SUMMARY -->
+
+<div class="summary">
+
+<div class="summary-card">
+
+<div class="summary-icon blue">
+💰
+</div>
+
+<div>
+
+<span>Total Fees</span>
+
+<strong id="totalFees">
+$42,500
+</strong>
+
+</div>
+
+</div>
+
+<div class="summary-card">
+
+<div class="summary-icon green">
+✓
+</div>
+
+<div>
+
+<span>Collected</span>
+
+<strong id="collected">
+$31,750
+</strong>
+
+</div>
+
+</div>
+
+<div class="summary-card">
+
+<div class="summary-icon yellow">
+⏳
+</div>
+
+<div>
+
+<span>Pending</span>
+
+<strong id="pending">
+$7,250
+</strong>
+
+</div>
+
+</div>
+
+<div class="summary-card">
+
+<div class="summary-icon red">
+!
+</div>
+
+<div>
+
+<span>Overdue</span>
+
+<strong id="overdue">
+$3,500
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FILTER -->
+
+<div class="filter-card">
+
+<div class="filter-title">
+Search & Filter
+</div>
+
+<div class="filters">
+
+<select class="form-control" id="classFilter">
+
+<option value="all">All Classes</option>
+<option value="Grade 10-A">Grade 10 - A</option>
+<option value="Grade 10-B">Grade 10 - B</option>
+<option value="Grade 9-A">Grade 9 - A</option>
+<option value="Grade 9-B">Grade 9 - B</option>
+
+</select>
+
+<select class="form-control" id="statusFilter">
+
+<option value="all">All Payment Status</option>
+<option value="paid">Paid</option>
+<option value="pending">Pending</option>
+<option value="overdue">Overdue</option>
+
+</select>
+
+<select class="form-control" id="feeFilter">
+
+<option value="all">All Fee Types</option>
+<option value="Tuition">Tuition Fee</option>
+<option value="Transport">Transport Fee</option>
+<option value="Library">Library Fee</option>
+<option value="Exam">Exam Fee</option>
+
+</select>
+
+<input
+type="text"
+class="form-control"
+id="searchInput"
+placeholder="🔍 Search student...">
+
+</div>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-card">
+
+<div class="table-header">
+
+<div>
+
+<h3>Payment Records</h3>
+
+<p>
+All student fee and payment transactions.
+</p>
+
+</div>
+
+<button
+class="btn btn-success"
+onclick="exportPayments()">
+
+⬇ Export
+
+</button>
+
+</div>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>STUDENT</th>
+<th>CLASS</th>
+<th>FEE TYPE</th>
+<th>AMOUNT</th>
+<th>PAYMENT DATE</th>
+<th>METHOD</th>
+<th>STATUS</th>
+<th>ACTIONS</th>
+
+</tr>
+
+</thead>
+
+<tbody id="paymentTable">
+
+<tr
+data-name="Aung Aung"
+data-class="Grade 10-A"
+data-fee="Tuition"
+data-status="paid">
+
+<td>
+
+<div class="student">
+
+<strong>Aung Aung</strong>
+
+<span>STU-1001</span>
+
+</div>
+
+</td>
+
+<td>Grade 10 - A</td>
+
+<td>Tuition</td>
+
+<td><strong>$500</strong></td>
+
+<td>02 Sep 2026</td>
+
+<td>Cash</td>
+
+<td>
+
+<span class="payment-badge paid">
+Paid
+</span>
+
+</td>
+
+<td>
+
+<div class="actions">
+
+<button
+class="action-btn"
+onclick="viewPayment(this)"
+title="View">
+
+👁
+
+</button>
+
+<button
+class="action-btn"
+onclick="editPayment(this)"
+title="Edit">
+
+✏️
+
+</button>
+
+<button
+class="action-btn delete"
+onclick="deletePayment(this)"
+title="Delete">
+
+🗑
+
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+<tr
+data-name="Su Su"
+data-class="Grade 10-B"
+data-fee="Tuition"
+data-status="pending">
+
+<td>
+
+<div class="student">
+
+<strong>Su Su</strong>
+
+<span>STU-1002</span>
+
+</div>
+
+</td>
+
+<td>Grade 10 - B</td>
+
+<td>Tuition</td>
+
+<td><strong>$500</strong></td>
+
+<td>—</td>
+
+<td>—</td>
+
+<td>
+
+<span class="payment-badge pending">
+Pending
+</span>
+
+</td>
+
+<td>
+
+<div class="actions">
+
+<button class="action-btn" onclick="viewPayment(this)">👁</button> <button class="action-btn" onclick="editPayment(this)">✏️</button> <button class="action-btn delete" onclick="deletePayment(this)">🗑</button>
+
+</div>
+
+</td>
+
+</tr>
+
+<tr
+data-name="Kyaw Zin"
+data-class="Grade 9-A"
+data-fee="Transport"
+data-status="paid">
+
+<td>
+
+<div class="student">
+
+<strong>Kyaw Zin</strong>
+
+<span>STU-1003</span>
+
+</div>
+
+</td>
+
+<td>Grade 9 - A</td>
+
+<td>Transport</td>
+
+<td><strong>$120</strong></td>
+
+<td>04 Sep 2026</td>
+
+<td>Bank</td>
+
+<td>
+
+<span class="payment-badge paid">
+Paid
+</span>
+
+</td>
+
+<td>
+
+<div class="actions">
+
+<button class="action-btn" onclick="viewPayment(this)">👁</button> <button class="action-btn" onclick="editPayment(this)">✏️</button> <button class="action-btn delete" onclick="deletePayment(this)">🗑</button>
+
+</div>
+
+</td>
+
+</tr>
+
+<tr
+data-name="Mya Mya"
+data-class="Grade 9-B"
+data-fee="Tuition"
+data-status="overdue">
+
+<td>
+
+<div class="student">
+
+<strong>Mya Mya</strong>
+
+<span>STU-1004</span>
+
+</div>
+
+</td>
+
+<td>Grade 9 - B</td>
+
+<td>Tuition</td>
+
+<td><strong>$500</strong></td>
+
+<td>—</td>
+
+<td>—</td>
+
+<td>
+
+<span class="payment-badge overdue">
+Overdue
+</span>
+
+</td>
+
+<td>
+
+<div class="actions">
+
+<button class="action-btn" onclick="viewPayment(this)">👁</button> <button class="action-btn" onclick="editPayment(this)">✏️</button> <button class="action-btn delete" onclick="deletePayment(this)">🗑</button>
+
+</div>
+
+</td>
+
+</tr>
+
+<tr
+data-name="Zaw Zaw"
+data-class="Grade 10-A"
+data-fee="Exam"
+data-status="paid">
+
+<td>
+
+<div class="student">
+
+<strong>Zaw Zaw</strong>
+
+<span>STU-1005</span>
+
+</div>
+
+</td>
+
+<td>Grade 10 - A</td>
+
+<td>Exam</td>
+
+<td><strong>$75</strong></td>
+
+<td>05 Sep 2026</td>
+
+<td>KBZPay</td>
+
+<td>
+
+<span class="payment-badge paid">
+Paid
+</span>
+
+</td>
+
+<td>
+
+<div class="actions">
+
+<button class="action-btn" onclick="viewPayment(this)">👁</button> <button class="action-btn" onclick="editPayment(this)">✏️</button> <button class="action-btn delete" onclick="deletePayment(this)">🗑</button>
+
+</div>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="table-footer">
+
+<p id="resultCount">
+Showing 5 payment records
+</p>
+
+<div class="pagination">
+
+<button class="page-btn active">1</button> <button class="page-btn">2</button> <button class="page-btn">3</button> <button class="page-btn">→</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+<!-- ADD PAYMENT MODAL -->
+
+<div class="modal" id="paymentModal">
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h3>
+Add Payment
+</h3>
+
+<button class="close" onclick="closePaymentModal()">
+✕
+</button>
+
+</div>
+
+<div class="form-group">
+
+<label>Student Name</label>
+
+<input
+type="text"
+id="studentName"
+class="form-control"
+placeholder="Enter student name">
+
+</div>
+
+<div class="form-group">
+
+<label>Class</label>
+
+<select id="paymentClass" class="form-control">
+
+<option>Grade 10-A</option>
+<option>Grade 10-B</option>
+<option>Grade 9-A</option>
+<option>Grade 9-B</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Fee Type</label>
+
+<select id="paymentFee" class="form-control">
+
+<option>Tuition</option>
+<option>Transport</option>
+<option>Library</option>
+<option>Exam</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Amount</label>
+
+<input
+type="number"
+id="paymentAmount"
+class="form-control"
+placeholder="Enter amount"
+min="0">
+
+</div>
+
+<div class="form-group">
+
+<label>Payment Date</label>
+
+<input
+type="date"
+id="paymentDate"
+class="form-control">
+
+</div>
+
+<div class="form-group">
+
+<label>Payment Method</label>
+
+<select id="paymentMethod" class="form-control">
+
+<option>Cash</option>
+<option>Bank</option>
+<option>KBZPay</option>
+<option>WavePay</option>
+
+</select>
+
+</div>
+
+<div class="modal-actions">
+
+<button
+class="btn btn-light"
+onclick="closePaymentModal()">
+
+Cancel
+
+</button>
+
+<button
+class="btn btn-primary"
+onclick="savePayment()">
+
+Save Payment
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIEW MODAL -->
+
+<div class="modal" id="viewModal">
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h3>
+Payment Details
+</h3>
+
+<button class="close" onclick="closeView()">
+✕
+</button>
+
+</div>
+
+<div class="payment-info">
+
+<div class="info-box">
+
+<span>Student</span>
+
+<strong id="viewStudent">—</strong>
+
+</div>
+
+<div class="info-box">
+
+<span>Class</span>
+
+<strong id="viewClass">—</strong>
+
+</div>
+
+<div class="info-box">
+
+<span>Fee Type</span>
+
+<strong id="viewFee">—</strong>
+
+</div>
+
+<div class="info-box">
+
+<span>Amount</span>
+
+<strong id="viewAmount">—</strong>
+
+</div>
+
+<div class="info-box">
+
+<span>Date</span>
+
+<strong id="viewDate">—</strong>
+
+</div>
+
+<div class="info-box">
+
+<span>Method</span>
+
+<strong id="viewMethod">—</strong>
+
+</div>
+
+</div>
+
+<div class="modal-actions">
+
+<button
+class="btn btn-primary"
+onclick="closeView()">
+
+Close
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- LOGOUT -->
+
+<div class="modal" id="logoutModal">
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h3>Logout?</h3>
+
+<button class="close" onclick="closeLogout()">
+✕
+</button>
+
+</div>
+
+<p style="font-size:10px;color:#778298;line-height:1.7">
+
+Are you sure you want to logout from
+the administrator account?
+
+</p>
+
+<div class="modal-actions">
+
+<button
+class="btn btn-light"
+onclick="closeLogout()">
+
+Cancel
+
+</button>
+
+<button
+class="btn btn-danger"
+onclick="confirmLogout()">
+
+Logout
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* MOBILE MENU */
+
+document
+.getElementById("menuToggle")
+.addEventListener("click",function(){
+
+document
+.getElementById("sidebar")
+.classList.toggle("open");
+
+});
+
+
+/* FILTER */
+
+const searchInput =
+document.getElementById("searchInput");
+
+const classFilter =
+document.getElementById("classFilter");
+
+const statusFilter =
+document.getElementById("statusFilter");
+
+const feeFilter =
+document.getElementById("feeFilter");
+
+
+searchInput.addEventListener("input",filterPayments);
+classFilter.addEventListener("change",filterPayments);
+statusFilter.addEventListener("change",filterPayments);
+feeFilter.addEventListener("change",filterPayments);
+
+
+function filterPayments(){
+
+const search =
+searchInput.value.toLowerCase().trim();
+
+const selectedClass =
+classFilter.value;
+
+const selectedStatus =
+statusFilter.value;
+
+const selectedFee =
+feeFilter.value;
+
+const rows =
+document.querySelectorAll("#paymentTable tr");
+
+let visible=0;
+
+rows.forEach(function(row){
+
+const name =
+row.dataset.name.toLowerCase();
+
+const rowClass =
+row.dataset.class;
+
+const fee =
+row.dataset.fee;
+
+const status =
+row.dataset.status;
+
+const searchMatch =
+name.includes(search);
+
+const classMatch =
+selectedClass==="all" ||
+rowClass===selectedClass;
+
+const statusMatch =
+selectedStatus==="all" ||
+status===selectedStatus;
+
+const feeMatch =
+selectedFee==="all" ||
+fee===selectedFee;
+
+
+if(
+searchMatch &&
+classMatch &&
+statusMatch &&
+feeMatch
+){
+
+row.style.display="";
+visible++;
+
+}else{
+
+row.style.display="none";
+
+}
+
+});
+
+
+document
+.getElementById("resultCount")
+.textContent =
+"Showing " + visible + " payment records";
+
+}
+
+
+/* ADD PAYMENT */
+
+function openPaymentModal(){
+
+document
+.getElementById("studentName")
+.value="";
+
+document
+.getElementById("paymentAmount")
+.value="";
+
+document
+.getElementById("paymentDate")
+.value="";
+
+document
+.getElementById("paymentModal")
+.classList.add("show");
+
+}
+
+
+function closePaymentModal(){
+
+document
+.getElementById("paymentModal")
+.classList.remove("show");
+
+}
+
+
+/* SAVE */
+
+function savePayment(){
+
+const student =
+document
+.getElementById("studentName")
+.value.trim();
+
+const cls =
+document
+.getElementById("paymentClass")
+.value;
+
+const fee =
+document
+.getElementById("paymentFee")
+.value;
+
+const amount =
+document
+.getElementById("paymentAmount")
+.value;
+
+const date =
+document
+.getElementById("paymentDate")
+.value;
+
+const method =
+document
+.getElementById("paymentMethod")
+.value;
+
+
+if(!student){
+
+alert("Please enter student name.");
+return;
+
+}
+
+if(!amount){
+
+alert("Please enter payment amount.");
+return;
+
+}
+
+if(!date){
+
+alert("Please select payment date.");
+return;
+
+}
+
+
+const row =
+document.createElement("tr");
+
+row.dataset.name=student;
+row.dataset.class=cls;
+row.dataset.fee=fee;
+row.dataset.status="paid";
+
+
+const formattedDate =
+new Date(date+"T00:00:00")
+.toLocaleDateString(
+"en-GB",
+{
+day:"2-digit",
+month:"short",
+year:"numeric"
+}
+);
+
+
+row.innerHTML=`
+
+<td>
+
+<div class="student">
+
+<strong>
+${escapeHTML(student)}
+</strong>
+
+<span>
+STU-${Date.now().toString().slice(-4)}
+</span>
+
+</div>
+
+</td>
+
+<td>
+${escapeHTML(cls)}
+</td>
+
+<td>
+${escapeHTML(fee)}
+</td>
+
+<td>
+<strong>$${escapeHTML(amount)}</strong>
+</td>
+
+<td>
+${formattedDate}
+</td>
+
+<td>
+${escapeHTML(method)}
+</td>
+
+<td>
+
+<span class="payment-badge paid">
+Paid
+</span>
+
+</td>
+
+<td>
+
+<div class="actions">
+
+<button
+class="action-btn"
+onclick="viewPayment(this)">
+
+👁
+
+</button>
+
+<button
+class="action-btn"
+onclick="editPayment(this)">
+
+✏️
+
+</button>
+
+<button
+class="action-btn delete"
+onclick="deletePayment(this)">
+
+🗑
+
+</button>
+
+</div>
+
+</td>
+
+`;
+
+
+document
+.getElementById("paymentTable")
+.appendChild(row);
+
+
+closePaymentModal();
+
+filterPayments();
+
+alert("Payment added successfully!");
+
+}
+
+
+/* VIEW */
+
+function viewPayment(button){
+
+const row =
+button.closest("tr");
+
+const cells =
+row.querySelectorAll("td");
+
+document
+.getElementById("viewStudent")
+.textContent =
+row.dataset.name;
+
+document
+.getElementById("viewClass")
+.textContent =
+row.dataset.class;
+
+document
+.getElementById("viewFee")
+.textContent =
+row.dataset.fee;
+
+document
+.getElementById("viewAmount")
+.textContent =
+cells[3].innerText;
+
+document
+.getElementById("viewDate")
+.textContent =
+cells[4].innerText;
+
+document
+.getElementById("viewMethod")
+.textContent =
+cells[5].innerText;
+
+
+document
+.getElementById("viewModal")
+.classList.add("show");
+
+}
+
+
+function closeView(){
+
+document
+.getElementById("viewModal")
+.classList.remove("show");
+
+}
+
+
+/* EDIT */
+
+function editPayment(button){
+
+const row =
+button.closest("tr");
+
+const cells =
+row.querySelectorAll("td");
+
+const student =
+prompt(
+"Student Name:",
+row.dataset.name
+);
+
+if(student===null)return;
+
+const amount =
+prompt(
+"Amount:",
+cells[3].innerText.replace("$","")
+);
+
+if(amount===null)return;
+
+
+row.dataset.name=student;
+
+cells[0].querySelector("strong")
+.textContent=student;
+
+cells[3].querySelector("strong")
+.textContent="$"+amount;
+
+alert("Payment updated successfully.");
+
+filterPayments();
+
+}
+
+
+/* DELETE */
+
+function deletePayment(button){
+
+const row =
+button.closest("tr");
+
+const name =
+row.dataset.name;
+
+if(
+confirm(
+'Delete payment record for "'+
+name+
+'"?'
+)
+){
+
+row.remove();
+
+filterPayments();
+
+alert("Payment deleted successfully.");
+
+}
+
+}
+
+
+/* EXPORT */
+
+function exportPayments(){
+
+const rows =
+document.querySelectorAll("#paymentTable tr");
+
+let csv =
+"Student,Class,Fee Type,Amount,Payment Date,Method,Status\n";
+
+
+rows.forEach(function(row){
+
+if(row.style.display==="none")return;
+
+const cells =
+row.querySelectorAll("td");
+
+const values=[
+row.dataset.name,
+row.dataset.class,
+row.dataset.fee,
+cells[3].innerText,
+cells[4].innerText,
+cells[5].innerText,
+row.dataset.status
+];
+
+csv +=
+values.map(function(value){
+
+return '"' +
+String(value).replace(/"/g,'""') +
+'"';
+
+}).join(",") + "\n";
+
+});
+
+
+const blob =
+new Blob([csv],{
+type:"text/csv;charset=utf-8;"
+});
+
+const url =
+URL.createObjectURL(blob);
+
+const link =
+document.createElement("a");
+
+link.href=url;
+
+link.download="payment-records.csv";
+
+link.click();
+
+URL.revokeObjectURL(url);
+
+}
+
+
+/* NOTIFICATION */
+
+function showNotification(){
+
+alert(
+"You have 3 new fee notifications."
+);
+
+}
+
+
+/* LOGOUT */
+
+function openLogout(){
+
+document
+.getElementById("logoutModal")
+.classList.add("show");
+
+}
+
+
+function closeLogout(){
+
+document
+.getElementById("logoutModal")
+.classList.remove("show");
+
+}
+
+
+function confirmLogout(){
+
+window.location.href="login.html";
+
+}
+
+
+/* ESCAPE HTML */
+
+function escapeHTML(value){
+
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* CLOSE MODALS */
+
+document
+.querySelectorAll(".modal")
+.forEach(function(modal){
+
+modal.addEventListener(
+"click",
+function(event){
+
+if(event.target===modal){
+
+modal.classList.remove("show");
+
+}
+
+}
+);
+
+});
+
+
+/* ESC KEY */
+
+document.addEventListener(
+"keydown",
+function(event){
+
+if(event.key==="Escape"){
+
+document
+.querySelectorAll(".modal")
+.forEach(function(modal){
+
+modal.classList.remove("show");
+
+});
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
