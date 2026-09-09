@@ -1,0 +1,3046 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classes | EduManage</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --primary:#3157d5;
+    --primary-light:#eef2ff;
+    --bg:#f5f7fb;
+    --white:#fff;
+    --text:#172033;
+    --muted:#778298;
+    --border:#e4e8ef;
+    --danger:#dc4d5b;
+    --success:#18a56b;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+button,
+input,
+select{
+    font-family:inherit;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:245px;
+    background:#172033;
+    color:white;
+    z-index:1000;
+    display:flex;
+    flex-direction:column;
+}
+
+.brand{
+    height:75px;
+    display:flex;
+    align-items:center;
+    padding:0 22px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    font-size:18px;
+    font-weight:800;
+}
+
+.brand-icon{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    background:var(--primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-right:10px;
+}
+
+.admin-label{
+    padding:20px 22px 10px;
+    color:#8995ac;
+    font-size:10px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.sidebar-nav{
+    flex:1;
+    overflow-y:auto;
+    padding:0 12px;
+}
+
+.nav-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:11px 13px;
+    margin-bottom:3px;
+    border-radius:8px;
+    color:#aeb8ca;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.nav-item:hover{
+    background:rgba(255,255,255,.06);
+    color:white;
+}
+
+.nav-item.active{
+    background:var(--primary);
+    color:white;
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+}
+
+.sidebar-bottom{
+    padding:15px 12px;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+.logout-btn{
+    width:100%;
+    border:none;
+    background:rgba(255,255,255,.06);
+    color:#c6cede;
+    border-radius:8px;
+    padding:11px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:600;
+}
+
+.logout-btn:hover{
+    background:rgba(220,77,91,.15);
+    color:#ff8893;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:245px;
+    min-height:100vh;
+}
+
+/* TOPBAR */
+
+.topbar{
+    height:75px;
+    background:white;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+    position:sticky;
+    top:0;
+    z-index:900;
+}
+
+.topbar-left{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.menu-toggle{
+    display:none;
+    border:none;
+    background:none;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.page-title h1{
+    font-size:20px;
+}
+
+.page-title p{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:4px;
+}
+
+.topbar-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.notification{
+    width:36px;
+    height:36px;
+    border-radius:9px;
+    background:#f5f7fb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    position:relative;
+}
+
+.badge{
+    position:absolute;
+    top:-3px;
+    right:-3px;
+    width:16px;
+    height:16px;
+    border-radius:50%;
+    background:var(--danger);
+    color:white;
+    font-size:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.avatar{
+    width:37px;
+    height:37px;
+    border-radius:50%;
+    background:var(--primary-light);
+    color:var(--primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
+    font-weight:800;
+}
+
+.profile-info strong{
+    display:block;
+    font-size:11px;
+}
+
+.profile-info span{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    margin-top:3px;
+}
+
+/* CONTENT */
+
+.content{
+    padding:28px;
+}
+
+.heading{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:22px;
+}
+
+.heading h2{
+    font-size:22px;
+}
+
+.heading p{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:5px;
+}
+
+/* BUTTON */
+
+.btn{
+    border:none;
+    border-radius:8px;
+    padding:11px 16px;
+    cursor:pointer;
+    font-size:11px;
+    font-weight:700;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-primary:hover{
+    background:#2447bd;
+}
+
+.btn-danger{
+    background:var(--danger);
+    color:white;
+}
+
+.btn-success{
+    background:var(--success);
+    color:white;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:18px;
+}
+
+.stat-icon{
+    width:38px;
+    height:38px;
+    border-radius:9px;
+    background:var(--primary-light);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+}
+
+.stat h3{
+    margin-top:12px;
+    font-size:23px;
+}
+
+.stat p{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:4px;
+}
+
+/* CLASS GRID */
+
+.class-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+}
+
+.class-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:18px;
+    transition:.2s;
+}
+
+.class-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 25px rgba(30,40,70,.08);
+}
+
+.class-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.class-icon{
+    width:44px;
+    height:44px;
+    border-radius:10px;
+    background:var(--primary-light);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+}
+
+.class-menu{
+    border:none;
+    background:#f4f6fa;
+    width:30px;
+    height:30px;
+    border-radius:7px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.class-card h3{
+    margin-top:15px;
+    font-size:16px;
+}
+
+.class-card .section{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:4px;
+}
+
+.class-info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:16px;
+}
+
+.info-box{
+    background:#f8f9fb;
+    border-radius:7px;
+    padding:10px;
+}
+
+.info-box span{
+    display:block;
+    color:var(--muted);
+    font-size:8px;
+    margin-bottom:4px;
+}
+
+.info-box strong{
+    font-size:10px;
+}
+
+.progress{
+    margin-top:15px;
+}
+
+.progress-head{
+    display:flex;
+    justify-content:space-between;
+    font-size:8px;
+    color:var(--muted);
+    margin-bottom:5px;
+}
+
+.progress-bar{
+    height:5px;
+    background:#edf0f5;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    background:var(--primary);
+    border-radius:10px;
+}
+
+.card-actions{
+    display:flex;
+    gap:7px;
+    margin-top:15px;
+}
+
+.small-btn{
+    flex:1;
+    border:1px solid var(--border);
+    background:white;
+    border-radius:7px;
+    padding:8px;
+    cursor:pointer;
+    font-size:9px;
+    font-weight:700;
+}
+
+.small-btn:hover{
+    background:#f5f7fb;
+}
+
+.small-btn.delete:hover{
+    background:#fff0f1;
+    color:var(--danger);
+}
+
+/* TOOLBAR */
+
+.toolbar-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px;
+    margin-bottom:18px;
+}
+
+.toolbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.filters{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.search{
+    width:270px;
+    height:36px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    outline:none;
+    padding:0 12px;
+    font-size:10px;
+}
+
+.search:focus{
+    border-color:var(--primary);
+}
+
+select{
+    height:36px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:0 10px;
+    font-size:10px;
+    outline:none;
+    background:white;
+}
+
+/* EMPTY */
+
+.empty{
+    display:none;
+    text-align:center;
+    padding:50px 20px;
+    background:white;
+    border:1px solid var(--border);
+    border-radius:12px;
+}
+
+.empty-icon{
+    font-size:35px;
+}
+
+.empty h3{
+    margin-top:10px;
+    font-size:15px;
+}
+
+.empty p{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:5px;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.5);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:3000;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:560px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:white;
+    border-radius:14px;
+    padding:25px;
+}
+
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.modal-header h3{
+    font-size:17px;
+}
+
+.close{
+    border:none;
+    background:#f2f4f8;
+    width:30px;
+    height:30px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.form-group label{
+    display:block;
+    font-size:10px;
+    font-weight:700;
+    margin-bottom:7px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    height:40px;
+    border:1px solid var(--border);
+    border-radius:7px;
+    outline:none;
+    padding:0 10px;
+    font-size:10px;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color:var(--primary);
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+.modal-footer{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:20px;
+}
+
+.cancel{
+    background:#eef0f4;
+    color:#59657a;
+}
+
+/* VIEW */
+
+.view-header{
+    text-align:center;
+    margin-bottom:22px;
+}
+
+.view-class-icon{
+    width:70px;
+    height:70px;
+    border-radius:16px;
+    background:var(--primary-light);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    margin:auto;
+}
+
+.view-header h3{
+    margin-top:12px;
+    font-size:18px;
+}
+
+.view-header p{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:4px;
+}
+
+.details{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.detail{
+    background:#f7f8fb;
+    padding:12px;
+    border-radius:7px;
+}
+
+.detail span{
+    display:block;
+    color:var(--muted);
+    font-size:8px;
+    margin-bottom:5px;
+}
+
+.detail strong{
+    font-size:10px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .class-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.3s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .profile-info{
+        display:none;
+    }
+
+    .content{
+        padding:20px 15px;
+    }
+
+    .toolbar{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .search{
+        width:100%;
+    }
+}
+
+@media(max-width:600px){
+
+    .class-grid{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .heading{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:12px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+
+    .details{
+        grid-template-columns:1fr;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+```
+<div class="brand">
+    <div class="brand-icon">🎓</div>
+    EduManage
+</div>
+
+<div class="admin-label">
+    Administration
+</div>
+
+<nav class="sidebar-nav">
+
+    <a href="admin-dashboard.html" class="nav-item">
+        <span class="nav-icon">📊</span>
+        Dashboard
+    </a>
+
+    <a href="students.html" class="nav-item">
+        <span class="nav-icon">👨‍🎓</span>
+        Students
+    </a>
+
+    <a href="teachers.html" class="nav-item">
+        <span class="nav-icon">👩‍🏫</span>
+        Teachers
+    </a>
+
+    <a href="classes.html" class="nav-item active">
+        <span class="nav-icon">🏫</span>
+        Classes
+    </a>
+
+    <a href="attendance.html" class="nav-item">
+        <span class="nav-icon">✅</span>
+        Attendance
+    </a>
+
+    <a href="exams.html" class="nav-item">
+        <span class="nav-icon">📝</span>
+        Exams & Results
+    </a>
+
+    <a href="fees.html" class="nav-item">
+        <span class="nav-icon">💰</span>
+        Fees & Payments
+    </a>
+
+    <a href="timetable.html" class="nav-item">
+        <span class="nav-icon">🗓️</span>
+        Timetable
+    </a>
+
+    <a href="notices.html" class="nav-item">
+        <span class="nav-icon">🔔</span>
+        Notices
+    </a>
+
+    <a href="reports.html" class="nav-item">
+        <span class="nav-icon">📈</span>
+        Reports
+    </a>
+
+    <div class="admin-label">
+        System
+    </div>
+
+    <a href="profile.html" class="nav-item">
+        <span class="nav-icon">👤</span>
+        Profile
+    </a>
+
+    <a href="settings.html" class="nav-item">
+        <span class="nav-icon">⚙️</span>
+        Settings
+    </a>
+
+</nav>
+
+<div class="sidebar-bottom">
+
+    <button
+        class="logout-btn"
+        id="logoutBtn">
+
+        🚪 &nbsp; Logout
+
+    </button>
+
+</div>
+```
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+```
+<!-- TOPBAR -->
+
+<header class="topbar">
+
+    <div class="topbar-left">
+
+        <button
+            class="menu-toggle"
+            id="menuToggle">
+
+            ☰
+
+        </button>
+
+        <div class="page-title">
+
+            <h1>
+                Classes
+            </h1>
+
+            <p>
+                Manage school classes and sections
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="topbar-right">
+
+        <div
+            class="notification"
+            onclick="showNotification()">
+
+            🔔
+
+            <span class="badge">
+                4
+            </span>
+
+        </div>
+
+
+        <div class="profile">
+
+            <div class="avatar">
+                AD
+            </div>
+
+            <div class="profile-info">
+
+                <strong>
+                    Administrator
+                </strong>
+
+                <span>
+                    Super Admin
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- CONTENT -->
+
+<section class="content">
+
+    <!-- HEADING -->
+
+    <div class="heading">
+
+        <div>
+
+            <h2>
+                Class Management
+            </h2>
+
+            <p>
+                Manage grades, sections, teachers and students.
+            </p>
+
+        </div>
+
+        <button
+            class="btn btn-primary"
+            onclick="openAddModal()">
+
+            + Add Class
+
+        </button>
+
+    </div>
+
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🏫
+            </div>
+
+            <h3 id="totalClasses">
+                24
+            </h3>
+
+            <p>
+                Total Classes
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                👨‍🎓
+            </div>
+
+            <h3>
+                842
+            </h3>
+
+            <p>
+                Total Students
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                👩‍🏫
+            </div>
+
+            <h3>
+                86
+            </h3>
+
+            <p>
+                Teachers
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                📚
+            </div>
+
+            <h3>
+                10
+            </h3>
+
+            <p>
+                Grade Levels
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- TOOLBAR -->
+
+    <div class="toolbar-card">
+
+        <div class="toolbar">
+
+            <div class="filters">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search"
+                    placeholder="🔍 Search class or teacher...">
+
+
+                <select id="gradeFilter">
+
+                    <option value="all">
+                        All Grades
+                    </option>
+
+                    <option value="Grade 10">
+                        Grade 10
+                    </option>
+
+                    <option value="Grade 9">
+                        Grade 9
+                    </option>
+
+                    <option value="Grade 8">
+                        Grade 8
+                    </option>
+
+                    <option value="Grade 7">
+                        Grade 7
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CLASS GRID -->
+
+    <div
+        class="class-grid"
+        id="classGrid">
+
+
+        <!-- CLASS 1 -->
+
+        <div
+            class="class-card"
+            data-class="Grade 10-A"
+            data-grade="Grade 10"
+            data-teacher="Aung Kyaw">
+
+            <div class="class-top">
+
+                <div class="class-icon">
+                    🏫
+                </div>
+
+                <button
+                    class="class-menu"
+                    onclick="viewClass(this)">
+
+                    ⋮
+
+                </button>
+
+            </div>
+
+            <h3>
+                Grade 10 - A
+            </h3>
+
+            <div class="section">
+                Science Section
+            </div>
+
+
+            <div class="class-info">
+
+                <div class="info-box">
+
+                    <span>
+                        Students
+                    </span>
+
+                    <strong>
+                        38
+                    </strong>
+
+                </div>
+
+                <div class="info-box">
+
+                    <span>
+                        Class Teacher
+                    </span>
+
+                    <strong>
+                        Aung Kyaw
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="progress">
+
+                <div class="progress-head">
+
+                    <span>
+                        Capacity
+                    </span>
+
+                    <span>
+                        38 / 40
+                    </span>
+
+                </div>
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress-fill"
+                        style="width:95%">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-actions">
+
+                <button
+                    class="small-btn"
+                    onclick="viewClass(this)">
+
+                    👁 View
+
+                </button>
+
+                <button
+                    class="small-btn"
+                    onclick="editClass(this)">
+
+                    ✏ Edit
+
+                </button>
+
+                <button
+                    class="small-btn delete"
+                    onclick="deleteClass(this)">
+
+                    🗑 Delete
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- CLASS 2 -->
+
+        <div
+            class="class-card"
+            data-class="Grade 10-B"
+            data-grade="Grade 10"
+            data-teacher="May Thu">
+
+            <div class="class-top">
+
+                <div class="class-icon">
+                    🏫
+                </div>
+
+                <button
+                    class="class-menu"
+                    onclick="viewClass(this)">
+
+                    ⋮
+
+                </button>
+
+            </div>
+
+            <h3>
+                Grade 10 - B
+            </h3>
+
+            <div class="section">
+                Arts Section
+            </div>
+
+
+            <div class="class-info">
+
+                <div class="info-box">
+
+                    <span>
+                        Students
+                    </span>
+
+                    <strong>
+                        36
+                    </strong>
+
+                </div>
+
+                <div class="info-box">
+
+                    <span>
+                        Class Teacher
+                    </span>
+
+                    <strong>
+                        May Thu
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="progress">
+
+                <div class="progress-head">
+
+                    <span>
+                        Capacity
+                    </span>
+
+                    <span>
+                        36 / 40
+                    </span>
+
+                </div>
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress-fill"
+                        style="width:90%">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-actions">
+
+                <button
+                    class="small-btn"
+                    onclick="viewClass(this)">
+
+                    👁 View
+
+                </button>
+
+                <button
+                    class="small-btn"
+                    onclick="editClass(this)">
+
+                    ✏ Edit
+
+                </button>
+
+                <button
+                    class="small-btn delete"
+                    onclick="deleteClass(this)">
+
+                    🗑 Delete
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- CLASS 3 -->
+
+        <div
+            class="class-card"
+            data-class="Grade 9-A"
+            data-grade="Grade 9"
+            data-teacher="Nandar Win">
+
+            <div class="class-top">
+
+                <div class="class-icon">
+                    🏫
+                </div>
+
+                <button
+                    class="class-menu"
+                    onclick="viewClass(this)">
+
+                    ⋮
+
+                </button>
+
+            </div>
+
+            <h3>
+                Grade 9 - A
+            </h3>
+
+            <div class="section">
+                Science Section
+            </div>
+
+
+            <div class="class-info">
+
+                <div class="info-box">
+
+                    <span>
+                        Students
+                    </span>
+
+                    <strong>
+                        35
+                    </strong>
+
+                </div>
+
+                <div class="info-box">
+
+                    <span>
+                        Class Teacher
+                    </span>
+
+                    <strong>
+                        Nandar Win
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="progress">
+
+                <div class="progress-head">
+
+                    <span>
+                        Capacity
+                    </span>
+
+                    <span>
+                        35 / 40
+                    </span>
+
+                </div>
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress-fill"
+                        style="width:87%">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-actions">
+
+                <button
+                    class="small-btn"
+                    onclick="viewClass(this)">
+
+                    👁 View
+
+                </button>
+
+                <button
+                    class="small-btn"
+                    onclick="editClass(this)">
+
+                    ✏ Edit
+
+                </button>
+
+                <button
+                    class="small-btn delete"
+                    onclick="deleteClass(this)">
+
+                    🗑 Delete
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- CLASS 4 -->
+
+        <div
+            class="class-card"
+            data-class="Grade 9-B"
+            data-grade="Grade 9"
+            data-teacher="Ko Min">
+
+            <div class="class-top">
+
+                <div class="class-icon">
+                    🏫
+                </div>
+
+                <button
+                    class="class-menu"
+                    onclick="viewClass(this)">
+
+                    ⋮
+
+                </button>
+
+            </div>
+
+            <h3>
+                Grade 9 - B
+            </h3>
+
+            <div class="section">
+                Arts Section
+            </div>
+
+
+            <div class="class-info">
+
+                <div class="info-box">
+
+                    <span>
+                        Students
+                    </span>
+
+                    <strong>
+                        34
+                    </strong>
+
+                </div>
+
+                <div class="info-box">
+
+                    <span>
+                        Class Teacher
+                    </span>
+
+                    <strong>
+                        Ko Min
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="progress">
+
+                <div class="progress-head">
+
+                    <span>
+                        Capacity
+                    </span>
+
+                    <span>
+                        34 / 40
+                    </span>
+
+                </div>
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress-fill"
+                        style="width:85%">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-actions">
+
+                <button
+                    class="small-btn"
+                    onclick="viewClass(this)">
+
+                    👁 View
+
+                </button>
+
+                <button
+                    class="small-btn"
+                    onclick="editClass(this)">
+
+                    ✏ Edit
+
+                </button>
+
+                <button
+                    class="small-btn delete"
+                    onclick="deleteClass(this)">
+
+                    🗑 Delete
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- CLASS 5 -->
+
+        <div
+            class="class-card"
+            data-class="Grade 8-A"
+            data-grade="Grade 8"
+            data-teacher="Thida Hla">
+
+            <div class="class-top">
+
+                <div class="class-icon">
+                    🏫
+                </div>
+
+                <button
+                    class="class-menu"
+                    onclick="viewClass(this)">
+
+                    ⋮
+
+                </button>
+
+            </div>
+
+            <h3>
+                Grade 8 - A
+            </h3>
+
+            <div class="section">
+                Science Section
+            </div>
+
+
+            <div class="class-info">
+
+                <div class="info-box">
+
+                    <span>
+                        Students
+                    </span>
+
+                    <strong>
+                        32
+                    </strong>
+
+                </div>
+
+                <div class="info-box">
+
+                    <span>
+                        Class Teacher
+                    </span>
+
+                    <strong>
+                        Thida Hla
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="progress">
+
+                <div class="progress-head">
+
+                    <span>
+                        Capacity
+                    </span>
+
+                    <span>
+                        32 / 40
+                    </span>
+
+                </div>
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress-fill"
+                        style="width:80%">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-actions">
+
+                <button
+                    class="small-btn"
+                    onclick="viewClass(this)">
+
+                    👁 View
+
+                </button>
+
+                <button
+                    class="small-btn"
+                    onclick="editClass(this)">
+
+                    ✏ Edit
+
+                </button>
+
+                <button
+                    class="small-btn delete"
+                    onclick="deleteClass(this)">
+
+                    🗑 Delete
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- CLASS 6 -->
+
+        <div
+            class="class-card"
+            data-class="Grade 8-B"
+            data-grade="Grade 8"
+            data-teacher="Aye Aye">
+
+            <div class="class-top">
+
+                <div class="class-icon">
+                    🏫
+                </div>
+
+                <button
+                    class="class-menu"
+                    onclick="viewClass(this)">
+
+                    ⋮
+
+                </button>
+
+            </div>
+
+            <h3>
+                Grade 8 - B
+            </h3>
+
+            <div class="section">
+                Arts Section
+            </div>
+
+
+            <div class="class-info">
+
+                <div class="info-box">
+
+                    <span>
+                        Students
+                    </span>
+
+                    <strong>
+                        30
+                    </strong>
+
+                </div>
+
+                <div class="info-box">
+
+                    <span>
+                        Class Teacher
+                    </span>
+
+                    <strong>
+                        Aye Aye
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="progress">
+
+                <div class="progress-head">
+
+                    <span>
+                        Capacity
+                    </span>
+
+                    <span>
+                        30 / 40
+                    </span>
+
+                </div>
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress-fill"
+                        style="width:75%">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-actions">
+
+                <button
+                    class="small-btn"
+                    onclick="viewClass(this)">
+
+                    👁 View
+
+                </button>
+
+                <button
+                    class="small-btn"
+                    onclick="editClass(this)">
+
+                    ✏ Edit
+
+                </button>
+
+                <button
+                    class="small-btn delete"
+                    onclick="deleteClass(this)">
+
+                    🗑 Delete
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- EMPTY -->
+
+    <div
+        class="empty"
+        id="emptyState">
+
+        <div class="empty-icon">
+            🔍
+        </div>
+
+        <h3>
+            No classes found
+        </h3>
+
+        <p>
+            Try another search or filter.
+        </p>
+
+    </div>
+
+</section>
+```
+
+</main>
+
+<!-- ADD / EDIT MODAL -->
+
+<div
+    class="modal"
+    id="classModal">
+
+```
+<div class="modal-box">
+
+    <div class="modal-header">
+
+        <h3 id="modalTitle">
+            Add New Class
+        </h3>
+
+        <button
+            class="close"
+            onclick="closeModal()">
+
+            ✕
+
+        </button>
+
+    </div>
+
+
+    <form id="classForm">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>
+                    Grade
+                </label>
+
+                <select id="classGrade">
+
+                    <option>
+                        Grade 10
+                    </option>
+
+                    <option>
+                        Grade 9
+                    </option>
+
+                    <option>
+                        Grade 8
+                    </option>
+
+                    <option>
+                        Grade 7
+                    </option>
+
+                    <option>
+                        Grade 6
+                    </option>
+
+                    <option>
+                        Grade 5
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Section
+                </label>
+
+                <input
+                    type="text"
+                    id="classSection"
+                    placeholder="A"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Class Teacher
+                </label>
+
+                <input
+                    type="text"
+                    id="classTeacher"
+                    placeholder="Teacher name"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Room Number
+                </label>
+
+                <input
+                    type="text"
+                    id="roomNumber"
+                    placeholder="Room 101">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Student Capacity
+                </label>
+
+                <input
+                    type="number"
+                    id="capacity"
+                    min="1"
+                    value="40"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Current Students
+                </label>
+
+                <input
+                    type="number"
+                    id="studentCount"
+                    min="0"
+                    value="0"
+                    required>
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label>
+                    Section Type
+                </label>
+
+                <select id="sectionType">
+
+                    <option>
+                        Science Section
+                    </option>
+
+                    <option>
+                        Arts Section
+                    </option>
+
+                    <option>
+                        Commerce Section
+                    </option>
+
+                    <option>
+                        General Section
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                type="button"
+                class="btn cancel"
+                onclick="closeModal()">
+
+                Cancel
+
+            </button>
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Save Class
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+```
+
+</div>
+
+<!-- VIEW MODAL -->
+
+<div
+    class="modal"
+    id="viewModal">
+
+```
+<div class="modal-box">
+
+    <div class="modal-header">
+
+        <h3>
+            Class Details
+        </h3>
+
+        <button
+            class="close"
+            onclick="closeViewModal()">
+
+            ✕
+
+        </button>
+
+    </div>
+
+
+    <div class="view-header">
+
+        <div class="view-class-icon">
+            🏫
+        </div>
+
+        <h3 id="viewClassName">
+            Grade 10 - A
+        </h3>
+
+        <p id="viewSection">
+            Science Section
+        </p>
+
+    </div>
+
+
+    <div class="details">
+
+        <div class="detail">
+
+            <span>
+                Grade
+            </span>
+
+            <strong id="viewGrade">
+                Grade 10
+            </strong>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span>
+                Section
+            </span>
+
+            <strong id="viewSectionLetter">
+                A
+            </strong>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span>
+                Class Teacher
+            </span>
+
+            <strong id="viewTeacher">
+                Aung Kyaw
+            </strong>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span>
+                Room
+            </span>
+
+            <strong id="viewRoom">
+                Room 101
+            </strong>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span>
+                Students
+            </span>
+
+            <strong id="viewStudents">
+                38 / 40
+            </strong>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span>
+                Capacity
+            </span>
+
+            <strong id="viewCapacity">
+                95%
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="modal-footer">
+
+        <button
+            class="btn cancel"
+            onclick="closeViewModal()">
+
+            Close
+
+        </button>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<!-- LOGOUT MODAL -->
+
+<div
+    class="modal"
+    id="logoutModal">
+
+```
+<div class="modal-box">
+
+    <div class="modal-header">
+
+        <h3>
+            Logout?
+        </h3>
+
+        <button
+            class="close"
+            onclick="closeLogout()">
+
+            ✕
+
+        </button>
+
+    </div>
+
+    <p
+        style="font-size:11px;color:#778298;line-height:1.6">
+
+        Are you sure you want to logout from
+        the administrator account?
+
+    </p>
+
+
+    <div class="modal-footer">
+
+        <button
+            class="btn cancel"
+            onclick="closeLogout()">
+
+            Cancel
+
+        </button>
+
+        <button
+            class="btn btn-danger"
+            onclick="confirmLogout()">
+
+            Logout
+
+        </button>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<script>
+
+/* MOBILE MENU */
+
+document
+.getElementById("menuToggle")
+.addEventListener("click",function(){
+
+    document
+    .getElementById("sidebar")
+    .classList.toggle("open");
+
+});
+
+
+/* SEARCH + FILTER */
+
+const searchInput =
+document.getElementById("searchInput");
+
+const gradeFilter =
+document.getElementById("gradeFilter");
+
+
+searchInput.addEventListener(
+    "input",
+    filterClasses
+);
+
+gradeFilter.addEventListener(
+    "change",
+    filterClasses
+);
+
+
+function filterClasses(){
+
+    const search =
+    searchInput.value
+    .toLowerCase()
+    .trim();
+
+    const grade =
+    gradeFilter.value;
+
+
+    const cards =
+    document.querySelectorAll(
+        ".class-card"
+    );
+
+
+    let visible = 0;
+
+
+    cards.forEach(function(card){
+
+        const className =
+        card.dataset.class.toLowerCase();
+
+        const teacher =
+        card.dataset.teacher.toLowerCase();
+
+        const cardGrade =
+        card.dataset.grade;
+
+
+        const searchMatch =
+        className.includes(search) ||
+        teacher.includes(search);
+
+        const gradeMatch =
+        grade === "all" ||
+        cardGrade === grade;
+
+
+        if(searchMatch && gradeMatch){
+
+            card.style.display = "";
+
+            visible++;
+
+        }else{
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+
+    document
+    .getElementById("emptyState")
+    .style.display =
+    visible === 0
+    ? "block"
+    : "none";
+
+}
+
+
+/* ADD MODAL */
+
+function openAddModal(){
+
+    document
+    .getElementById("modalTitle")
+    .textContent =
+    "Add New Class";
+
+
+    document
+    .getElementById("classForm")
+    .reset();
+
+
+    document
+    .getElementById("capacity")
+    .value = 40;
+
+
+    document
+    .getElementById("studentCount")
+    .value = 0;
+
+
+    document
+    .getElementById("classModal")
+    .classList.add("show");
+
+}
+
+
+function closeModal(){
+
+    document
+    .getElementById("classModal")
+    .classList.remove("show");
+
+}
+
+
+/* SAVE CLASS */
+
+document
+.getElementById("classForm")
+.addEventListener(
+"submit",
+function(event){
+
+    event.preventDefault();
+
+
+    const grade =
+    document
+    .getElementById("classGrade")
+    .value;
+
+
+    const section =
+    document
+    .getElementById("classSection")
+    .value
+    .trim()
+    .toUpperCase();
+
+
+    const teacher =
+    document
+    .getElementById("classTeacher")
+    .value
+    .trim();
+
+
+    const room =
+    document
+    .getElementById("roomNumber")
+    .value
+    .trim();
+
+
+    const capacity =
+    Number(
+        document
+        .getElementById("capacity")
+        .value
+    );
+
+
+    const students =
+    Number(
+        document
+        .getElementById("studentCount")
+        .value
+    );
+
+
+    const type =
+    document
+    .getElementById("sectionType")
+    .value;
+
+
+    if(!section || !teacher){
+
+        alert(
+            "Please enter Section and Class Teacher."
+        );
+
+        return;
+
+    }
+
+
+    if(students > capacity){
+
+        alert(
+            "Students cannot be greater than capacity."
+        );
+
+        return;
+
+    }
+
+
+    const percent =
+    Math.round(
+        (students / capacity) * 100
+    );
+
+
+    const card =
+    document.createElement("div");
+
+
+    card.className =
+    "class-card";
+
+
+    card.dataset.class =
+    `${grade}-${section}`;
+
+    card.dataset.grade =
+    grade;
+
+    card.dataset.teacher =
+    teacher;
+
+
+    card.innerHTML = `
+
+        <div class="class-top">
+
+            <div class="class-icon">
+                🏫
+            </div>
+
+            <button
+                class="class-menu"
+                onclick="viewClass(this)">
+
+                ⋮
+
+            </button>
+
+        </div>
+
+
+        <h3>
+            ${grade} - ${section}
+        </h3>
+
+
+        <div class="section">
+            ${type}
+        </div>
+
+
+        <div class="class-info">
+
+            <div class="info-box">
+
+                <span>
+                    Students
+                </span>
+
+                <strong>
+                    ${students}
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Class Teacher
+                </span>
+
+                <strong>
+                    ${teacher}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="progress">
+
+            <div class="progress-head">
+
+                <span>
+                    Capacity
+                </span>
+
+                <span>
+                    ${students} / ${capacity}
+                </span>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    style="width:${percent}%">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card-actions">
+
+            <button
+                class="small-btn"
+                onclick="viewClass(this)">
+
+                👁 View
+
+            </button>
+
+
+            <button
+                class="small-btn"
+                onclick="editClass(this)">
+
+                ✏ Edit
+
+            </button>
+
+
+            <button
+                class="small-btn delete"
+                onclick="deleteClass(this)">
+
+                🗑 Delete
+
+            </button>
+
+        </div>
+
+    `;
+
+
+    document
+    .getElementById("classGrid")
+    .prepend(card);
+
+
+    updateTotal();
+
+    closeModal();
+
+    alert(
+        "Class added successfully! (Frontend Demo)"
+    );
+
+});
+
+
+/* VIEW CLASS */
+
+function viewClass(button){
+
+    const card =
+    button.closest(".class-card");
+
+
+    const fullClass =
+    card.dataset.class;
+
+    const teacher =
+    card.dataset.teacher;
+
+
+    const grade =
+    card.dataset.grade;
+
+
+    const title =
+    card.querySelector("h3")
+    .textContent
+    .trim();
+
+
+    const section =
+    card.querySelector(".section")
+    .textContent
+    .trim();
+
+
+    const studentBoxes =
+    card.querySelectorAll(
+        ".info-box strong"
+    );
+
+
+    const students =
+    studentBoxes[0]
+    ? studentBoxes[0].textContent.trim()
+    : "0";
+
+
+    const teacherName =
+    studentBoxes[1]
+    ? studentBoxes[1].textContent.trim()
+    : teacher;
+
+
+    const capacityText =
+    card.querySelector(
+        ".progress-head span:last-child"
+    )
+    ?.textContent
+    .trim() || "0 / 0";
+
+
+    const parts =
+    fullClass.split("-");
+
+
+    const sectionLetter =
+    parts.length > 1
+    ? parts[parts.length - 1]
+    : "-";
+
+
+    document
+    .getElementById("viewClassName")
+    .textContent =
+    title;
+
+
+    document
+    .getElementById("viewSection")
+    .textContent =
+    section;
+
+
+    document
+    .getElementById("viewGrade")
+    .textContent =
+    grade;
+
+
+    document
+    .getElementById("viewSectionLetter")
+    .textContent =
+    sectionLetter;
+
+
+    document
+    .getElementById("viewTeacher")
+    .textContent =
+    teacherName;
+
+
+    document
+    .getElementById("viewRoom")
+    .textContent =
+    "Not assigned";
+
+
+    document
+    .getElementById("viewStudents")
+    .textContent =
+    capacityText;
+
+
+    document
+    .getElementById("viewCapacity")
+    .textContent =
+    card.querySelector(
+        ".progress-head span:last-child"
+    )
+    ? Math.round(
+        (
+            Number(
+                capacityText.split("/")[0]
+            ) /
+            Number(
+                capacityText.split("/")[1]
+            )
+        ) * 100
+    ) + "%"
+    : "0%";
+
+
+    document
+    .getElementById("viewModal")
+    .classList.add("show");
+
+}
+
+
+function closeViewModal(){
+
+    document
+    .getElementById("viewModal")
+    .classList.remove("show");
+
+}
+
+
+/* EDIT */
+
+function editClass(button){
+
+    const card =
+    button.closest(".class-card");
+
+
+    const grade =
+    card.dataset.grade;
+
+
+    const sectionText =
+    card
+    .querySelector("h3")
+    .textContent
+    .trim();
+
+
+    const section =
+    sectionText
+    .split("-")
+    .pop()
+    .trim();
+
+
+    const teacher =
+    card.dataset.teacher;
+
+
+    const studentText =
+    card
+    .querySelector(".info-box strong")
+    .textContent
+    .trim();
+
+
+    const capacityText =
+    card
+    .querySelector(
+        ".progress-head span:last-child"
+    )
+    .textContent
+    .trim();
+
+
+    const capacity =
+    Number(
+        capacityText
+        .split("/")
+        .pop()
+        .trim()
+    );
+
+
+    document
+    .getElementById("modalTitle")
+    .textContent =
+    "Edit Class";
+
+
+    document
+    .getElementById("classGrade")
+    .value =
+    grade;
+
+
+    document
+    .getElementById("classSection")
+    .value =
+    section;
+
+
+    document
+    .getElementById("classTeacher")
+    .value =
+    teacher;
+
+
+    document
+    .getElementById("studentCount")
+    .value =
+    studentText;
+
+
+    document
+    .getElementById("capacity")
+    .value =
+    capacity;
+
+
+    document
+    .getElementById("classModal")
+    .classList.add("show");
+
+
+    card.remove();
+
+    updateTotal();
+
+}
+
+
+/* DELETE */
+
+function deleteClass(button){
+
+    const card =
+    button.closest(".class-card");
+
+
+    const name =
+    card
+    .querySelector("h3")
+    .textContent
+    .trim();
+
+
+    const confirmed =
+    confirm(
+        "Delete " +
+        name +
+        "?"
+    );
+
+
+    if(confirmed){
+
+        card.remove();
+
+        updateTotal();
+
+        filterClasses();
+
+        alert(
+            "Class deleted successfully! (Frontend Demo)"
+        );
+
+    }
+
+}
+
+
+/* TOTAL */
+
+function updateTotal(){
+
+    const cards =
+    document.querySelectorAll(
+        ".class-card"
+    );
+
+
+    const total =
+    24 - 6 + cards.length;
+
+
+    document
+    .getElementById("totalClasses")
+    .textContent =
+    total;
+
+}
+
+
+/* NOTIFICATION */
+
+function showNotification(){
+
+    alert(
+        "You have 4 new notifications."
+    );
+
+}
+
+
+/* LOGOUT */
+
+document
+.getElementById("logoutBtn")
+.addEventListener(
+"click",
+function(){
+
+    document
+    .getElementById("logoutModal")
+    .classList.add("show");
+
+});
+
+
+function closeLogout(){
+
+    document
+    .getElementById("logoutModal")
+    .classList.remove("show");
+
+}
+
+
+function confirmLogout(){
+
+    window.location.href =
+    "login.html";
+
+}
+
+
+/* OUTSIDE CLICK */
+
+document
+.querySelectorAll(".modal")
+.forEach(function(modal){
+
+    modal.addEventListener(
+        "click",
+        function(event){
+
+            if(event.target === modal){
+
+                modal.classList.remove(
+                    "show"
+                );
+
+            }
+
+        }
+    );
+
+});
+
+
+/* ESC */
+
+document.addEventListener(
+"keydown",
+function(event){
+
+    if(event.key === "Escape"){
+
+        document
+        .querySelectorAll(".modal")
+        .forEach(function(modal){
+
+            modal.classList.remove(
+                "show"
+            );
+
+        });
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
