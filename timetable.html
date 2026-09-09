@@ -1,0 +1,464 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable - School Management System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #111827;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 13px 15px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 25px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+        }
+
+        .user {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .controls {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        select,
+        button {
+            padding: 10px 14px;
+            border-radius: 7px;
+            border: 1px solid #d1d5db;
+            background: white;
+            font-size: 14px;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th {
+            background: #2563eb;
+            color: white;
+            padding: 15px 10px;
+            text-align: center;
+        }
+
+        td {
+            border: 1px solid #e5e7eb;
+            padding: 12px 8px;
+            text-align: center;
+            height: 85px;
+        }
+
+        .time {
+            background: #f3f4f6;
+            font-weight: bold;
+            width: 120px;
+        }
+
+        .subject {
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .teacher {
+            display: block;
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        .break {
+            background: #fef3c7;
+            color: #92400e;
+            font-weight: bold;
+        }
+
+        .math {
+            background: #dbeafe;
+        }
+
+        .english {
+            background: #dcfce7;
+        }
+
+        .science {
+            background: #fce7f3;
+        }
+
+        .computer {
+            background: #ede9fe;
+        }
+
+        .myanmar {
+            background: #ffedd5;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                margin-left: 190px;
+                padding: 15px;
+            }
+
+            .topbar h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            🏫 School Management
+        </div>
+
+        <nav class="menu">
+            <a href="index.html">📊 Dashboard</a>
+            <a href="students.html">👨‍🎓 Students</a>
+            <a href="teachers.html">👨‍🏫 Teachers</a>
+            <a href="classes.html">🏫 Classes</a>
+            <a href="attendance.html">📋 Attendance</a>
+            <a href="timetable.html" class="active">🗓️ Timetable</a>
+            <a href="exams.html">📝 Exams</a>
+            <a href="fees.html">💰 Fees</a>
+            <a href="library.html">📚 Library</a>
+            <a href="settings.html">⚙️ Settings</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <div class="topbar">
+            <h1>Timetable</h1>
+
+            <div class="user">
+                👤 Admin
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+
+            <label>
+                Class:
+                <select id="classSelect">
+                    <option>Grade 10-A</option>
+                    <option>Grade 10-B</option>
+                    <option>Grade 9-A</option>
+                    <option>Grade 9-B</option>
+                    <option>Grade 8-A</option>
+                </select>
+            </label>
+
+            <label>
+                Week:
+                <select id="weekSelect">
+                    <option>This Week</option>
+                    <option>Next Week</option>
+                </select>
+            </label>
+
+            <button onclick="printTimetable()">
+                🖨️ Print
+            </button>
+
+        </div>
+
+        <!-- Timetable -->
+        <div class="table-container">
+
+            <table id="timetable">
+
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td class="time">8:00 - 9:00</td>
+
+                        <td class="math">
+                            <span class="subject">Mathematics</span>
+                            <span class="teacher">Mr. Aung</span>
+                        </td>
+
+                        <td class="english">
+                            <span class="subject">English</span>
+                            <span class="teacher">Ms. Su Su</span>
+                        </td>
+
+                        <td class="science">
+                            <span class="subject">Science</span>
+                            <span class="teacher">Mr. Min</span>
+                        </td>
+
+                        <td class="myanmar">
+                            <span class="subject">Myanmar</span>
+                            <span class="teacher">Daw Hla</span>
+                        </td>
+
+                        <td class="computer">
+                            <span class="subject">Computer</span>
+                            <span class="teacher">Mr. Zaw</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="time">9:00 - 10:00</td>
+
+                        <td class="english">
+                            <span class="subject">English</span>
+                            <span class="teacher">Ms. Su Su</span>
+                        </td>
+
+                        <td class="math">
+                            <span class="subject">Mathematics</span>
+                            <span class="teacher">Mr. Aung</span>
+                        </td>
+
+                        <td class="computer">
+                            <span class="subject">Computer</span>
+                            <span class="teacher">Mr. Zaw</span>
+                        </td>
+
+                        <td class="science">
+                            <span class="subject">Science</span>
+                            <span class="teacher">Mr. Min</span>
+                        </td>
+
+                        <td class="math">
+                            <span class="subject">Mathematics</span>
+                            <span class="teacher">Mr. Aung</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="time">10:00 - 10:30</td>
+
+                        <td colspan="5" class="break">
+                            ☕ BREAK TIME
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="time">10:30 - 11:30</td>
+
+                        <td class="science">
+                            <span class="subject">Science</span>
+                            <span class="teacher">Mr. Min</span>
+                        </td>
+
+                        <td class="computer">
+                            <span class="subject">Computer</span>
+                            <span class="teacher">Mr. Zaw</span>
+                        </td>
+
+                        <td class="math">
+                            <span class="subject">Mathematics</span>
+                            <span class="teacher">Mr. Aung</span>
+                        </td>
+
+                        <td class="english">
+                            <span class="subject">English</span>
+                            <span class="teacher">Ms. Su Su</span>
+                        </td>
+
+                        <td class="myanmar">
+                            <span class="subject">Myanmar</span>
+                            <span class="teacher">Daw Hla</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="time">11:30 - 12:30</td>
+
+                        <td class="computer">
+                            <span class="subject">Computer</span>
+                            <span class="teacher">Mr. Zaw</span>
+                        </td>
+
+                        <td class="science">
+                            <span class="subject">Science</span>
+                            <span class="teacher">Mr. Min</span>
+                        </td>
+
+                        <td class="english">
+                            <span class="subject">English</span>
+                            <span class="teacher">Ms. Su Su</span>
+                        </td>
+
+                        <td class="math">
+                            <span class="subject">Mathematics</span>
+                            <span class="teacher">Mr. Aung</span>
+                        </td>
+
+                        <td class="science">
+                            <span class="subject">Science</span>
+                            <span class="teacher">Mr. Min</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="time">12:30 - 1:30</td>
+
+                        <td colspan="5" class="break">
+                            🍱 LUNCH BREAK
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="time">1:30 - 2:30</td>
+
+                        <td class="myanmar">
+                            <span class="subject">Myanmar</span>
+                            <span class="teacher">Daw Hla</span>
+                        </td>
+
+                        <td class="math">
+                            <span class="subject">Mathematics</span>
+                            <span class="teacher">Mr. Aung</span>
+                        </td>
+
+                        <td class="computer">
+                            <span class="subject">Computer</span>
+                            <span class="teacher">Mr. Zaw</span>
+                        </td>
+
+                        <td class="science">
+                            <span class="subject">Science</span>
+                            <span class="teacher">Mr. Min</span>
+                        </td>
+
+                        <td class="english">
+                            <span class="subject">English</span>
+                            <span class="teacher">Ms. Su Su</span>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+    <script>
+        function printTimetable() {
+            window.print();
+        }
+
+        document.getElementById("classSelect").addEventListener("change", function () {
+            alert("Timetable changed to " + this.value);
+        });
+
+        document.getElementById("weekSelect").addEventListener("change", function () {
+            alert("Showing " + this.value);
+        });
+    </script>
+
+</body>
+</html>
+```
