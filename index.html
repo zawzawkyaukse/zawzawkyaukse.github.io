@@ -1,13 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduManage — School Management System</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#3157d5;--primary2:#6c7df5;--dark:#18223a;--muted:#6d7892;
+  --bg:#f6f8fc;--card:#fff;--border:#e7ebf3;--success:#21a366;--warning:#f2a93b;
+}
+body{font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
+button,input{font:inherit}
+button{cursor:pointer;border:0}
+.app{display:flex;min-height:100vh}
+.sidebar{width:260px;background:#fff;border-right:1px solid var(--border);padding:22px 16px;position:fixed;inset:0 auto 0 0;z-index:20}
+.logo{display:flex;align-items:center;gap:11px;padding:4px 10px 25px;font-weight:800;font-size:20px}
+.logo-icon{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--primary),#8b78ff);display:grid;place-items:center;color:#fff;font-size:21px}
+.school{font-size:11px;color:var(--muted);padding:0 12px 9px;text-transform:uppercase;letter-spacing:.8px}
+.nav{display:flex;flex-direction:column;gap:5px}
+.nav button{background:transparent;color:#69738b;text-align:left;padding:12px 13px;border-radius:10px;display:flex;align-items:center;gap:12px;font-weight:600}
+.nav button:hover,.nav button.active{background:#eef2ff;color:var(--primary)}
+.nav button span{font-size:18px;width:22px;text-align:center}
+.sidebar-bottom{position:absolute;bottom:22px;left:16px;right:16px}
+.profile-mini{display:flex;align-items:center;gap:10px;background:#f7f8fc;padding:11px;border-radius:12px}
+.avatar{width:38px;height:38px;border-radius:50%;background:#dfe6ff;display:grid;place-items:center;font-weight:800;color:var(--primary)}
+.profile-mini small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.main{margin-left:260px;width:calc(100% - 260px)}
+.topbar{height:76px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 34px;position:sticky;top:0;z-index:10}
+.menu-btn{display:none;background:none;font-size:24px}
+.search{display:flex;align-items:center;gap:9px;background:#f6f7fb;border:1px solid #eef0f5;border-radius:10px;padding:9px 13px;width:300px}
+.search input{border:0;outline:0;background:transparent;width:100%;color:var(--dark)}
+.top-actions{display:flex;align-items:center;gap:12px}
+.icon-btn{width:39px;height:39px;border-radius:10px;background:#f6f7fb;position:relative}
+.dot{position:absolute;right:8px;top:7px;width:7px;height:7px;border-radius:50%;background:#ef5d66;border:2px solid #f6f7fb}
+.content{padding:30px 34px}
+.page{display:none}.page.active{display:block}
+.hero{background:linear-gradient(115deg,#2f54d5,#6478ee);color:#fff;border-radius:18px;padding:28px 30px;display:flex;align-items:center;justify-content:space-between;overflow:hidden;position:relative}
+.hero:after{content:"";position:absolute;width:260px;height:260px;border:45px solid rgba(255,255,255,.08);border-radius:50%;right:-80px;top:-100px}
+.hero h1{font-size:28px;margin-bottom:7px}.hero p{opacity:.86}
+.hero-btn{background:#fff;color:var(--primary);padding:11px 17px;border-radius:10px;font-weight:800;position:relative;z-index:2}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin:22px 0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:20px;box-shadow:0 4px 15px rgba(27,45,90,.035)}
+.stat{display:flex;justify-content:space-between;align-items:flex-start}
+.stat-icon{width:43px;height:43px;border-radius:11px;background:#eef2ff;display:grid;place-items:center;font-size:20px}
+.stat h3{font-size:26px;margin:15px 0 4px}.stat p{color:var(--muted);font-size:13px}.trend{font-size:11px;color:var(--success);font-weight:700}
+.grid{display:grid;grid-template-columns:1.45fr 1fr;gap:20px}.card-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.card-title h3{font-size:16px}.link{color:var(--primary);font-size:12px;font-weight:700;background:none}
+.chart{height:235px;display:flex;align-items:flex-end;gap:13px;padding:15px 5px 25px;border-bottom:1px solid var(--border)}
+.bar-wrap{height:100%;flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px}.bar{width:100%;max-width:35px;background:linear-gradient(180deg,#7385f3,#3157d5);border-radius:7px 7px 2px 2px}.bar-label{font-size:11px;color:var(--muted)}
+.activity{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}.activity:last-child{border:0}.activity-icon{width:35px;height:35px;border-radius:9px;background:#eef2ff;display:grid;place-items:center}.activity p{font-size:13px}.activity small{color:var(--muted);font-size:11px}
+.page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.page-head h2{font-size:25px}.page-head p{color:var(--muted);font-size:13px;margin-top:5px}
+.primary{background:var(--primary);color:#fff;padding:11px 16px;border-radius:9px;font-weight:700}.filters{display:flex;gap:10px;margin-bottom:17px}.filters input,.filters select{padding:10px 12px;border:1px solid var(--border);border-radius:9px;background:#fff;outline:0;color:var(--dark)}
+.table-card{overflow:auto;padding:0}.table{width:100%;border-collapse:collapse;min-width:700px}.table th,.table td{padding:15px 18px;text-align:left;border-bottom:1px solid var(--border);font-size:13px}.table th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;background:#fafbfe}.person{display:flex;align-items:center;gap:10px}.person .avatar{width:34px;height:34px;font-size:11px}.badge{padding:5px 9px;border-radius:20px;font-size:11px;font-weight:700}.badge.green{background:#e9f8f0;color:#17834e}.badge.orange{background:#fff3df;color:#b97512}.badge.blue{background:#edf1ff;color:#3157d5}
+.modules{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.module{cursor:pointer;transition:.2s}.module:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(27,45,90,.08)}.module-icon{width:50px;height:50px;border-radius:13px;background:#eef2ff;display:grid;place-items:center;font-size:24px;margin-bottom:14px}.module h3{font-size:16px;margin-bottom:6px}.module p{font-size:12px;color:var(--muted);line-height:1.5}
+.notice{padding:14px;background:#f8f9fd;border-radius:10px;margin-bottom:10px;border-left:3px solid var(--primary)}.notice strong{font-size:13px}.notice p{font-size:12px;color:var(--muted);margin-top:4px}
+@media(max-width:1000px){.cards{grid-template-columns:repeat(2,1fr)}.modules{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+@media(max-width:720px){
+.sidebar{transform:translateX(-100%);transition:.25s}.sidebar.open{transform:translateX(0)}.main{margin-left:0;width:100%}.menu-btn{display:block}.topbar{padding:0 17px}.search{width:190px}.content{padding:20px 16px}.hero{padding:22px}.hero h1{font-size:22px}.hero-btn{display:none}.cards{grid-template-columns:1fr 1fr;gap:12px}.card{padding:16px}.stat h3{font-size:22px}.modules{grid-template-columns:1fr}.top-actions .icon-btn{display:none}
+}
+@media(max-width:470px){.cards{grid-template-columns:1fr}.search{width:145px}.content{padding:15px 12px}.page-head{align-items:flex-start;gap:10px}.page-head h2{font-size:21px}}
+
+/* Login */
+#loginScreen{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#eef2ff 0%,#f8faff 55%,#e9edff 100%);display:flex;align-items:center;justify-content:center;padding:20px}
+.login-box{width:100%;max-width:430px;background:#fff;border:1px solid #e5e9f3;border-radius:22px;padding:34px;box-shadow:0 20px 60px rgba(31,52,110,.13)}
+.login-brand{text-align:center;margin-bottom:26px}.login-brand .logo-icon{margin:auto auto 12px;width:54px;height:54px;font-size:26px}
+.login-brand h1{font-size:24px;margin-bottom:6px}.login-brand p{font-size:13px;color:var(--muted)}
+.role-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;background:#f5f6fa;padding:5px;border-radius:11px;margin-bottom:20px}
+.role-tab{padding:10px 4px;border-radius:8px;background:transparent;color:var(--muted);font-size:12px;font-weight:700}
+.role-tab.active{background:#fff;color:var(--primary);box-shadow:0 2px 7px rgba(30,45,90,.08)}
+.login-label{display:block;font-size:12px;font-weight:700;margin:14px 0 7px}
+.login-input{width:100%;padding:12px 13px;border:1px solid var(--border);border-radius:10px;outline:none;background:#fafbfe}
+.login-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(49,87,213,.08)}
+.login-submit{width:100%;margin-top:21px;padding:13px;border-radius:10px;background:var(--primary);color:#fff;font-weight:800}
+.login-submit:hover{background:#274ac0}
+.login-error{display:none;background:#fff0f0;color:#c64a4a;border-radius:9px;padding:10px;font-size:12px;margin-top:12px;text-align:center}
+.demo-login{text-align:center;color:var(--muted);font-size:11px;margin-top:15px}
+.logout-btn{background:#fff0f0!important;color:#d34f55!important}
+
+</style>
 </head>
 <body>
-    <h1>Hello World</h1>
-    <a href="new.html" target="_blank">Go to New Page</a>
-    <h1>hi</h1>
+
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-brand">
+      <div class="logo-icon">🎓</div>
+      <h1>EduManage</h1>
+      <p>School Management System</p>
+    </div>
+
+    <div class="role-tabs">
+      <button class="role-tab active" data-role="admin">🛡 Admin</button>
+      <button class="role-tab" data-role="teacher">👩‍🏫 Teacher</button>
+      <button class="role-tab" data-role="student">👨‍🎓 Student</button>
+    </div>
+
+    <form id="loginForm">
+      <label class="login-label" id="idLabel">Admin ID / Email</label>
+      <input class="login-input" id="loginId" type="text" placeholder="Enter admin ID or email" autocomplete="username" required>
+
+      <label class="login-label">Password</label>
+      <input class="login-input" id="loginPassword" type="password" placeholder="Enter password" autocomplete="current-password" required>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:13px;font-size:12px">
+        <label style="color:var(--muted);display:flex;gap:7px;align-items:center">
+          <input type="checkbox" id="rememberMe"> Remember me
+        </label>
+        <button type="button" class="link" onclick="alert('Password reset will be connected to the backend later.')">Forgot password?</button>
+      </div>
+
+      <button class="login-submit" type="submit">Login as Admin</button>
+      <div class="login-error" id="loginError">Please enter your login information.</div>
+    </form>
+
+    <div class="demo-login">Frontend demo login — backend authentication will be added later.</div>
+  </div>
+</div>
+
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="logo"><div class="logo-icon">🎓</div><div>EduManage</div></div>
+  <div class="school">School Management</div>
+  <nav class="nav">
+    <button class="active" data-page="dashboard"><span>▦</span> Dashboard</button>
+    <button data-page="students"><span>👨‍🎓</span> Students</button>
+    <button data-page="teachers"><span>👩‍🏫</span> Teachers</button>
+    <button data-page="classes"><span>▤</span> Classes</button>
+    <button data-page="attendance"><span>✓</span> Attendance</button>
+    <button data-page="exams"><span>📝</span> Exams & Results</button>
+    <button data-page="fees"><span>💳</span> Fees & Payments</button>
+    <button data-page="timetable"><span>🗓</span> Timetable</button>
+    <button data-page="notices"><span>🔔</span> Notices</button>
+    <button class="logout-btn" id="logoutBtn"><span>↪</span> Logout</button>
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="profile-mini"><div class="avatar">AD</div><div><b>Admin User</b><small>Administrator</small></div></div>
+  </div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <div style="display:flex;align-items:center;gap:12px"><button class="menu-btn" id="menuBtn">☰</button><div class="search">🔎 <input id="globalSearch" placeholder="Search anything..."></div></div>
+  <div class="top-actions"><button class="icon-btn">🔔<i class="dot"></i></button><button class="icon-btn">⚙️</button><div class="avatar">AD</div></div>
+</header>
+
+<section class="content">
+<div id="dashboard" class="page active">
+  <div class="hero"><div><h1>Good morning, Admin 👋</h1><p>Here's what's happening at your school today.</p></div><button class="hero-btn" onclick="showPage('students')">View Students →</button></div>
+  <div class="cards">
+    <div class="card stat"><div><p>Total Students</p><h3>1,248</h3><span class="trend">↑ 8.2% this year</span></div><div class="stat-icon">👨‍🎓</div></div>
+    <div class="card stat"><div><p>Total Teachers</p><h3>86</h3><span class="trend">↑ 4 new this month</span></div><div class="stat-icon">👩‍🏫</div></div>
+    <div class="card stat"><div><p>Attendance Today</p><h3>94.6%</h3><span class="trend">↑ 2.4% from yesterday</span></div><div class="stat-icon">✓</div></div>
+    <div class="card stat"><div><p>Fees Collected</p><h3>$42.8k</h3><span class="trend">↑ 12.5% this month</span></div><div class="stat-icon">💳</div></div>
+  </div>
+  <div class="grid">
+    <div class="card"><div class="card-title"><h3>Student Attendance</h3><button class="link">Last 7 days ▾</button></div><div class="chart">
+      <div class="bar-wrap"><div class="bar" style="height:68%"></div><span class="bar-label">Mon</span></div><div class="bar-wrap"><div class="bar" style="height:81%"></div><span class="bar-label">Tue</span></div><div class="bar-wrap"><div class="bar" style="height:74%"></div><span class="bar-label">Wed</span></div><div class="bar-wrap"><div class="bar" style="height:91%"></div><span class="bar-label">Thu</span></div><div class="bar-wrap"><div class="bar" style="height:86%"></div><span class="bar-label">Fri</span></div><div class="bar-wrap"><div class="bar" style="height:78%"></div><span class="bar-label">Sat</span></div><div class="bar-wrap"><div class="bar" style="height:94%"></div><span class="bar-label">Today</span></div>
+    </div></div>
+    <div class="card"><div class="card-title"><h3>Recent Activity</h3><button class="link">View all</button></div>
+      <div class="activity"><div class="activity-icon">👨‍🎓</div><div><p><b>John Smith</b> was added as a student.</p><small>10 minutes ago</small></div></div>
+      <div class="activity"><div class="activity-icon">💳</div><div><p>Payment received from <b>Emma Davis</b>.</p><small>42 minutes ago</small></div></div>
+      <div class="activity"><div class="activity-icon">📝</div><div><p>Grade 8 results were published.</p><small>2 hours ago</small></div></div>
+      <div class="activity"><div class="activity-icon">🔔</div><div><p>New school notice was posted.</p><small>4 hours ago</small></div></div>
+    </div>
+  </div>
+</div>
+
+<div id="students" class="page">
+ <div class="page-head"><div><h2>Students</h2><p>Manage student information and records.</p></div><button class="primary" onclick="addDemo('student')">＋ Add Student</button></div>
+ <div class="filters"><input id="studentSearch" placeholder="Search student..." oninput="filterTable()"><select><option>All Classes</option><option>Grade 7</option><option>Grade 8</option><option>Grade 9</option></select><select><option>All Status</option><option>Active</option><option>Inactive</option></select></div>
+ <div class="card table-card"><table class="table" id="studentTable"><thead><tr><th>Student</th><th>ID</th><th>Class</th><th>Gender</th><th>Status</th><th>Action</th></tr></thead><tbody>
+ <tr><td><div class="person"><div class="avatar">JS</div><b>John Smith</b></div></td><td>ST-1001</td><td>Grade 8 - A</td><td>Male</td><td><span class="badge green">Active</span></td><td><button class="link" onclick="viewRow(this)">View</button></td></tr>
+ <tr><td><div class="person"><div class="avatar">ED</div><b>Emma Davis</b></div></td><td>ST-1002</td><td>Grade 7 - B</td><td>Female</td><td><span class="badge green">Active</span></td><td><button class="link" onclick="viewRow(this)">View</button></td></tr>
+ <tr><td><div class="person"><div class="avatar">LW</div><b>Liam Wilson</b></div></td><td>ST-1003</td><td>Grade 9 - A</td><td>Male</td><td><span class="badge orange">Pending</span></td><td><button class="link" onclick="viewRow(this)">View</button></td></tr>
+ <tr><td><div class="person"><div class="avatar">OS</div><b>Olivia Smith</b></div></td><td>ST-1004</td><td>Grade 8 - B</td><td>Female</td><td><span class="badge green">Active</span></td><td><button class="link" onclick="viewRow(this)">View</button></td></tr>
+ </tbody></table></div>
+</div>
+
+<div id="teachers" class="page"><div class="page-head"><div><h2>Teachers</h2><p>Manage teachers and staff members.</p></div><button class="primary" onclick="addDemo('teacher')">＋ Add Teacher</button></div><div class="modules">
+<div class="card module"><div class="module-icon">👩‍🏫</div><h3>86 Teachers</h3><p>View and manage teacher profiles, subjects and assigned classes.</p></div>
+<div class="card module"><div class="module-icon">📚</div><h3>24 Subjects</h3><p>Manage subjects and assign teachers to each subject.</p></div>
+<div class="card module"><div class="module-icon">📅</div><h3>Work Schedule</h3><p>View teacher schedules and daily workload.</p></div></div></div>
+
+<div id="classes" class="page"><div class="page-head"><div><h2>Classes</h2><p>Manage grades, sections and classrooms.</p></div><button class="primary" onclick="addDemo('class')">＋ Add Class</button></div><div class="modules">
+<div class="card module"><div class="module-icon">8️⃣</div><h3>Grade 8 - A</h3><p>42 Students · Room 201 · Class Teacher: Mr. Brown</p></div>
+<div class="card module"><div class="module-icon">7️⃣</div><h3>Grade 7 - B</h3><p>38 Students · Room 104 · Class Teacher: Ms. Wilson</p></div>
+<div class="card module"><div class="module-icon">9️⃣</div><h3>Grade 9 - A</h3><p>36 Students · Room 302 · Class Teacher: Mr. Taylor</p></div>
+</div></div>
+
+<div id="attendance" class="page"><div class="page-head"><div><h2>Attendance</h2><p>Track student attendance and daily records.</p></div><button class="primary" onclick="alert('Attendance marking screen is ready for backend integration.')">Mark Attendance</button></div><div class="cards"><div class="card stat"><div><p>Present</p><h3>1,180</h3><span class="trend">94.6%</span></div><div class="stat-icon">✓</div></div><div class="card stat"><div><p>Absent</p><h3>48</h3><span style="font-size:11px;color:#d46a48;font-weight:700">3.8%</span></div><div class="stat-icon">✕</div></div><div class="card stat"><div><p>Late</p><h3>20</h3><span class="trend">1.6%</span></div><div class="stat-icon">⏱</div></div></div></div>
+
+<div id="exams" class="page"><div class="page-head"><div><h2>Exams & Results</h2><p>Create exams, enter marks and publish results.</p></div><button class="primary" onclick="addDemo('exam')">＋ Create Exam</button></div><div class="modules">
+<div class="card module"><div class="module-icon">📝</div><h3>Mid-Term Examination</h3><p>Grades 7–9 · 12 Subjects · Results: Published</p></div>
+<div class="card module"><div class="module-icon">🏆</div><h3>Top Students</h3><p>View rankings and performance analytics by class.</p></div>
+<div class="card module"><div class="module-icon">📊</div><h3>Reports</h3><p>Generate student report cards and class performance reports.</p></div>
+</div></div>
+
+<div id="fees" class="page"><div class="page-head"><div><h2>Fees & Payments</h2><p>Manage school fees, invoices and payment records.</p></div><button class="primary" onclick="addDemo('fee')">＋ Create Invoice</button></div><div class="cards"><div class="card stat"><div><p>Total Collected</p><h3>$42.8k</h3><span class="trend">↑ 12.5%</span></div><div class="stat-icon">💵</div></div><div class="card stat"><div><p>Pending</p><h3>$8.4k</h3><span style="font-size:11px;color:#b97512;font-weight:700">36 invoices</span></div><div class="stat-icon">⏳</div></div></div></div>
+
+<div id="timetable" class="page"><div class="page-head"><div><h2>Timetable</h2><p>View and manage class schedules.</p></div><button class="primary" onclick="addDemo('timetable')">＋ Add Schedule</button></div><div class="card table-card"><table class="table"><thead><tr><th>Time</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th></tr></thead><tbody>
+<tr><td>08:00 - 09:00</td><td>Math</td><td>English</td><td>Science</td><td>Math</td><td>History</td></tr><tr><td>09:00 - 10:00</td><td>English</td><td>Science</td><td>Math</td><td>Computer</td><td>English</td></tr><tr><td>10:30 - 11:30</td><td>History</td><td>Math</td><td>English</td><td>Science</td><td>Art</td></tr>
+</tbody></table></div></div>
+
+<div id="notices" class="page"><div class="page-head"><div><h2>Notices</h2><p>School announcements and important messages.</p></div><button class="primary" onclick="addDemo('notice')">＋ New Notice</button></div><div class="card">
+<div class="notice"><strong>Parent-Teacher Meeting</strong><p>The monthly parent-teacher meeting will be held this Friday at 2:00 PM.</p></div>
+<div class="notice"><strong>Mid-Term Results</strong><p>Mid-term examination results are now available for Grades 7–9.</p></div>
+<div class="notice"><strong>School Holiday</strong><p>The school will be closed next Monday for the public holiday.</p></div>
+</div></div>
+</section>
+</main>
+</div>
+
+<script>
+const navButtons=document.querySelectorAll('.nav button');
+const pages=document.querySelectorAll('.page');
+function showPage(name){
+  pages.forEach(p=>p.classList.toggle('active',p.id===name));
+  navButtons.forEach(b=>b.classList.toggle('active',b.dataset.page===name));
+  document.getElementById('sidebar').classList.remove('open');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+navButtons.forEach(btn=>btn.addEventListener('click',()=>showPage(btn.dataset.page)));
+document.getElementById('menuBtn').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
+
+function filterTable(){
+ const q=document.getElementById('studentSearch').value.toLowerCase();
+ document.querySelectorAll('#studentTable tbody tr').forEach(row=>{
+   row.style.display=row.innerText.toLowerCase().includes(q)?'':'none';
+ });
+}
+function viewRow(btn){
+ const row=btn.closest('tr');
+ alert('Student record:\\n'+row.innerText.replace(/\\n/g,' | '));
+}
+function addDemo(type){
+ const names={student:'student',teacher:'teacher',class:'class',exam:'exam',fee:'invoice',timetable:'schedule',notice:'notice'};
+ alert('Add '+names[type]+' form is ready for backend integration.');
+}
+document.getElementById('globalSearch').addEventListener('input',function(){
+ const q=this.value.trim().toLowerCase();
+ if(!q)return;
+ const match=[...navButtons].find(b=>b.innerText.toLowerCase().includes(q));
+ if(match)showPage(match.dataset.page);
+});
+
+// Frontend role-based login demo
+let selectedRole = "admin";
+const roleNames = {admin:"Admin", teacher:"Teacher", student:"Student"};
+const roleLabels = {admin:"Admin ID / Email", teacher:"Teacher ID / Email", student:"Student ID / Email"};
+const rolePlaceholders = {admin:"Enter admin ID or email", teacher:"Enter teacher ID or email", student:"Enter student ID or email"};
+
+document.querySelectorAll(".role-tab").forEach(tab=>{
+  tab.addEventListener("click",()=>{
+    selectedRole = tab.dataset.role;
+    document.querySelectorAll(".role-tab").forEach(t=>t.classList.toggle("active",t===tab));
+    document.getElementById("idLabel").textContent = roleLabels[selectedRole];
+    document.getElementById("loginId").placeholder = rolePlaceholders[selectedRole];
+    document.querySelector(".login-submit").textContent = "Login as " + roleNames[selectedRole];
+    document.getElementById("loginError").style.display="none";
+  });
+});
+
+document.getElementById("loginForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const id=document.getElementById("loginId").value.trim();
+  const pw=document.getElementById("loginPassword").value.trim();
+  const error=document.getElementById("loginError");
+
+  if(!id || !pw){
+    error.textContent="Please enter your login ID and password.";
+    error.style.display="block";
+    return;
+  }
+
+  // Demo only: any non-empty ID/password is accepted.
+  sessionStorage.setItem("eduManageLoggedIn","true");
+  sessionStorage.setItem("eduManageRole",selectedRole);
+  document.getElementById("loginScreen").style.display="none";
+
+  // Change dashboard greeting according to role
+  const heroTitle=document.querySelector(".hero h1");
+  if(heroTitle) heroTitle.textContent="Welcome, "+roleNames[selectedRole]+" 👋";
+});
+
+document.getElementById("logoutBtn").addEventListener("click",()=>{
+  sessionStorage.removeItem("eduManageLoggedIn");
+  sessionStorage.removeItem("eduManageRole");
+  document.getElementById("loginScreen").style.display="flex";
+  document.getElementById("loginForm").reset();
+  selectedRole="admin";
+  document.querySelectorAll(".role-tab").forEach(t=>t.classList.toggle("active",t.dataset.role==="admin"));
+  document.getElementById("idLabel").textContent=roleLabels.admin;
+  document.getElementById("loginId").placeholder=rolePlaceholders.admin;
+  document.querySelector(".login-submit").textContent="Login as Admin";
+});
+
+window.addEventListener("DOMContentLoaded",()=>{
+  const logged=sessionStorage.getItem("eduManageLoggedIn");
+  const role=sessionStorage.getItem("eduManageRole");
+  if(logged==="true"){
+    document.getElementById("loginScreen").style.display="none";
+    if(role && roleNames[role]){
+      const heroTitle=document.querySelector(".hero h1");
+      if(heroTitle) heroTitle.textContent="Welcome, "+roleNames[role]+" 👋";
+    }
+  }
+});
+
+</script>
 </body>
 </html>
