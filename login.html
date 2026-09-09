@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Login | EduManage</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        min-height: 100vh;
+        background:
+            radial-gradient(circle at 15% 20%, #dfe6ff 0, transparent 30%),
+            linear-gradient(135deg, #eef2ff, #f8f9fc);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color: #172033;
+        padding: 20px;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .login-wrapper {
+        width: 100%;
+        max-width: 1050px;
+        min-height: 620px;
+
+        background: white;
+        border: 1px solid #e2e6ef;
+        border-radius: 22px;
+
+        overflow: hidden;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        box-shadow: 0 25px 70px rgba(30, 45, 90, 0.12);
+    }
+
+    /* ================= LEFT ================= */
+
+    .login-info {
+        background: linear-gradient(145deg, #3157d5, #5d70e8);
+        color: white;
+
+        padding: 55px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        font-size: 20px;
+        font-weight: 800;
+
+        margin-bottom: 55px;
+    }
+
+    .brand-icon {
+        width: 43px;
+        height: 43px;
+
+        background: rgba(255,255,255,0.18);
+        border: 1px solid rgba(255,255,255,0.25);
+
+        border-radius: 12px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 21px;
+    }
+
+    .login-info h1 {
+        font-size: 42px;
+        line-height: 1.15;
+
+        margin-bottom: 18px;
+    }
+
+    .login-info p {
+        color: #e1e6ff;
+        font-size: 14px;
+        line-height: 1.8;
+
+        max-width: 410px;
+    }
+
+    .info-list {
+        list-style: none;
+        margin-top: 30px;
+    }
+
+    .info-list li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        margin-bottom: 13px;
+
+        font-size: 13px;
+        color: #edf0ff;
+    }
+
+    .check {
+        width: 24px;
+        height: 24px;
+
+        border-radius: 50%;
+        background: rgba(255,255,255,0.16);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* ================= RIGHT ================= */
+
+    .login-form-area {
+        padding: 50px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .form-header {
+        margin-bottom: 28px;
+    }
+
+    .form-header h2 {
+        font-size: 28px;
+        margin-bottom: 8px;
+    }
+
+    .form-header p {
+        color: #758097;
+        font-size: 13px;
+    }
+
+    /* ================= ROLE ================= */
+
+    .role-label {
+        display: block;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        margin-bottom: 10px;
+    }
+
+    .roles {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+
+        margin-bottom: 23px;
+    }
+
+    .role {
+        border: 1px solid #dfe4ed;
+        background: #fafbfc;
+
+        border-radius: 10px;
+        padding: 12px 5px;
+
+        text-align: center;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+    }
+
+    .role:hover {
+        border-color: #bfcaf4;
+        background: #f5f7ff;
+    }
+
+    .role.active {
+        border-color: #3157d5;
+        background: #eef2ff;
+        color: #3157d5;
+    }
+
+    .role-icon {
+        font-size: 21px;
+        margin-bottom: 5px;
+    }
+
+    .role-name {
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    /* ================= INPUT ================= */
+
+    .input-group {
+        margin-bottom: 17px;
+    }
+
+    .input-group label {
+        display: block;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        margin-bottom: 8px;
+    }
+
+    .input-box {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 13px;
+        top: 50%;
+        transform: translateY(-50%);
+
+        font-size: 15px;
+        color: #8993a7;
+    }
+
+    .input-box input {
+        width: 100%;
+        height: 46px;
+
+        border: 1px solid #dfe4ed;
+        border-radius: 9px;
+
+        outline: none;
+
+        padding: 0 42px;
+
+        font-size: 13px;
+        color: #172033;
+
+        transition: 0.2s;
+    }
+
+    .input-box input:focus {
+        border-color: #3157d5;
+        box-shadow: 0 0 0 3px rgba(49,87,213,0.08);
+    }
+
+    .password-toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+
+        border: none;
+        background: transparent;
+
+        cursor: pointer;
+
+        font-size: 15px;
+        color: #7c879b;
+    }
+
+    /* ================= OPTIONS ================= */
+
+    .options {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        margin: 5px 0 22px;
+    }
+
+    .remember {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+
+        font-size: 11px;
+        color: #68748a;
+
+        cursor: pointer;
+    }
+
+    .remember input {
+        accent-color: #3157d5;
+    }
+
+    .forgot {
+        color: #3157d5;
+        font-size: 11px;
+        font-weight: 600;
+
+        cursor: pointer;
+    }
+
+    /* ================= BUTTON ================= */
+
+    .login-button {
+        width: 100%;
+        height: 47px;
+
+        border: none;
+        border-radius: 9px;
+
+        background: #3157d5;
+        color: white;
+
+        font-size: 13px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+    }
+
+    .login-button:hover {
+        background: #2447bd;
+        transform: translateY(-1px);
+    }
+
+    .login-button:active {
+        transform: translateY(0);
+    }
+
+    /* ================= DEMO ================= */
+
+    .demo-info {
+        margin-top: 18px;
+
+        padding: 11px 13px;
+
+        background: #f6f8fc;
+        border: 1px solid #e7eaf1;
+        border-radius: 8px;
+
+        color: #778298;
+        font-size: 10px;
+        line-height: 1.6;
+    }
+
+    .demo-info strong {
+        color: #3157d5;
+    }
+
+    /* ================= BACK ================= */
+
+    .back-home {
+        text-align: center;
+        margin-top: 20px;
+
+        font-size: 11px;
+        color: #778298;
+    }
+
+    .back-home a {
+        color: #3157d5;
+        font-weight: 700;
+    }
+
+    /* ================= MESSAGE ================= */
+
+    .message {
+        display: none;
+
+        margin-bottom: 15px;
+        padding: 10px 12px;
+
+        border-radius: 8px;
+
+        font-size: 11px;
+    }
+
+    .message.error {
+        display: block;
+
+        background: #fff1f1;
+        border: 1px solid #ffd5d5;
+        color: #d53d3d;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media(max-width: 800px) {
+
+        .login-wrapper {
+            grid-template-columns: 1fr;
+            max-width: 520px;
+        }
+
+        .login-info {
+            display: none;
+        }
+
+        .login-form-area {
+            padding: 40px 30px;
+        }
+    }
+
+    @media(max-width: 450px) {
+
+        body {
+            padding: 10px;
+        }
+
+        .login-form-area {
+            padding: 30px 20px;
+        }
+
+        .form-header h2 {
+            font-size: 25px;
+        }
+
+        .roles {
+            gap: 5px;
+        }
+
+        .role {
+            padding: 10px 3px;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="login-wrapper">
+
+```
+<!-- ================= LEFT SIDE ================= -->
+
+<div class="login-info">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🎓
+        </div>
+
+        EduManage
+
+    </div>
+
+    <h1>
+        Welcome<br>
+        Back!
+    </h1>
+
+    <p>
+        Access your School Management System and manage
+        your academic activities from one simple platform.
+    </p>
+
+    <ul class="info-list">
+
+        <li>
+            <span class="check">✓</span>
+            Manage students and teachers
+        </li>
+
+        <li>
+            <span class="check">✓</span>
+            Track attendance and examinations
+        </li>
+
+        <li>
+            <span class="check">✓</span>
+            View schedules and school notices
+        </li>
+
+        <li>
+            <span class="check">✓</span>
+            Access your academic information
+        </li>
+
+    </ul>
+
+</div>
+
+
+<!-- ================= LOGIN FORM ================= -->
+
+<div class="login-form-area">
+
+    <div class="form-header">
+
+        <h2>
+            Sign in
+        </h2>
+
+        <p>
+            Select your role and enter your account details.
+        </p>
+
+    </div>
+
+
+    <!-- ROLE -->
+
+    <label class="role-label">
+        Login as
+    </label>
+
+    <div class="roles">
+
+        <div class="role active" data-role="admin">
+
+            <div class="role-icon">
+                🛡️
+            </div>
+
+            <div class="role-name">
+                Admin
+            </div>
+
+        </div>
+
+
+        <div class="role" data-role="teacher">
+
+            <div class="role-icon">
+                👩‍🏫
+            </div>
+
+            <div class="role-name">
+                Teacher
+            </div>
+
+        </div>
+
+
+        <div class="role" data-role="student">
+
+            <div class="role-icon">
+                👨‍🎓
+            </div>
+
+            <div class="role-name">
+                Student
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ERROR MESSAGE -->
+
+    <div class="message" id="message"></div>
+
+
+    <!-- USERNAME -->
+
+    <div class="input-group">
+
+        <label id="usernameLabel">
+            Admin Username
+        </label>
+
+        <div class="input-box">
+
+            <span class="input-icon">
+                👤
+            </span>
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Enter admin username"
+                autocomplete="off"
+            >
+
+        </div>
+
+    </div>
+
+
+    <!-- PASSWORD -->
+
+    <div class="input-group">
+
+        <label>
+            Password
+        </label>
+
+        <div class="input-box">
+
+            <span class="input-icon">
+                🔒
+            </span>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter password"
+            >
+
+            <button
+                type="button"
+                class="password-toggle"
+                id="passwordToggle">
+                👁️
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- OPTIONS -->
+
+    <div class="options">
+
+        <label class="remember">
+
+            <input
+                type="checkbox"
+                id="remember"
+            >
+
+            Remember me
+
+        </label>
+
+        <span
+            class="forgot"
+            id="forgotPassword">
+            Forgot Password?
+        </span>
+
+    </div>
+
+
+    <!-- LOGIN -->
+
+    <button
+        type="button"
+        class="login-button"
+        id="loginButton">
+
+        Login
+
+    </button>
+
+
+    <!-- DEMO INFO -->
+
+    <div class="demo-info">
+
+        <strong>Frontend Demo:</strong>
+
+        Backend မချိတ်ရသေးသောကြောင့်
+        username/password ကို အခုချိန်မှာ database
+        မှာ စစ်ဆေးခြင်းမရှိသေးပါ။
+
+        Login နှိပ်လျှင် ရွေးထားသော role အလိုက်
+        dashboard page သို့သွားပါမည်။
+
+    </div>
+
+
+    <!-- BACK -->
+
+    <div class="back-home">
+
+        ←
+
+        <a href="index.html">
+            Back to Home
+        </a>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<script>
+
+    // ==========================
+    // ROLE SELECTION
+    // ==========================
+
+    const roles = document.querySelectorAll(".role");
+
+    const usernameLabel =
+        document.getElementById("usernameLabel");
+
+    const usernameInput =
+        document.getElementById("username");
+
+    let selectedRole = "admin";
+
+
+    roles.forEach(function(role) {
+
+        role.addEventListener("click", function() {
+
+            roles.forEach(function(item) {
+
+                item.classList.remove("active");
+
+            });
+
+            role.classList.add("active");
+
+            selectedRole =
+                role.getAttribute("data-role");
+
+            updateLoginForm();
+
+            clearMessage();
+
+        });
+
+    });
+
+
+    function updateLoginForm() {
+
+        if (selectedRole === "admin") {
+
+            usernameLabel.textContent =
+                "Admin Username";
+
+            usernameInput.placeholder =
+                "Enter admin username";
+
+        }
+
+        else if (selectedRole === "teacher") {
+
+            usernameLabel.textContent =
+                "Teacher ID";
+
+            usernameInput.placeholder =
+                "Enter teacher ID";
+
+        }
+
+        else if (selectedRole === "student") {
+
+            usernameLabel.textContent =
+                "Student ID";
+
+            usernameInput.placeholder =
+                "Enter student ID";
+
+        }
+
+    }
+
+
+    // ==========================
+    // SHOW / HIDE PASSWORD
+    // ==========================
+
+    const passwordInput =
+        document.getElementById("password");
+
+    const passwordToggle =
+        document.getElementById("passwordToggle");
+
+
+    passwordToggle.addEventListener("click", function() {
+
+        if (passwordInput.type === "password") {
+
+            passwordInput.type = "text";
+
+            passwordToggle.textContent = "🙈";
+
+        }
+
+        else {
+
+            passwordInput.type = "password";
+
+            passwordToggle.textContent = "👁️";
+
+        }
+
+    });
+
+
+    // ==========================
+    // LOGIN
+    // ==========================
+
+    const loginButton =
+        document.getElementById("loginButton");
+
+    const message =
+        document.getElementById("message");
+
+
+    loginButton.addEventListener("click", function() {
+
+        const username =
+            usernameInput.value.trim();
+
+        const password =
+            passwordInput.value.trim();
+
+
+        if (username === "") {
+
+            showError(
+                "Please enter your username or ID."
+            );
+
+            usernameInput.focus();
+
+            return;
+
+        }
+
+
+        if (password === "") {
+
+            showError(
+                "Please enter your password."
+            );
+
+            passwordInput.focus();
+
+            return;
+
+        }
+
+
+        /*
+            FRONTEND DEMO
+
+            Backend မရှိသေးတဲ့အတွက်
+            username/password ကို မစစ်သေးပါ။
+
+            နောက်ပိုင်း Laravel backend ချိတ်တဲ့အခါ
+            ဒီနေရာမှာ API login request ထည့်မယ်။
+        */
+
+
+        if (selectedRole === "admin") {
+
+            window.location.href =
+                "admin-dashboard.html";
+
+        }
+
+        else if (selectedRole === "teacher") {
+
+            window.location.href =
+                "teacher-dashboard.html";
+
+        }
+
+        else if (selectedRole === "student") {
+
+            window.location.href =
+                "student-dashboard.html";
+
+        }
+
+    });
+
+
+    // ==========================
+    // ENTER KEY LOGIN
+    // ==========================
+
+    document.addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+
+            loginButton.click();
+
+        }
+
+    });
+
+
+    // ==========================
+    // FORGOT PASSWORD
+    // ==========================
+
+    document
+        .getElementById("forgotPassword")
+        .addEventListener("click", function() {
+
+            alert(
+                "Password recovery will be connected to the Laravel backend later."
+            );
+
+        });
+
+
+    // ==========================
+    // ERROR MESSAGE
+    // ==========================
+
+    function showError(text) {
+
+        message.textContent = text;
+
+        message.className =
+            "message error";
+
+    }
+
+
+    function clearMessage() {
+
+        message.textContent = "";
+
+        message.className =
+            "message";
+
+    }
+
+</script>
+
+</body>
+</html>
