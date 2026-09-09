@@ -1,0 +1,763 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Profile - School Management System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #111827;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 13px 15px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* Main */
+        .main {
+            margin-left: 240px;
+            padding: 25px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+        }
+
+        .user {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        /* Profile Layout */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        /* Profile Card */
+        .profile-card {
+            text-align: center;
+        }
+
+        .avatar {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #2563eb;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: bold;
+        }
+
+        .profile-card h2 {
+            font-size: 21px;
+            margin-bottom: 5px;
+        }
+
+        .role {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .profile-info {
+            text-align: left;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 15px;
+        }
+
+        .info-item {
+            margin-bottom: 15px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Right Content */
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 19px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 3px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            border-color: #2563eb;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 17px;
+            border-radius: 7px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .cancel-btn {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .save-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Password */
+        .password-box {
+            max-width: 600px;
+        }
+
+        .password-group {
+            margin-bottom: 15px;
+        }
+
+        .password-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .password-group input {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            outline: none;
+        }
+
+        .password-group input:focus {
+            border-color: #2563eb;
+        }
+
+        .security-note {
+            margin-top: 15px;
+            padding: 12px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border-radius: 7px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* Status */
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #d1fae5;
+            color: #047857;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                margin-left: 190px;
+                padding: 15px;
+            }
+
+            .topbar h1 {
+                font-size: 22px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            🏫 School Management
+        </div>
+
+        <nav class="menu">
+
+            <a href="index.html">📊 Dashboard</a>
+
+            <a href="students.html">👨‍🎓 Students</a>
+
+            <a href="teachers.html">👨‍🏫 Teachers</a>
+
+            <a href="classes.html">🏫 Classes</a>
+
+            <a href="attendance.html">📋 Attendance</a>
+
+            <a href="timetable.html">🗓️ Timetable</a>
+
+            <a href="exams.html">📝 Exams</a>
+
+            <a href="fees.html">💰 Fees</a>
+
+            <a href="notices.html">📢 Notices</a>
+
+            <a href="reports.html">📊 Reports</a>
+
+            <a href="profile.html" class="active">👤 Profile</a>
+
+            <a href="settings.html">⚙️ Settings</a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- Main -->
+    <main class="main">
+
+        <div class="topbar">
+
+            <h1>Admin Profile</h1>
+
+            <div class="user">
+                👤 Admin
+            </div>
+
+        </div>
+
+
+        <div class="profile-grid">
+
+            <!-- ================= PROFILE CARD ================= -->
+
+            <div class="card profile-card">
+
+                <div class="avatar">
+                    A
+                </div>
+
+                <h2>Admin User</h2>
+
+                <div class="role">
+                    System Administrator
+                </div>
+
+                <span class="status">
+                    ● Active
+                </span>
+
+
+                <div class="profile-info">
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Username
+                        </div>
+
+                        <div class="info-value">
+                            admin
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Email
+                        </div>
+
+                        <div class="info-value">
+                            admin@school.com
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Phone
+                        </div>
+
+                        <div class="info-value">
+                            +95 9 123 456 789
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Joined Date
+                        </div>
+
+                        <div class="info-value">
+                            01 January 2026
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= RIGHT SIDE ================= -->
+
+            <div>
+
+                <!-- Edit Profile -->
+
+                <div class="card section">
+
+                    <h2 class="section-title">
+                        ✏️ Edit Profile
+                    </h2>
+
+
+                    <form id="profileForm">
+
+                        <div class="form-grid">
+
+                            <div class="form-group">
+
+                                <label>
+                                    First Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="firstName"
+                                    value="Admin"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Last Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="lastName"
+                                    value="User"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Username
+                                </label>
+
+                                <input
+                                    type="text"
+                                    value="admin"
+                                    disabled
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Email
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="email"
+                                    value="admin@school.com"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Phone Number
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    value="+95 9 123 456 789"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Role
+                                </label>
+
+                                <input
+                                    type="text"
+                                    value="System Administrator"
+                                    disabled
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-actions">
+
+                            <button
+                                type="button"
+                                class="btn cancel-btn"
+                                onclick="resetProfile()">
+                                Cancel
+                            </button>
+
+                            <button
+                                type="submit"
+                                class="btn save-btn">
+                                Save Changes
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <!-- Change Password -->
+
+                <div class="card section">
+
+                    <h2 class="section-title">
+                        🔐 Change Password
+                    </h2>
+
+
+                    <div class="password-box">
+
+                        <div class="password-group">
+
+                            <label>
+                                Current Password
+                            </label>
+
+                            <input
+                                type="password"
+                                id="currentPassword"
+                                placeholder="Enter current password"
+                            >
+
+                        </div>
+
+
+                        <div class="password-group">
+
+                            <label>
+                                New Password
+                            </label>
+
+                            <input
+                                type="password"
+                                id="newPassword"
+                                placeholder="Enter new password"
+                            >
+
+                        </div>
+
+
+                        <div class="password-group">
+
+                            <label>
+                                Confirm New Password
+                            </label>
+
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                placeholder="Confirm new password"
+                            >
+
+                        </div>
+
+
+                        <div class="security-note">
+                            🔒 Use a strong password with a combination of
+                            letters, numbers, and special characters.
+                        </div>
+
+
+                        <div class="form-actions">
+
+                            <button
+                                class="btn save-btn"
+                                onclick="changePassword()">
+                                Update Password
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        /* ================= PROFILE FORM ================= */
+
+        document
+            .getElementById("profileForm")
+            .addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+                const firstName =
+                    document.getElementById("firstName").value.trim();
+
+                const lastName =
+                    document.getElementById("lastName").value.trim();
+
+                const email =
+                    document.getElementById("email").value.trim();
+
+                const phone =
+                    document.getElementById("phone").value.trim();
+
+
+                if (!firstName || !lastName || !email || !phone) {
+
+                    alert("Please fill in all fields.");
+
+                    return;
+                }
+
+
+                alert("Profile updated successfully.");
+
+            });
+
+
+        /* ================= RESET ================= */
+
+        function resetProfile() {
+
+            document.getElementById("firstName").value = "Admin";
+
+            document.getElementById("lastName").value = "User";
+
+            document.getElementById("email").value =
+                "admin@school.com";
+
+            document.getElementById("phone").value =
+                "+95 9 123 456 789";
+
+        }
+
+
+        /* ================= CHANGE PASSWORD ================= */
+
+        function changePassword() {
+
+            const current =
+                document.getElementById("currentPassword").value;
+
+            const newPassword =
+                document.getElementById("newPassword").value;
+
+            const confirmPassword =
+                document.getElementById("confirmPassword").value;
+
+
+            if (!current || !newPassword || !confirmPassword) {
+
+                alert("Please fill in all password fields.");
+
+                return;
+            }
+
+
+            if (newPassword.length < 6) {
+
+                alert(
+                    "New password must be at least 6 characters."
+                );
+
+                return;
+            }
+
+
+            if (newPassword !== confirmPassword) {
+
+                alert(
+                    "New password and confirmation do not match."
+                );
+
+                return;
+            }
+
+
+            alert("Password changed successfully.");
+
+
+            document.getElementById("currentPassword").value = "";
+
+            document.getElementById("newPassword").value = "";
+
+            document.getElementById("confirmPassword").value = "";
+
+        }
+
+    </script>
+
+</body>
+</html>
+```

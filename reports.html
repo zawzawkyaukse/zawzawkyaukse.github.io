@@ -1,0 +1,1041 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - School Management System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #111827;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 13px 15px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 240px;
+            padding: 25px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+        }
+
+        .user {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        /* ================= CONTROLS ================= */
+
+        .controls {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .controls label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        select {
+            padding: 10px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            background: white;
+            margin-left: 6px;
+        }
+
+        .print-btn {
+            margin-left: auto;
+            padding: 10px 16px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .print-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* ================= SUMMARY ================= */
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .summary-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .summary-title {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .summary-value {
+            font-size: 27px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .summary-change {
+            font-size: 12px;
+            margin-top: 8px;
+            color: #10b981;
+        }
+
+        /* ================= REPORT SECTIONS ================= */
+
+        .report-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 22px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .section-header h2 {
+            font-size: 19px;
+        }
+
+        .section-header button {
+            padding: 8px 13px;
+            background: #eef2ff;
+            color: #3730a3;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th {
+            background: #f3f4f6;
+            padding: 13px;
+            text-align: left;
+            font-size: 13px;
+            color: #374151;
+        }
+
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        /* ================= BADGES ================= */
+
+        .badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .good {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .average {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .low {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .paid {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        /* ================= PROGRESS ================= */
+
+        .progress {
+            width: 120px;
+            height: 7px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #2563eb;
+            border-radius: 10px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1100px) {
+
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                margin-left: 190px;
+                padding: 15px;
+            }
+
+            .topbar h1 {
+                font-size: 22px;
+            }
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .print-btn {
+                margin-left: 0;
+            }
+
+        }
+
+        /* ================= PRINT ================= */
+
+        @media print {
+
+            .sidebar,
+            .controls,
+            .user,
+            .section-header button {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 10px;
+            }
+
+            body {
+                background: white;
+            }
+
+            .report-section,
+            .summary-card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            🏫 School Management
+        </div>
+
+        <nav class="menu">
+
+            <a href="index.html">
+                📊 Dashboard
+            </a>
+
+            <a href="students.html">
+                👨‍🎓 Students
+            </a>
+
+            <a href="teachers.html">
+                👨‍🏫 Teachers
+            </a>
+
+            <a href="classes.html">
+                🏫 Classes
+            </a>
+
+            <a href="attendance.html">
+                📋 Attendance
+            </a>
+
+            <a href="timetable.html">
+                🗓️ Timetable
+            </a>
+
+            <a href="exams.html">
+                📝 Exams
+            </a>
+
+            <a href="fees.html">
+                💰 Fees
+            </a>
+
+            <a href="notices.html">
+                📢 Notices
+            </a>
+
+            <a href="reports.html" class="active">
+                📊 Reports
+            </a>
+
+            <a href="profile.html">
+                👤 Profile
+            </a>
+
+            <a href="settings.html">
+                ⚙️ Settings
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <h1>Reports</h1>
+
+            <div class="user">
+                👤 Admin
+            </div>
+
+        </div>
+
+
+        <!-- ================= CONTROLS ================= -->
+
+        <div class="controls">
+
+            <label>
+                Class:
+                <select id="classFilter">
+                    <option value="all">All Classes</option>
+                    <option value="10a">Grade 10-A</option>
+                    <option value="10b">Grade 10-B</option>
+                    <option value="9a">Grade 9-A</option>
+                    <option value="9b">Grade 9-B</option>
+                    <option value="8a">Grade 8-A</option>
+                </select>
+            </label>
+
+
+            <label>
+                Period:
+                <select id="periodFilter">
+                    <option>This Month</option>
+                    <option>Last Month</option>
+                    <option>This Semester</option>
+                    <option>This Year</option>
+                </select>
+            </label>
+
+
+            <button class="print-btn" onclick="printReport()">
+                🖨️ Print Report
+            </button>
+
+        </div>
+
+
+        <!-- ================= SUMMARY ================= -->
+
+        <div class="summary">
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    👨‍🎓
+                </div>
+
+                <div class="summary-title">
+                    Total Students
+                </div>
+
+                <div class="summary-value">
+                    1,248
+                </div>
+
+                <div class="summary-change">
+                    ↑ 5.2% from last month
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    📋
+                </div>
+
+                <div class="summary-title">
+                    Attendance Rate
+                </div>
+
+                <div class="summary-value">
+                    94.6%
+                </div>
+
+                <div class="summary-change">
+                    ↑ 1.8% from last month
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    📝
+                </div>
+
+                <div class="summary-title">
+                    Average Result
+                </div>
+
+                <div class="summary-value">
+                    82.4%
+                </div>
+
+                <div class="summary-change">
+                    ↑ 3.1% from last exam
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    💰
+                </div>
+
+                <div class="summary-title">
+                    Fees Collected
+                </div>
+
+                <div class="summary-value">
+                    $48,520
+                </div>
+
+                <div class="summary-change">
+                    ↑ 8.4% from last month
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= ATTENDANCE REPORT ================= -->
+
+        <section class="report-section">
+
+            <div class="section-header">
+
+                <h2>
+                    📋 Attendance Report
+                </h2>
+
+                <button onclick="showReport('Attendance')">
+                    View Full Report
+                </button>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Class</th>
+                            <th>Total Students</th>
+                            <th>Present</th>
+                            <th>Absent</th>
+                            <th>Attendance Rate</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>Grade 10-A</td>
+
+                            <td>42</td>
+
+                            <td>40</td>
+
+                            <td>2</td>
+
+                            <td>
+
+                                <div class="progress">
+                                    <div
+                                        class="progress-bar"
+                                        style="width:95%">
+                                    </div>
+                                </div>
+
+                                95%
+
+                            </td>
+
+                            <td>
+                                <span class="badge good">
+                                    Excellent
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>Grade 10-B</td>
+
+                            <td>40</td>
+
+                            <td>36</td>
+
+                            <td>4</td>
+
+                            <td>
+
+                                <div class="progress">
+                                    <div
+                                        class="progress-bar"
+                                        style="width:90%">
+                                    </div>
+                                </div>
+
+                                90%
+
+                            </td>
+
+                            <td>
+                                <span class="badge average">
+                                    Good
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>Grade 9-A</td>
+
+                            <td>45</td>
+
+                            <td>43</td>
+
+                            <td>2</td>
+
+                            <td>
+
+                                <div class="progress">
+                                    <div
+                                        class="progress-bar"
+                                        style="width:96%">
+                                    </div>
+                                </div>
+
+                                96%
+
+                            </td>
+
+                            <td>
+                                <span class="badge good">
+                                    Excellent
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>Grade 9-B</td>
+
+                            <td>43</td>
+
+                            <td>37</td>
+
+                            <td>6</td>
+
+                            <td>
+
+                                <div class="progress">
+                                    <div
+                                        class="progress-bar"
+                                        style="width:86%">
+                                    </div>
+                                </div>
+
+                                86%
+
+                            </td>
+
+                            <td>
+                                <span class="badge average">
+                                    Good
+                                </span>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= EXAM REPORT ================= -->
+
+        <section class="report-section">
+
+            <div class="section-header">
+
+                <h2>
+                    📝 Examination Report
+                </h2>
+
+                <button onclick="showReport('Examination')">
+                    View Full Report
+                </button>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Class</th>
+                            <th>Students</th>
+                            <th>Average Score</th>
+                            <th>Highest Score</th>
+                            <th>Pass Rate</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>Grade 10-A</td>
+
+                            <td>42</td>
+
+                            <td>86.5%</td>
+
+                            <td>98%</td>
+
+                            <td>95%</td>
+
+                            <td>
+                                <span class="badge good">
+                                    Excellent
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>Grade 10-B</td>
+
+                            <td>40</td>
+
+                            <td>81.2%</td>
+
+                            <td>96%</td>
+
+                            <td>92%</td>
+
+                            <td>
+                                <span class="badge good">
+                                    Good
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>Grade 9-A</td>
+
+                            <td>45</td>
+
+                            <td>84.8%</td>
+
+                            <td>99%</td>
+
+                            <td>96%</td>
+
+                            <td>
+                                <span class="badge good">
+                                    Excellent
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>Grade 9-B</td>
+
+                            <td>43</td>
+
+                            <td>77.4%</td>
+
+                            <td>93%</td>
+
+                            <td>87%</td>
+
+                            <td>
+                                <span class="badge average">
+                                    Average
+                                </span>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= FEES REPORT ================= -->
+
+        <section class="report-section">
+
+            <div class="section-header">
+
+                <h2>
+                    💰 Fees & Payment Report
+                </h2>
+
+                <button onclick="showReport('Fees')">
+                    View Full Report
+                </button>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Class</th>
+                            <th>Total Fees</th>
+                            <th>Paid</th>
+                            <th>Pending</th>
+                            <th>Collection Rate</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>Grade 10-A</td>
+
+                            <td>$12,600</td>
+
+                            <td>$11,800</td>
+
+                            <td>$800</td>
+
+                            <td>93.6%</td>
+
+                            <td>
+                                <span class="badge paid">
+                                    Good
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>Grade 10-B</td>
+
+                            <td>$12,000</td>
+
+                            <td>$10,400</td>
+
+                            <td>$1,600</td>
+
+                            <td>86.7%</td>
+
+                            <td>
+                                <span class="badge average">
+                                    Pending
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>Grade 9-A</td>
+
+                            <td>$13,500</td>
+
+                            <td>$12,900</td>
+
+                            <td>$600</td>
+
+                            <td>95.6%</td>
+
+                            <td>
+                                <span class="badge paid">
+                                    Good
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>Grade 9-B</td>
+
+                            <td>$12,900</td>
+
+                            <td>$10,700</td>
+
+                            <td>$2,200</td>
+
+                            <td>82.9%</td>
+
+                            <td>
+                                <span class="badge low">
+                                    Attention
+                                </span>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        /* ================= PRINT ================= */
+
+        function printReport() {
+            window.print();
+        }
+
+
+        /* ================= REPORT BUTTON ================= */
+
+        function showReport(type) {
+
+            alert(
+                type +
+                " Full Report\n\n" +
+                "Detailed report will be connected to the backend later."
+            );
+
+        }
+
+
+        /* ================= CLASS FILTER ================= */
+
+        document
+            .getElementById("classFilter")
+            .addEventListener("change", function () {
+
+                const selected = this.value;
+
+                if (selected === "all") {
+
+                    alert("Showing reports for all classes.");
+
+                } else {
+
+                    alert(
+                        "Showing report for " +
+                        this.options[this.selectedIndex].text
+                    );
+
+                }
+
+            });
+
+
+        /* ================= PERIOD FILTER ================= */
+
+        document
+            .getElementById("periodFilter")
+            .addEventListener("change", function () {
+
+                alert(
+                    "Report period changed to: " +
+                    this.value
+                );
+
+            });
+
+    </script>
+
+</body>
+</html>
+```
