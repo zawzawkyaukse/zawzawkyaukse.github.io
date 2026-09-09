@@ -1,0 +1,2380 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attendance | EduManage</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --primary:#3157d5;
+    --primary-light:#eef2ff;
+    --bg:#f5f7fb;
+    --white:#fff;
+    --text:#172033;
+    --muted:#778298;
+    --border:#e4e8ef;
+    --success:#18a56b;
+    --success-light:#eaf8f2;
+    --danger:#dc4d5b;
+    --danger-light:#fff0f1;
+    --warning:#e39a20;
+    --warning-light:#fff7e7;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+button,input,select{
+    font-family:inherit;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:245px;
+    background:#172033;
+    color:white;
+    z-index:1000;
+    display:flex;
+    flex-direction:column;
+}
+
+.brand{
+    height:75px;
+    display:flex;
+    align-items:center;
+    padding:0 22px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    font-size:18px;
+    font-weight:800;
+}
+
+.brand-icon{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    background:var(--primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-right:10px;
+}
+
+.admin-label{
+    padding:20px 22px 10px;
+    color:#8995ac;
+    font-size:10px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.sidebar-nav{
+    flex:1;
+    overflow-y:auto;
+    padding:0 12px;
+}
+
+.nav-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:11px 13px;
+    margin-bottom:3px;
+    border-radius:8px;
+    color:#aeb8ca;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.nav-item:hover{
+    background:rgba(255,255,255,.06);
+    color:white;
+}
+
+.nav-item.active{
+    background:var(--primary);
+    color:white;
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+}
+
+.sidebar-bottom{
+    padding:15px 12px;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+.logout-btn{
+    width:100%;
+    border:none;
+    background:rgba(255,255,255,.06);
+    color:#c6cede;
+    border-radius:8px;
+    padding:11px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:600;
+}
+
+.logout-btn:hover{
+    background:rgba(220,77,91,.15);
+    color:#ff8893;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:245px;
+    min-height:100vh;
+}
+
+/* TOPBAR */
+
+.topbar{
+    height:75px;
+    background:white;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+    position:sticky;
+    top:0;
+    z-index:900;
+}
+
+.topbar-left{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.menu-toggle{
+    display:none;
+    border:none;
+    background:none;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.page-title h1{
+    font-size:20px;
+}
+
+.page-title p{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:4px;
+}
+
+.topbar-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.notification{
+    width:36px;
+    height:36px;
+    border-radius:9px;
+    background:#f5f7fb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    position:relative;
+}
+
+.badge{
+    position:absolute;
+    top:-3px;
+    right:-3px;
+    width:16px;
+    height:16px;
+    border-radius:50%;
+    background:var(--danger);
+    color:white;
+    font-size:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.avatar{
+    width:37px;
+    height:37px;
+    border-radius:50%;
+    background:var(--primary-light);
+    color:var(--primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
+    font-weight:800;
+}
+
+.profile-info strong{
+    display:block;
+    font-size:11px;
+}
+
+.profile-info span{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    margin-top:3px;
+}
+
+/* CONTENT */
+
+.content{
+    padding:28px;
+}
+
+.heading{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:22px;
+}
+
+.heading h2{
+    font-size:22px;
+}
+
+.heading p{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:5px;
+}
+
+.btn{
+    border:none;
+    border-radius:8px;
+    padding:11px 16px;
+    cursor:pointer;
+    font-size:11px;
+    font-weight:700;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-primary:hover{
+    background:#2447bd;
+}
+
+.btn-success{
+    background:var(--success);
+    color:white;
+}
+
+.btn-success:hover{
+    background:#138a59;
+}
+
+.btn-light{
+    background:#eef0f4;
+    color:#59657a;
+}
+
+/* SUMMARY */
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.summary-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:18px;
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.summary-icon{
+    width:42px;
+    height:42px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+.icon-total{
+    background:var(--primary-light);
+}
+
+.icon-present{
+    background:var(--success-light);
+}
+
+.icon-absent{
+    background:var(--danger-light);
+}
+
+.icon-late{
+    background:var(--warning-light);
+}
+
+.summary-card span{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+}
+
+.summary-card strong{
+    display:block;
+    font-size:22px;
+    margin-top:4px;
+}
+
+/* FILTER */
+
+.filter-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:18px;
+    margin-bottom:18px;
+}
+
+.filter-title{
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:14px;
+}
+
+.filters{
+    display:grid;
+    grid-template-columns:1.2fr 1fr 1fr 1.5fr;
+    gap:10px;
+}
+
+.form-control{
+    width:100%;
+    height:40px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:0 11px;
+    font-size:10px;
+    outline:none;
+    background:white;
+}
+
+.form-control:focus{
+    border-color:var(--primary);
+}
+
+/* ATTENDANCE */
+
+.attendance-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.attendance-header{
+    padding:17px 18px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.attendance-header h3{
+    font-size:13px;
+}
+
+.attendance-header p{
+    color:var(--muted);
+    font-size:9px;
+    margin-top:4px;
+}
+
+.header-actions{
+    display:flex;
+    gap:8px;
+}
+
+/* TABLE */
+
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:760px;
+}
+
+thead{
+    background:#f8f9fb;
+}
+
+th{
+    text-align:left;
+    padding:13px 15px;
+    font-size:9px;
+    color:#69758a;
+    font-weight:700;
+    border-bottom:1px solid var(--border);
+}
+
+td{
+    padding:13px 15px;
+    border-bottom:1px solid #edf0f4;
+    font-size:10px;
+}
+
+tbody tr:hover{
+    background:#fafbfe;
+}
+
+.student{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.student-avatar{
+    width:35px;
+    height:35px;
+    border-radius:9px;
+    background:var(--primary-light);
+    color:var(--primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:10px;
+    font-weight:800;
+}
+
+.student-name strong{
+    display:block;
+    font-size:10px;
+}
+
+.student-name span{
+    display:block;
+    color:var(--muted);
+    font-size:8px;
+    margin-top:3px;
+}
+
+/* STATUS BUTTONS */
+
+.status-buttons{
+    display:flex;
+    gap:5px;
+}
+
+.status-btn{
+    border:1px solid var(--border);
+    background:white;
+    border-radius:6px;
+    padding:6px 8px;
+    cursor:pointer;
+    font-size:8px;
+    font-weight:700;
+}
+
+.status-btn:hover{
+    background:#f4f6fa;
+}
+
+.status-btn.active.present{
+    background:var(--success-light);
+    border-color:#a8dfc8;
+    color:var(--success);
+}
+
+.status-btn.active.absent{
+    background:var(--danger-light);
+    border-color:#f1b3b9;
+    color:var(--danger);
+}
+
+.status-btn.active.late{
+    background:var(--warning-light);
+    border-color:#f0d49c;
+    color:#b5790e;
+}
+
+/* BADGE */
+
+.status-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    padding:5px 8px;
+    border-radius:20px;
+    font-size:8px;
+    font-weight:700;
+}
+
+.status-badge.present{
+    background:var(--success-light);
+    color:var(--success);
+}
+
+.status-badge.absent{
+    background:var(--danger-light);
+    color:var(--danger);
+}
+
+.status-badge.late{
+    background:var(--warning-light);
+    color:#b5790e;
+}
+
+/* FOOTER */
+
+.attendance-footer{
+    padding:15px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-top:1px solid var(--border);
+}
+
+.attendance-footer p{
+    color:var(--muted);
+    font-size:9px;
+}
+
+.footer-buttons{
+    display:flex;
+    gap:8px;
+}
+
+/* PAGINATION */
+
+.pagination{
+    display:flex;
+    align-items:center;
+    gap:5px;
+}
+
+.page-btn{
+    width:29px;
+    height:29px;
+    border:1px solid var(--border);
+    background:white;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:9px;
+}
+
+.page-btn.active{
+    background:var(--primary);
+    border-color:var(--primary);
+    color:white;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.5);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:3000;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:450px;
+    background:white;
+    border-radius:14px;
+    padding:25px;
+}
+
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:18px;
+}
+
+.modal-header h3{
+    font-size:16px;
+}
+
+.close{
+    border:none;
+    background:#f2f4f8;
+    width:30px;
+    height:30px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.modal p{
+    color:var(--muted);
+    font-size:10px;
+    line-height:1.7;
+}
+
+.modal-footer{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:20px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .summary{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .filters{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.3s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .profile-info{
+        display:none;
+    }
+
+    .content{
+        padding:20px 15px;
+    }
+}
+
+@media(max-width:600px){
+
+    .summary{
+        grid-template-columns:1fr;
+    }
+
+    .filters{
+        grid-template-columns:1fr;
+    }
+
+    .heading{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:12px;
+    }
+
+    .attendance-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:12px;
+    }
+
+    .attendance-footer{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:12px;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+```
+<div class="brand">
+    <div class="brand-icon">🎓</div>
+    EduManage
+</div>
+
+<div class="admin-label">
+    Administration
+</div>
+
+<nav class="sidebar-nav">
+
+    <a href="admin-dashboard.html" class="nav-item">
+        <span class="nav-icon">📊</span>
+        Dashboard
+    </a>
+
+    <a href="students.html" class="nav-item">
+        <span class="nav-icon">👨‍🎓</span>
+        Students
+    </a>
+
+    <a href="teachers.html" class="nav-item">
+        <span class="nav-icon">👩‍🏫</span>
+        Teachers
+    </a>
+
+    <a href="classes.html" class="nav-item">
+        <span class="nav-icon">🏫</span>
+        Classes
+    </a>
+
+    <a href="attendance.html" class="nav-item active">
+        <span class="nav-icon">✅</span>
+        Attendance
+    </a>
+
+    <a href="exams.html" class="nav-item">
+        <span class="nav-icon">📝</span>
+        Exams & Results
+    </a>
+
+    <a href="fees.html" class="nav-item">
+        <span class="nav-icon">💰</span>
+        Fees & Payments
+    </a>
+
+    <a href="timetable.html" class="nav-item">
+        <span class="nav-icon">🗓️</span>
+        Timetable
+    </a>
+
+    <a href="notices.html" class="nav-item">
+        <span class="nav-icon">🔔</span>
+        Notices
+    </a>
+
+    <a href="reports.html" class="nav-item">
+        <span class="nav-icon">📈</span>
+        Reports
+    </a>
+
+    <div class="admin-label">
+        System
+    </div>
+
+    <a href="profile.html" class="nav-item">
+        <span class="nav-icon">👤</span>
+        Profile
+    </a>
+
+    <a href="settings.html" class="nav-item">
+        <span class="nav-icon">⚙️</span>
+        Settings
+    </a>
+
+</nav>
+
+<div class="sidebar-bottom">
+
+    <button
+        class="logout-btn"
+        id="logoutBtn">
+
+        🚪 &nbsp; Logout
+
+    </button>
+
+</div>
+```
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+```
+<!-- TOPBAR -->
+
+<header class="topbar">
+
+    <div class="topbar-left">
+
+        <button
+            class="menu-toggle"
+            id="menuToggle">
+
+            ☰
+
+        </button>
+
+        <div class="page-title">
+
+            <h1>
+                Attendance
+            </h1>
+
+            <p>
+                Track and manage student attendance
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="topbar-right">
+
+        <div
+            class="notification"
+            onclick="showNotification()">
+
+            🔔
+
+            <span class="badge">
+                4
+            </span>
+
+        </div>
+
+
+        <div class="profile">
+
+            <div class="avatar">
+                AD
+            </div>
+
+            <div class="profile-info">
+
+                <strong>
+                    Administrator
+                </strong>
+
+                <span>
+                    Super Admin
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- CONTENT -->
+
+<section class="content">
+
+    <!-- HEADING -->
+
+    <div class="heading">
+
+        <div>
+
+            <h2>
+                Daily Attendance
+            </h2>
+
+            <p>
+                Mark and manage today's student attendance.
+            </p>
+
+        </div>
+
+        <button
+            class="btn btn-success"
+            onclick="saveAttendance()">
+
+            💾 Save Attendance
+
+        </button>
+
+    </div>
+
+
+    <!-- SUMMARY -->
+
+    <div class="summary">
+
+        <div class="summary-card">
+
+            <div class="summary-icon icon-total">
+                👨‍🎓
+            </div>
+
+            <div>
+
+                <span>
+                    Total Students
+                </span>
+
+                <strong id="totalStudents">
+                    30
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon icon-present">
+                ✓
+            </div>
+
+            <div>
+
+                <span>
+                    Present
+                </span>
+
+                <strong id="presentCount">
+                    26
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon icon-absent">
+                ✕
+            </div>
+
+            <div>
+
+                <span>
+                    Absent
+                </span>
+
+                <strong id="absentCount">
+                    2
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon icon-late">
+                ⏱
+            </div>
+
+            <div>
+
+                <span>
+                    Late
+                </span>
+
+                <strong id="lateCount">
+                    2
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FILTER -->
+
+    <div class="filter-card">
+
+        <div class="filter-title">
+            Attendance Filters
+        </div>
+
+        <div class="filters">
+
+            <input
+                type="date"
+                class="form-control"
+                id="attendanceDate">
+
+            <select
+                class="form-control"
+                id="classFilter">
+
+                <option value="all">
+                    All Classes
+                </option>
+
+                <option value="Grade 10-A">
+                    Grade 10 - A
+                </option>
+
+                <option value="Grade 10-B">
+                    Grade 10 - B
+                </option>
+
+                <option value="Grade 9-A">
+                    Grade 9 - A
+                </option>
+
+                <option value="Grade 9-B">
+                    Grade 9 - B
+                </option>
+
+            </select>
+
+
+            <select
+                class="form-control"
+                id="statusFilter">
+
+                <option value="all">
+                    All Status
+                </option>
+
+                <option value="present">
+                    Present
+                </option>
+
+                <option value="absent">
+                    Absent
+                </option>
+
+                <option value="late">
+                    Late
+                </option>
+
+            </select>
+
+
+            <input
+                type="text"
+                class="form-control"
+                id="searchInput"
+                placeholder="🔍 Search student name or ID...">
+
+        </div>
+
+    </div>
+
+
+    <!-- ATTENDANCE TABLE -->
+
+    <div class="attendance-card">
+
+        <div class="attendance-header">
+
+            <div>
+
+                <h3>
+                    Student Attendance
+                </h3>
+
+                <p id="selectedDateText">
+                    Attendance for today
+                </p>
+
+            </div>
+
+
+            <div class="header-actions">
+
+                <button
+                    class="btn btn-light"
+                    onclick="markAll('present')">
+
+                    ✓ Mark All Present
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            STUDENT
+                        </th>
+
+                        <th>
+                            CLASS
+                        </th>
+
+                        <th>
+                            ROLL NO.
+                        </th>
+
+                        <th>
+                            ATTENDANCE
+                        </th>
+
+                        <th>
+                            STATUS
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="studentTable">
+
+
+                    <!-- STUDENT 1 -->
+
+                    <tr
+                        data-name="Aung Aung"
+                        data-id="STU001"
+                        data-class="Grade 10-A"
+                        data-status="present">
+
+                        <td>
+
+                            <div class="student">
+
+                                <div class="student-avatar">
+                                    AA
+                                </div>
+
+                                <div class="student-name">
+
+                                    <strong>
+                                        Aung Aung
+                                    </strong>
+
+                                    <span>
+                                        STU001
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            Grade 10 - A
+                        </td>
+
+                        <td>
+                            001
+                        </td>
+
+                        <td>
+
+                            <div class="status-buttons">
+
+                                <button
+                                    class="status-btn present active"
+                                    onclick="setStatus(this,'present')">
+
+                                    ✓ Present
+
+                                </button>
+
+                                <button
+                                    class="status-btn absent"
+                                    onclick="setStatus(this,'absent')">
+
+                                    ✕ Absent
+
+                                </button>
+
+                                <button
+                                    class="status-btn late"
+                                    onclick="setStatus(this,'late')">
+
+                                    ⏱ Late
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge present">
+                                ● Present
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- STUDENT 2 -->
+
+                    <tr
+                        data-name="Su Su"
+                        data-id="STU002"
+                        data-class="Grade 10-A"
+                        data-status="present">
+
+                        <td>
+
+                            <div class="student">
+
+                                <div class="student-avatar">
+                                    SS
+                                </div>
+
+                                <div class="student-name">
+
+                                    <strong>
+                                        Su Su
+                                    </strong>
+
+                                    <span>
+                                        STU002
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            Grade 10 - A
+                        </td>
+
+                        <td>
+                            002
+                        </td>
+
+                        <td>
+
+                            <div class="status-buttons">
+
+                                <button
+                                    class="status-btn present active"
+                                    onclick="setStatus(this,'present')">
+
+                                    ✓ Present
+
+                                </button>
+
+                                <button
+                                    class="status-btn absent"
+                                    onclick="setStatus(this,'absent')">
+
+                                    ✕ Absent
+
+                                </button>
+
+                                <button
+                                    class="status-btn late"
+                                    onclick="setStatus(this,'late')">
+
+                                    ⏱ Late
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge present">
+                                ● Present
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- STUDENT 3 -->
+
+                    <tr
+                        data-name="Kyaw Zin"
+                        data-id="STU003"
+                        data-class="Grade 10-A"
+                        data-status="absent">
+
+                        <td>
+
+                            <div class="student">
+
+                                <div class="student-avatar">
+                                    KZ
+                                </div>
+
+                                <div class="student-name">
+
+                                    <strong>
+                                        Kyaw Zin
+                                    </strong>
+
+                                    <span>
+                                        STU003
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            Grade 10 - A
+                        </td>
+
+                        <td>
+                            003
+                        </td>
+
+                        <td>
+
+                            <div class="status-buttons">
+
+                                <button
+                                    class="status-btn present"
+                                    onclick="setStatus(this,'present')">
+
+                                    ✓ Present
+
+                                </button>
+
+                                <button
+                                    class="status-btn absent active"
+                                    onclick="setStatus(this,'absent')">
+
+                                    ✕ Absent
+
+                                </button>
+
+                                <button
+                                    class="status-btn late"
+                                    onclick="setStatus(this,'late')">
+
+                                    ⏱ Late
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge absent">
+                                ● Absent
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- STUDENT 4 -->
+
+                    <tr
+                        data-name="Mya Mya"
+                        data-id="STU004"
+                        data-class="Grade 10-A"
+                        data-status="late">
+
+                        <td>
+
+                            <div class="student">
+
+                                <div class="student-avatar">
+                                    MM
+                                </div>
+
+                                <div class="student-name">
+
+                                    <strong>
+                                        Mya Mya
+                                    </strong>
+
+                                    <span>
+                                        STU004
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            Grade 10 - A
+                        </td>
+
+                        <td>
+                            004
+                        </td>
+
+                        <td>
+
+                            <div class="status-buttons">
+
+                                <button
+                                    class="status-btn present"
+                                    onclick="setStatus(this,'present')">
+
+                                    ✓ Present
+
+                                </button>
+
+                                <button
+                                    class="status-btn absent"
+                                    onclick="setStatus(this,'absent')">
+
+                                    ✕ Absent
+
+                                </button>
+
+                                <button
+                                    class="status-btn late active"
+                                    onclick="setStatus(this,'late')">
+
+                                    ⏱ Late
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge late">
+                                ● Late
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- STUDENT 5 -->
+
+                    <tr
+                        data-name="Htet Naing"
+                        data-id="STU005"
+                        data-class="Grade 10-B"
+                        data-status="present">
+
+                        <td>
+
+                            <div class="student">
+
+                                <div class="student-avatar">
+                                    HN
+                                </div>
+
+                                <div class="student-name">
+
+                                    <strong>
+                                        Htet Naing
+                                    </strong>
+
+                                    <span>
+                                        STU005
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            Grade 10 - B
+                        </td>
+
+                        <td>
+                            005
+                        </td>
+
+                        <td>
+
+                            <div class="status-buttons">
+
+                                <button
+                                    class="status-btn present active"
+                                    onclick="setStatus(this,'present')">
+
+                                    ✓ Present
+
+                                </button>
+
+                                <button
+                                    class="status-btn absent"
+                                    onclick="setStatus(this,'absent')">
+
+                                    ✕ Absent
+
+                                </button>
+
+                                <button
+                                    class="status-btn late"
+                                    onclick="setStatus(this,'late')">
+
+                                    ⏱ Late
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge present">
+                                ● Present
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- STUDENT 6 -->
+
+                    <tr
+                        data-name="Ei Ei"
+                        data-id="STU006"
+                        data-class="Grade 10-B"
+                        data-status="present">
+
+                        <td>
+
+                            <div class="student">
+
+                                <div class="student-avatar">
+                                    EE
+                                </div>
+
+                                <div class="student-name">
+
+                                    <strong>
+                                        Ei Ei
+                                    </strong>
+
+                                    <span>
+                                        STU006
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            Grade 10 - B
+                        </td>
+
+                        <td>
+                            006
+                        </td>
+
+                        <td>
+
+                            <div class="status-buttons">
+
+                                <button
+                                    class="status-btn present active"
+                                    onclick="setStatus(this,'present')">
+
+                                    ✓ Present
+
+                                </button>
+
+                                <button
+                                    class="status-btn absent"
+                                    onclick="setStatus(this,'absent')">
+
+                                    ✕ Absent
+
+                                </button>
+
+                                <button
+                                    class="status-btn late"
+                                    onclick="setStatus(this,'late')">
+
+                                    ⏱ Late
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge present">
+                                ● Present
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="attendance-footer">
+
+            <p id="footerText">
+                Showing 6 students
+            </p>
+
+
+            <div class="footer-buttons">
+
+                <div class="pagination">
+
+                    <button
+                        class="page-btn active">
+
+                        1
+
+                    </button>
+
+                    <button
+                        class="page-btn">
+
+                        2
+
+                    </button>
+
+                    <button
+                        class="page-btn">
+
+                        3
+
+                    </button>
+
+                    <button
+                        class="page-btn">
+
+                        →
+
+                    </button>
+
+                </div>
+
+
+                <button
+                    class="btn btn-success"
+                    onclick="saveAttendance()">
+
+                    💾 Save
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+```
+
+</main>
+
+<!-- SAVE MODAL -->
+
+<div
+    class="modal"
+    id="saveModal">
+
+```
+<div class="modal-box">
+
+    <div class="modal-header">
+
+        <h3>
+            Attendance Saved
+        </h3>
+
+        <button
+            class="close"
+            onclick="closeSaveModal()">
+
+            ✕
+
+        </button>
+
+    </div>
+
+    <p>
+        Attendance has been saved successfully.
+        This is currently frontend-only demo data.
+        When Laravel backend is connected, the
+        attendance records can be stored in the database.
+    </p>
+
+
+    <div class="modal-footer">
+
+        <button
+            class="btn btn-primary"
+            onclick="closeSaveModal()">
+
+            Done
+
+        </button>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<!-- LOGOUT MODAL -->
+
+<div
+    class="modal"
+    id="logoutModal">
+
+```
+<div class="modal-box">
+
+    <div class="modal-header">
+
+        <h3>
+            Logout?
+        </h3>
+
+        <button
+            class="close"
+            onclick="closeLogout()">
+
+            ✕
+
+        </button>
+
+    </div>
+
+    <p>
+        Are you sure you want to logout from
+        the administrator account?
+    </p>
+
+
+    <div class="modal-footer">
+
+        <button
+            class="btn btn-light"
+            onclick="closeLogout()">
+
+            Cancel
+
+        </button>
+
+        <button
+            class="btn"
+            style="background:#dc4d5b;color:white"
+            onclick="confirmLogout()">
+
+            Logout
+
+        </button>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<script>
+
+/* MOBILE MENU */
+
+document
+.getElementById("menuToggle")
+.addEventListener("click",function(){
+
+    document
+    .getElementById("sidebar")
+    .classList.toggle("open");
+
+});
+
+
+/* DATE */
+
+const dateInput =
+document.getElementById("attendanceDate");
+
+
+const today =
+new Date();
+
+
+const year =
+today.getFullYear();
+
+
+const month =
+String(today.getMonth()+1)
+.padStart(2,"0");
+
+
+const day =
+String(today.getDate())
+.padStart(2,"0");
+
+
+dateInput.value =
+`${year}-${month}-${day}`;
+
+
+updateDateText();
+
+
+dateInput.addEventListener(
+"change",
+updateDateText
+);
+
+
+function updateDateText(){
+
+    if(!dateInput.value){
+        return;
+    }
+
+    const date =
+    new Date(
+        dateInput.value +
+        "T00:00:00"
+    );
+
+
+    const formatted =
+    date.toLocaleDateString(
+        "en-US",
+        {
+            weekday:"long",
+            year:"numeric",
+            month:"long",
+            day:"numeric"
+        }
+    );
+
+
+    document
+    .getElementById("selectedDateText")
+    .textContent =
+    "Attendance for " + formatted;
+
+}
+
+
+/* SET STATUS */
+
+function setStatus(button,status){
+
+    const row =
+    button.closest("tr");
+
+
+    const buttons =
+    row.querySelectorAll(
+        ".status-btn"
+    );
+
+
+    buttons.forEach(function(btn){
+
+        btn.classList.remove("active");
+
+    });
+
+
+    button.classList.add("active");
+
+
+    row.dataset.status =
+    status;
+
+
+    const statusCell =
+    row.querySelector(
+        ".status-badge"
+    );
+
+
+    statusCell.className =
+    "status-badge " + status;
+
+
+    if(status === "present"){
+
+        statusCell.textContent =
+        "● Present";
+
+    }
+
+    if(status === "absent"){
+
+        statusCell.textContent =
+        "● Absent";
+
+    }
+
+    if(status === "late"){
+
+        statusCell.textContent =
+        "● Late";
+
+    }
+
+
+    updateSummary();
+
+}
+
+
+/* UPDATE SUMMARY */
+
+function updateSummary(){
+
+    const rows =
+    document.querySelectorAll(
+        "#studentTable tr"
+    );
+
+
+    let present = 0;
+    let absent = 0;
+    let late = 0;
+    let total = 0;
+
+
+    rows.forEach(function(row){
+
+        if(
+            row.style.display === "none"
+        ){
+            return;
+        }
+
+
+        total++;
+
+
+        if(
+            row.dataset.status ===
+            "present"
+        ){
+
+            present++;
+
+        }
+
+
+        if(
+            row.dataset.status ===
+            "absent"
+        ){
+
+            absent++;
+
+        }
+
+
+        if(
+            row.dataset.status ===
+            "late"
+        ){
+
+            late++;
+
+        }
+
+    });
+
+
+    document
+    .getElementById("totalStudents")
+    .textContent =
+    total;
+
+
+    document
+    .getElementById("presentCount")
+    .textContent =
+    present;
+
+
+    document
+    .getElementById("absentCount")
+    .textContent =
+    absent;
+
+
+    document
+    .getElementById("lateCount")
+    .textContent =
+    late;
+
+
+    document
+    .getElementById("footerText")
+    .textContent =
+    "Showing " + total + " students";
+
+}
+
+
+/* MARK ALL */
+
+function markAll(status){
+
+    const rows =
+    document.querySelectorAll(
+        "#studentTable tr"
+    );
+
+
+    rows.forEach(function(row){
+
+        if(
+            row.style.display === "none"
+        ){
+            return;
+        }
+
+
+        const button =
+        row.querySelector(
+            ".status-btn." + status
+        );
+
+
+        if(button){
+
+            setStatus(
+                button,
+                status
+            );
+
+        }
+
+    });
+
+
+    updateSummary();
+
+}
+
+
+/* SEARCH */
+
+const searchInput =
+document.getElementById(
+    "searchInput"
+);
+
+
+const classFilter =
+document.getElementById(
+    "classFilter"
+);
+
+
+const statusFilter =
+document.getElementById(
+    "statusFilter"
+);
+
+
+searchInput.addEventListener(
+    "input",
+    filterStudents
+);
+
+
+classFilter.addEventListener(
+    "change",
+    filterStudents
+);
+
+
+statusFilter.addEventListener(
+    "change",
+    filterStudents
+);
+
+
+function filterStudents(){
+
+    const search =
+    searchInput.value
+    .toLowerCase()
+    .trim();
+
+
+    const selectedClass =
+    classFilter.value;
+
+
+    const selectedStatus =
+    statusFilter.value;
+
+
+    const rows =
+    document.querySelectorAll(
+        "#studentTable tr"
+    );
+
+
+    rows.forEach(function(row){
+
+        const name =
+        row.dataset.name
+        .toLowerCase();
+
+
+        const id =
+        row.dataset.id
+        .toLowerCase();
+
+
+        const studentClass =
+        row.dataset.class;
+
+
+        const studentStatus =
+        row.dataset.status;
+
+
+        const searchMatch =
+        name.includes(search) ||
+        id.includes(search);
+
+
+        const classMatch =
+        selectedClass === "all" ||
+        studentClass === selectedClass;
+
+
+        const statusMatch =
+        selectedStatus === "all" ||
+        studentStatus === selectedStatus;
+
+
+        if(
+            searchMatch &&
+            classMatch &&
+            statusMatch
+        ){
+
+            row.style.display = "";
+
+        }else{
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+
+    updateSummary();
+
+}
+
+
+/* SAVE */
+
+function saveAttendance(){
+
+    updateSummary();
+
+
+    document
+    .getElementById("saveModal")
+    .classList.add("show");
+
+}
+
+
+function closeSaveModal(){
+
+    document
+    .getElementById("saveModal")
+    .classList.remove("show");
+
+}
+
+
+/* NOTIFICATION */
+
+function showNotification(){
+
+    alert(
+        "You have 4 new notifications."
+    );
+
+}
+
+
+/* LOGOUT */
+
+document
+.getElementById("logoutBtn")
+.addEventListener(
+"click",
+function(){
+
+    document
+    .getElementById("logoutModal")
+    .classList.add("show");
+
+});
+
+
+function closeLogout(){
+
+    document
+    .getElementById("logoutModal")
+    .classList.remove("show");
+
+}
+
+
+function confirmLogout(){
+
+    window.location.href =
+    "login.html";
+
+}
+
+
+/* CLOSE MODAL OUTSIDE */
+
+document
+.querySelectorAll(".modal")
+.forEach(function(modal){
+
+    modal.addEventListener(
+        "click",
+        function(event){
+
+            if(
+                event.target === modal
+            ){
+
+                modal.classList.remove(
+                    "show"
+                );
+
+            }
+
+        }
+    );
+
+});
+
+
+/* ESC KEY */
+
+document.addEventListener(
+"keydown",
+function(event){
+
+    if(event.key === "Escape"){
+
+        document
+        .querySelectorAll(".modal")
+        .forEach(function(modal){
+
+            modal.classList.remove(
+                "show"
+            );
+
+        });
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
