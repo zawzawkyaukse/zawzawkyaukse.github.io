@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teachers | EduManage</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --primary:#3157d5;
+    --primary-light:#eef2ff;
+    --bg:#f5f7fb;
+    --white:#fff;
+    --text:#172033;
+    --muted:#778298;
+    --border:#e4e8ef;
+    --danger:#dc4d5b;
+    --success:#18a56b;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:245px;
+    background:#172033;
+    color:white;
+    z-index:1000;
+    display:flex;
+    flex-direction:column;
+}
+
+.brand{
+    height:75px;
+    display:flex;
+    align-items:center;
+    padding:0 22px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    font-size:18px;
+    font-weight:800;
+}
+
+.brand-icon{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    background:var(--primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-right:10px;
+}
+
+.admin-label{
+    padding:20px 22px 10px;
+    color:#8995ac;
+    font-size:10px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.sidebar-nav{
+    flex:1;
+    overflow-y:auto;
+    padding:0 12px;
+}
+
+.nav-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:11px 13px;
+    margin-bottom:3px;
+    border-radius:8px;
+    color:#aeb8ca;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.nav-item:hover{
+    background:rgba(255,255,255,.06);
+    color:white;
+}
+
+.nav-item.active{
+    background:var(--primary);
+    color:white;
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+}
+
+.sidebar-bottom{
+    padding:15px 12px;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+.logout-btn{
+    width:100%;
+    border:none;
+    background:rgba(255,255,255,.06);
+    color:#c6cede;
+    border-radius:8px;
+    padding:11px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:600;
+}
+
+.logout-btn:hover{
+    background:rgba(220,77,91,.15);
+    color:#ff8893;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:245px;
+    min-height:100vh;
+}
+
+/* TOPBAR */
+
+.topbar{
+    height:75px;
+    background:white;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+    position:sticky;
+    top:0;
+    z-index:900;
+}
+
+.topbar-left{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.menu-toggle{
+    display:none;
+    border:none;
+    background:none;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.page-title h1{
+    font-size:20px;
+}
+
+.page-title p{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:4px;
+}
+
+.topbar-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.notification{
+    width:36px;
+    height:36px;
+    border-radius:9px;
+    background:#f5f7fb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    position:relative;
+}
+
+.badge{
+    position:absolute;
+    top:-3px;
+    right:-3px;
+    width:16px;
+    height:16px;
+    border-radius:50%;
+    background:var(--danger);
+    color:white;
+    font-size:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.avatar{
+    width:37px;
+    height:37px;
+    border-radius:50%;
+    background:var(--primary-light);
+    color:var(--primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
+    font-weight:800;
+}
+
+.profile-info strong{
+    display:block;
+    font-size:11px;
+}
+
+.profile-info span{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    margin-top:3px;
+}
+
+/* CONTENT */
+
+.content{
+    padding:28px;
+}
+
+.heading{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:22px;
+}
+
+.heading h2{
+    font-size:22px;
+}
+
+.heading p{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:5px;
+}
+
+/* BUTTON */
+
+.btn{
+    border:none;
+    border-radius:8px;
+    padding:11px 16px;
+    cursor:pointer;
+    font-size:11px;
+    font-weight:700;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-primary:hover{
+    background:#2447bd;
+}
+
+.btn-danger{
+    background:var(--danger);
+    color:white;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:18px;
+}
+
+.stat-icon{
+    width:38px;
+    height:38px;
+    border-radius:9px;
+    background:var(--primary-light);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+}
+
+.stat h3{
+    margin-top:12px;
+    font-size:23px;
+}
+
+.stat p{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:4px;
+}
+
+/* CARD */
+
+.card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.toolbar{
+    padding:17px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.filters{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.search{
+    width:260px;
+    height:36px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    outline:none;
+    padding:0 12px;
+    font-size:10px;
+}
+
+.search:focus{
+    border-color:var(--primary);
+}
+
+select{
+    height:36px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:0 10px;
+    font-size:10px;
+    outline:none;
+    background:white;
+}
+
+/* TABLE */
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#fafbfc;
+    color:#7b8699;
+    font-size:9px;
+    text-align:left;
+    padding:13px 15px;
+    white-space:nowrap;
+}
+
+td{
+    padding:13px 15px;
+    border-top:1px solid #f0f2f6;
+    font-size:10px;
+    white-space:nowrap;
+}
+
+.teacher{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.teacher-avatar{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    background:var(--primary-light);
+    color:var(--primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:9px;
+    font-weight:800;
+}
+
+.teacher-name strong{
+    display:block;
+    font-size:10px;
+}
+
+.teacher-name span{
+    display:block;
+    color:var(--muted);
+    font-size:8px;
+    margin-top:3px;
+}
+
+.subject{
+    background:#f0f3ff;
+    color:var(--primary);
+    padding:5px 8px;
+    border-radius:5px;
+    font-size:8px;
+    font-weight:700;
+}
+
+.status{
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:8px;
+    font-weight:700;
+}
+
+.active-status{
+    color:#16865b;
+    background:#e8f8f1;
+}
+
+.inactive-status{
+    color:#c33d4b;
+    background:#ffedef;
+}
+
+/* ACTION */
+
+.actions{
+    display:flex;
+    gap:5px;
+}
+
+.action{
+    width:28px;
+    height:28px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    background:#f2f4f8;
+}
+
+.action:hover{
+    background:#e8ebf2;
+}
+
+.action.delete:hover{
+    background:#ffe9ec;
+}
+
+/* PAGINATION */
+
+.pagination{
+    padding:15px 17px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-top:1px solid var(--border);
+}
+
+.pagination-info{
+    color:var(--muted);
+    font-size:9px;
+}
+
+.page-buttons{
+    display:flex;
+    gap:5px;
+}
+
+.page-btn{
+    width:30px;
+    height:30px;
+    border:1px solid var(--border);
+    background:white;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:9px;
+}
+
+.page-btn.active{
+    background:var(--primary);
+    color:white;
+    border-color:var(--primary);
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.5);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:3000;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:550px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:white;
+    border-radius:14px;
+    padding:25px;
+}
+
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.modal-header h3{
+    font-size:17px;
+}
+
+.close{
+    border:none;
+    background:#f2f4f8;
+    width:30px;
+    height:30px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.form-group label{
+    display:block;
+    font-size:10px;
+    font-weight:700;
+    margin-bottom:7px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    height:40px;
+    border:1px solid var(--border);
+    border-radius:7px;
+    outline:none;
+    padding:0 10px;
+    font-size:10px;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color:var(--primary);
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+.modal-footer{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:20px;
+}
+
+.cancel{
+    background:#eef0f4;
+    color:#59657a;
+}
+
+/* VIEW */
+
+.profile-large{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.large-avatar{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:var(--primary-light);
+    color:var(--primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:auto;
+    font-size:20px;
+    font-weight:800;
+}
+
+.profile-large h3{
+    margin-top:10px;
+    font-size:17px;
+}
+
+.profile-large p{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:4px;
+}
+
+.details{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.detail{
+    background:#f7f8fb;
+    padding:11px;
+    border-radius:7px;
+}
+
+.detail span{
+    display:block;
+    color:var(--muted);
+    font-size:8px;
+    margin-bottom:4px;
+}
+
+.detail strong{
+    font-size:10px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1050px){
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.3s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .profile-info{
+        display:none;
+    }
+
+    .content{
+        padding:20px 15px;
+    }
+
+    .toolbar{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .search{
+        width:100%;
+    }
+}
+
+@media(max-width:550px){
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .heading{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:12px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+
+    .details{
+        grid-template-columns:1fr;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+```
+<div class="brand">
+    <div class="brand-icon">🎓</div>
+    EduManage
+</div>
+
+<div class="admin-label">
+    Administration
+</div>
+
+<nav class="sidebar-nav">
+
+    <a href="admin-dashboard.html" class="nav-item">
+        <span class="nav-icon">📊</span>
+        Dashboard
+    </a>
+
+    <a href="students.html" class="nav-item">
+        <span class="nav-icon">👨‍🎓</span>
+        Students
+    </a>
+
+    <a href="teachers.html" class="nav-item active">
+        <span class="nav-icon">👩‍🏫</span>
+        Teachers
+    </a>
+
+    <a href="classes.html" class="nav-item">
+        <span class="nav-icon">🏫</span>
+        Classes
+    </a>
+
+    <a href="attendance.html" class="nav-item">
+        <span class="nav-icon">✅</span>
+        Attendance
+    </a>
+
+    <a href="exams.html" class="nav-item">
+        <span class="nav-icon">📝</span>
+        Exams & Results
+    </a>
+
+    <a href="fees.html" class="nav-item">
+        <span class="nav-icon">💰</span>
+        Fees & Payments
+    </a>
+
+    <a href="timetable.html" class="nav-item">
+        <span class="nav-icon">🗓️</span>
+        Timetable
+    </a>
+
+    <a href="notices.html" class="nav-item">
+        <span class="nav-icon">🔔</span>
+        Notices
+    </a>
+
+    <a href="reports.html" class="nav-item">
+        <span class="nav-icon">📈</span>
+        Reports
+    </a>
+
+    <div class="admin-label">
+        System
+    </div>
+
+    <a href="profile.html" class="nav-item">
+        <span class="nav-icon">👤</span>
+        Profile
+    </a>
+
+    <a href="settings.html" class="nav-item">
+        <span class="nav-icon">⚙️</span>
+        Settings
+    </a>
+
+</nav>
+
+<div class="sidebar-bottom">
+
+    <button class="logout-btn" id="logoutBtn">
+        🚪 &nbsp; Logout
+    </button>
+
+</div>
+```
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+```
+<header class="topbar">
+
+    <div class="topbar-left">
+
+        <button class="menu-toggle" id="menuToggle">
+            ☰
+        </button>
+
+        <div class="page-title">
+
+            <h1>Teachers</h1>
+
+            <p>
+                Manage all teachers
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="topbar-right">
+
+        <div
+            class="notification"
+            onclick="showNotification()">
+
+            🔔
+
+            <span class="badge">
+                4
+            </span>
+
+        </div>
+
+
+        <div class="profile">
+
+            <div class="avatar">
+                AD
+            </div>
+
+            <div class="profile-info">
+
+                <strong>
+                    Administrator
+                </strong>
+
+                <span>
+                    Super Admin
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<section class="content">
+
+
+    <!-- HEADING -->
+
+    <div class="heading">
+
+        <div>
+
+            <h2>
+                Teacher Management
+            </h2>
+
+            <p>
+                View and manage teachers in your school.
+            </p>
+
+        </div>
+
+        <button
+            class="btn btn-primary"
+            onclick="openAddModal()">
+
+            + Add Teacher
+
+        </button>
+
+    </div>
+
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                👩‍🏫
+            </div>
+
+            <h3 id="totalTeachers">
+                86
+            </h3>
+
+            <p>
+                Total Teachers
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🟢
+            </div>
+
+            <h3>
+                82
+            </h3>
+
+            <p>
+                Active Teachers
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                📚
+            </div>
+
+            <h3>
+                14
+            </h3>
+
+            <p>
+                Subjects
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🏫
+            </div>
+
+            <h3>
+                24
+            </h3>
+
+            <p>
+                Classes
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- TABLE -->
+
+    <div class="card">
+
+        <div class="toolbar">
+
+            <div class="filters">
+
+                <input
+                    type="text"
+                    class="search"
+                    id="searchInput"
+                    placeholder="🔍 Search teacher name or ID...">
+
+
+                <select id="subjectFilter">
+
+                    <option value="all">
+                        All Subjects
+                    </option>
+
+                    <option value="Mathematics">
+                        Mathematics
+                    </option>
+
+                    <option value="English">
+                        English
+                    </option>
+
+                    <option value="Physics">
+                        Physics
+                    </option>
+
+                    <option value="Chemistry">
+                        Chemistry
+                    </option>
+
+                    <option value="Biology">
+                        Biology
+                    </option>
+
+                </select>
+
+
+                <select id="statusFilter">
+
+                    <option value="all">
+                        All Status
+                    </option>
+
+                    <option value="Active">
+                        Active
+                    </option>
+
+                    <option value="Inactive">
+                        Inactive
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>TEACHER</th>
+                        <th>SUBJECT</th>
+                        <th>CLASS</th>
+                        <th>PHONE</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="teacherTable">
+
+
+                    <!-- TEACHER 1 -->
+
+                    <tr
+                        data-name="Aung Kyaw"
+                        data-id="TCH-2026-001"
+                        data-subject="Mathematics"
+                        data-class="Grade 10-A"
+                        data-status="Active">
+
+                        <td>
+
+                            <div class="teacher">
+
+                                <div class="teacher-avatar">
+                                    AK
+                                </div>
+
+                                <div class="teacher-name">
+
+                                    <strong>
+                                        Aung Kyaw
+                                    </strong>
+
+                                    <span>
+                                        TCH-2026-001
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <span class="subject">
+                                Mathematics
+                            </span>
+                        </td>
+
+                        <td>
+                            Grade 10-A
+                        </td>
+
+                        <td>
+                            09 421 123 456
+                        </td>
+
+                        <td>
+
+                            <span class="status active-status">
+                                Active
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                <button
+                                    class="action"
+                                    onclick="viewTeacher(this)">
+                                    👁️
+                                </button>
+
+                                <button
+                                    class="action"
+                                    onclick="editTeacher(this)">
+                                    ✏️
+                                </button>
+
+                                <button
+                                    class="action delete"
+                                    onclick="deleteTeacher(this)">
+                                    🗑️
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- TEACHER 2 -->
+
+                    <tr
+                        data-name="May Thu"
+                        data-id="TCH-2026-002"
+                        data-subject="English"
+                        data-class="Grade 9-B"
+                        data-status="Active">
+
+                        <td>
+
+                            <div class="teacher">
+
+                                <div class="teacher-avatar">
+                                    MT
+                                </div>
+
+                                <div class="teacher-name">
+
+                                    <strong>
+                                        May Thu
+                                    </strong>
+
+                                    <span>
+                                        TCH-2026-002
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <span class="subject">
+                                English
+                            </span>
+                        </td>
+
+                        <td>
+                            Grade 9-B
+                        </td>
+
+                        <td>
+                            09 790 222 333
+                        </td>
+
+                        <td>
+
+                            <span class="status active-status">
+                                Active
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                <button
+                                    class="action"
+                                    onclick="viewTeacher(this)">
+                                    👁️
+                                </button>
+
+                                <button
+                                    class="action"
+                                    onclick="editTeacher(this)">
+                                    ✏️
+                                </button>
+
+                                <button
+                                    class="action delete"
+                                    onclick="deleteTeacher(this)">
+                                    🗑️
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- TEACHER 3 -->
+
+                    <tr
+                        data-name="Ko Min"
+                        data-id="TCH-2026-003"
+                        data-subject="Physics"
+                        data-class="Grade 10-B"
+                        data-status="Active">
+
+                        <td>
+
+                            <div class="teacher">
+
+                                <div class="teacher-avatar">
+                                    KM
+                                </div>
+
+                                <div class="teacher-name">
+
+                                    <strong>
+                                        Ko Min
+                                    </strong>
+
+                                    <span>
+                                        TCH-2026-003
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <span class="subject">
+                                Physics
+                            </span>
+                        </td>
+
+                        <td>
+                            Grade 10-B
+                        </td>
+
+                        <td>
+                            09 456 333 444
+                        </td>
+
+                        <td>
+
+                            <span class="status active-status">
+                                Active
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                <button
+                                    class="action"
+                                    onclick="viewTeacher(this)">
+                                    👁️
+                                </button>
+
+                                <button
+                                    class="action"
+                                    onclick="editTeacher(this)">
+                                    ✏️
+                                </button>
+
+                                <button
+                                    class="action delete"
+                                    onclick="deleteTeacher(this)">
+                                    🗑️
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- TEACHER 4 -->
+
+                    <tr
+                        data-name="Nandar Win"
+                        data-id="TCH-2026-004"
+                        data-subject="Chemistry"
+                        data-class="Grade 9-A"
+                        data-status="Active">
+
+                        <td>
+
+                            <div class="teacher">
+
+                                <div class="teacher-avatar">
+                                    NW
+                                </div>
+
+                                <div class="teacher-name">
+
+                                    <strong>
+                                        Nandar Win
+                                    </strong>
+
+                                    <span>
+                                        TCH-2026-004
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <span class="subject">
+                                Chemistry
+                            </span>
+                        </td>
+
+                        <td>
+                            Grade 9-A
+                        </td>
+
+                        <td>
+                            09 512 555 666
+                        </td>
+
+                        <td>
+
+                            <span class="status active-status">
+                                Active
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                <button
+                                    class="action"
+                                    onclick="viewTeacher(this)">
+                                    👁️
+                                </button>
+
+                                <button
+                                    class="action"
+                                    onclick="editTeacher(this)">
+                                    ✏️
+                                </button>
+
+                                <button
+                                    class="action delete"
+                                    onclick="deleteTeacher(this)">
+                                    🗑️
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- TEACHER 5 -->
+
+                    <tr
+                        data-name="Thida Hla"
+                        data-id="TCH-2026-005"
+                        data-subject="Biology"
+                        data-class="Grade 8-A"
+                        data-status="Inactive">
+
+                        <td>
+
+                            <div class="teacher">
+
+                                <div class="teacher-avatar">
+                                    TH
+                                </div>
+
+                                <div class="teacher-name">
+
+                                    <strong>
+                                        Thida Hla
+                                    </strong>
+
+                                    <span>
+                                        TCH-2026-005
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <span class="subject">
+                                Biology
+                            </span>
+                        </td>
+
+                        <td>
+                            Grade 8-A
+                        </td>
+
+                        <td>
+                            09 321 777 888
+                        </td>
+
+                        <td>
+
+                            <span class="status inactive-status">
+                                Inactive
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                <button
+                                    class="action"
+                                    onclick="viewTeacher(this)">
+                                    👁️
+                                </button>
+
+                                <button
+                                    class="action"
+                                    onclick="editTeacher(this)">
+                                    ✏️
+                                </button>
+
+                                <button
+                                    class="action delete"
+                                    onclick="deleteTeacher(this)">
+                                    🗑️
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="pagination">
+
+            <div class="pagination-info">
+                Showing 1–5 of 86 teachers
+            </div>
+
+            <div class="page-buttons">
+
+                <button class="page-btn">
+                    ‹
+                </button>
+
+                <button class="page-btn active">
+                    1
+                </button>
+
+                <button class="page-btn">
+                    2
+                </button>
+
+                <button class="page-btn">
+                    3
+                </button>
+
+                <button class="page-btn">
+                    4
+                </button>
+
+                <button class="page-btn">
+                    ›
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+```
+
+</main>
+
+<!-- ADD / EDIT MODAL -->
+
+<div class="modal" id="teacherModal">
+
+```
+<div class="modal-box">
+
+    <div class="modal-header">
+
+        <h3 id="modalTitle">
+            Add New Teacher
+        </h3>
+
+        <button
+            class="close"
+            onclick="closeModal()">
+            ✕
+        </button>
+
+    </div>
+
+
+    <form id="teacherForm">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>
+                    Teacher ID
+                </label>
+
+                <input
+                    type="text"
+                    id="teacherId"
+                    placeholder="TCH-2026-006"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="teacherName"
+                    placeholder="Enter teacher name"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Subject
+                </label>
+
+                <select id="teacherSubject">
+
+                    <option>
+                        Mathematics
+                    </option>
+
+                    <option>
+                        English
+                    </option>
+
+                    <option>
+                        Physics
+                    </option>
+
+                    <option>
+                        Chemistry
+                    </option>
+
+                    <option>
+                        Biology
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Class
+                </label>
+
+                <select id="teacherClass">
+
+                    <option>
+                        Grade 10-A
+                    </option>
+
+                    <option>
+                        Grade 10-B
+                    </option>
+
+                    <option>
+                        Grade 9-A
+                    </option>
+
+                    <option>
+                        Grade 9-B
+                    </option>
+
+                    <option>
+                        Grade 8-A
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Phone
+                </label>
+
+                <input
+                    type="text"
+                    id="teacherPhone"
+                    placeholder="09 xxx xxx xxx">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Status
+                </label>
+
+                <select id="teacherStatus">
+
+                    <option>
+                        Active
+                    </option>
+
+                    <option>
+                        Inactive
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="teacherEmail"
+                    placeholder="teacher@school.com">
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                type="button"
+                class="btn cancel"
+                onclick="closeModal()">
+
+                Cancel
+
+            </button>
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Save Teacher
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+```
+
+</div>
+
+<!-- VIEW MODAL -->
+
+<div class="modal" id="viewModal">
+
+```
+<div class="modal-box">
+
+    <div class="modal-header">
+
+        <h3>
+            Teacher Profile
+        </h3>
+
+        <button
+            class="close"
+            onclick="closeViewModal()">
+            ✕
+        </button>
+
+    </div>
+
+
+    <div class="profile-large">
+
+        <div
+            class="large-avatar"
+            id="viewAvatar">
+
+            AK
+
+        </div>
+
+        <h3 id="viewName">
+            Aung Kyaw
+        </h3>
+
+        <p id="viewId">
+            TCH-2026-001
+        </p>
+
+    </div>
+
+
+    <div class="details">
+
+        <div class="detail">
+
+            <span>
+                Subject
+            </span>
+
+            <strong id="viewSubject">
+                Mathematics
+            </strong>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span>
+                Class
+            </span>
+
+            <strong id="viewClass">
+                Grade 10-A
+            </strong>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span>
+                Phone
+            </span>
+
+            <strong id="viewPhone">
+                09 421 123 456
+            </strong>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span>
+                Status
+            </span>
+
+            <strong id="viewStatus">
+                Active
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="modal-footer">
+
+        <button
+            class="btn cancel"
+            onclick="closeViewModal()">
+
+            Close
+
+        </button>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<!-- LOGOUT MODAL -->
+
+<div class="modal" id="logoutModal">
+
+```
+<div class="modal-box">
+
+    <div class="modal-header">
+
+        <h3>
+            Logout?
+        </h3>
+
+        <button
+            class="close"
+            onclick="closeLogout()">
+            ✕
+        </button>
+
+    </div>
+
+    <p style="font-size:11px;color:#778298;line-height:1.6;">
+
+        Are you sure you want to logout from
+        the administrator account?
+
+    </p>
+
+
+    <div class="modal-footer">
+
+        <button
+            class="btn cancel"
+            onclick="closeLogout()">
+
+            Cancel
+
+        </button>
+
+        <button
+            class="btn btn-danger"
+            onclick="confirmLogout()">
+
+            Logout
+
+        </button>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<script>
+
+/* MOBILE MENU */
+
+document
+.getElementById("menuToggle")
+.addEventListener("click",function(){
+
+    document
+    .getElementById("sidebar")
+    .classList.toggle("open");
+
+});
+
+
+/* SEARCH */
+
+const searchInput =
+document.getElementById("searchInput");
+
+const subjectFilter =
+document.getElementById("subjectFilter");
+
+const statusFilter =
+document.getElementById("statusFilter");
+
+
+searchInput.addEventListener(
+    "input",
+    filterTeachers
+);
+
+subjectFilter.addEventListener(
+    "change",
+    filterTeachers
+);
+
+statusFilter.addEventListener(
+    "change",
+    filterTeachers
+);
+
+
+function filterTeachers(){
+
+    const search =
+    searchInput.value
+    .toLowerCase()
+    .trim();
+
+    const subject =
+    subjectFilter.value;
+
+    const status =
+    statusFilter.value;
+
+
+    const rows =
+    document.querySelectorAll(
+        "#teacherTable tr"
+    );
+
+
+    rows.forEach(function(row){
+
+        const name =
+        row.dataset.name.toLowerCase();
+
+        const id =
+        row.dataset.id.toLowerCase();
+
+        const rowSubject =
+        row.dataset.subject;
+
+        const rowStatus =
+        row.dataset.status;
+
+
+        const searchMatch =
+        name.includes(search) ||
+        id.includes(search);
+
+        const subjectMatch =
+        subject === "all" ||
+        rowSubject === subject;
+
+        const statusMatch =
+        status === "all" ||
+        rowStatus === status;
+
+
+        row.style.display =
+        searchMatch &&
+        subjectMatch &&
+        statusMatch
+        ? ""
+        : "none";
+
+    });
+
+}
+
+
+/* ADD */
+
+function openAddModal(){
+
+    document
+    .getElementById("modalTitle")
+    .textContent =
+    "Add New Teacher";
+
+
+    document
+    .getElementById("teacherForm")
+    .reset();
+
+
+    document
+    .getElementById("teacherModal")
+    .classList.add("show");
+
+}
+
+
+/* CLOSE */
+
+function closeModal(){
+
+    document
+    .getElementById("teacherModal")
+    .classList.remove("show");
+
+}
+
+
+/* SAVE */
+
+document
+.getElementById("teacherForm")
+.addEventListener(
+"submit",
+function(event){
+
+    event.preventDefault();
+
+
+    const id =
+    document
+    .getElementById("teacherId")
+    .value
+    .trim();
+
+
+    const name =
+    document
+    .getElementById("teacherName")
+    .value
+    .trim();
+
+
+    const subject =
+    document
+    .getElementById("teacherSubject")
+    .value;
+
+
+    const teacherClass =
+    document
+    .getElementById("teacherClass")
+    .value;
+
+
+    const phone =
+    document
+    .getElementById("teacherPhone")
+    .value
+    .trim();
+
+
+    const status =
+    document
+    .getElementById("teacherStatus")
+    .value;
+
+
+    if(!id || !name){
+
+        alert(
+            "Please enter Teacher ID and Name."
+        );
+
+        return;
+
+    }
+
+
+    const initials =
+    name
+    .split(" ")
+    .map(word => word.charAt(0))
+    .join("")
+    .substring(0,2)
+    .toUpperCase();
+
+
+    const row =
+    document.createElement("tr");
+
+
+    row.dataset.name =
+    name;
+
+    row.dataset.id =
+    id;
+
+    row.dataset.subject =
+    subject;
+
+    row.dataset.class =
+    teacherClass;
+
+    row.dataset.status =
+    status;
+
+
+    row.innerHTML = `
+
+        <td>
+
+            <div class="teacher">
+
+                <div class="teacher-avatar">
+                    ${initials}
+                </div>
+
+                <div class="teacher-name">
+
+                    <strong>
+                        ${name}
+                    </strong>
+
+                    <span>
+                        ${id}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </td>
+
+
+        <td>
+
+            <span class="subject">
+                ${subject}
+            </span>
+
+        </td>
+
+
+        <td>
+            ${teacherClass}
+        </td>
+
+
+        <td>
+            ${phone || "-"}
+        </td>
+
+
+        <td>
+
+            <span class="status ${
+                status === "Active"
+                ? "active-status"
+                : "inactive-status"
+            }">
+
+                ${status}
+
+            </span>
+
+        </td>
+
+
+        <td>
+
+            <div class="actions">
+
+                <button
+                    class="action"
+                    onclick="viewTeacher(this)">
+                    👁️
+                </button>
+
+                <button
+                    class="action"
+                    onclick="editTeacher(this)">
+                    ✏️
+                </button>
+
+                <button
+                    class="action delete"
+                    onclick="deleteTeacher(this)">
+                    🗑️
+                </button>
+
+            </div>
+
+        </td>
+
+    `;
+
+
+    document
+    .getElementById("teacherTable")
+    .prepend(row);
+
+
+    closeModal();
+
+    updateTotal();
+
+
+    alert(
+        "Teacher added successfully! (Frontend Demo)"
+    );
+
+});
+
+
+/* VIEW */
+
+function viewTeacher(button){
+
+    const row =
+    button.closest("tr");
+
+
+    const name =
+    row.dataset.name;
+
+    const id =
+    row.dataset.id;
+
+    const subject =
+    row.dataset.subject;
+
+    const teacherClass =
+    row.dataset.class;
+
+    const status =
+    row.dataset.status;
+
+
+    const genderName =
+    name
+    .split(" ")
+    .map(word => word.charAt(0))
+    .join("")
+    .substring(0,2)
+    .toUpperCase();
+
+
+    const phone =
+    row.children[3]
+    .textContent
+    .trim();
+
+
+    document
+    .getElementById("viewAvatar")
+    .textContent =
+    genderName;
+
+
+    document
+    .getElementById("viewName")
+    .textContent =
+    name;
+
+
+    document
+    .getElementById("viewId")
+    .textContent =
+    id;
+
+
+    document
+    .getElementById("viewSubject")
+    .textContent =
+    subject;
+
+
+    document
+    .getElementById("viewClass")
+    .textContent =
+    teacherClass;
+
+
+    document
+    .getElementById("viewPhone")
+    .textContent =
+    phone;
+
+
+    document
+    .getElementById("viewStatus")
+    .textContent =
+    status;
+
+
+    document
+    .getElementById("viewModal")
+    .classList.add("show");
+
+}
+
+
+function closeViewModal(){
+
+    document
+    .getElementById("viewModal")
+    .classList.remove("show");
+
+}
+
+
+/* EDIT */
+
+function editTeacher(button){
+
+    const row =
+    button.closest("tr");
+
+
+    document
+    .getElementById("modalTitle")
+    .textContent =
+    "Edit Teacher";
+
+
+    document
+    .getElementById("teacherId")
+    .value =
+    row.dataset.id;
+
+
+    document
+    .getElementById("teacherName")
+    .value =
+    row.dataset.name;
+
+
+    document
+    .getElementById("teacherSubject")
+    .value =
+    row.dataset.subject;
+
+
+    document
+    .getElementById("teacherClass")
+    .value =
+    row.dataset.class;
+
+
+    document
+    .getElementById("teacherPhone")
+    .value =
+    row.children[3]
+    .textContent
+    .trim();
+
+
+    document
+    .getElementById("teacherStatus")
+    .value =
+    row.dataset.status;
+
+
+    document
+    .getElementById("teacherModal")
+    .classList.add("show");
+
+
+    row.remove();
+
+    updateTotal();
+
+}
+
+
+/* DELETE */
+
+function deleteTeacher(button){
+
+    const row =
+    button.closest("tr");
+
+
+    const name =
+    row.dataset.name;
+
+
+    const confirmDelete =
+    confirm(
+        "Delete teacher \"" +
+        name +
+        "\"?"
+    );
+
+
+    if(confirmDelete){
+
+        row.remove();
+
+        updateTotal();
+
+        alert(
+            "Teacher deleted successfully! (Frontend Demo)"
+        );
+
+    }
+
+}
+
+
+/* TOTAL */
+
+function updateTotal(){
+
+    const rows =
+    document.querySelectorAll(
+        "#teacherTable tr"
+    );
+
+
+    const total =
+    86 - 5 + rows.length;
+
+
+    document
+    .getElementById("totalTeachers")
+    .textContent =
+    total.toLocaleString();
+
+}
+
+
+/* NOTIFICATION */
+
+function showNotification(){
+
+    alert(
+        "You have 4 new notifications."
+    );
+
+}
+
+
+/* LOGOUT */
+
+document
+.getElementById("logoutBtn")
+.addEventListener(
+"click",
+function(){
+
+    document
+    .getElementById("logoutModal")
+    .classList.add("show");
+
+});
+
+
+function closeLogout(){
+
+    document
+    .getElementById("logoutModal")
+    .classList.remove("show");
+
+}
+
+
+function confirmLogout(){
+
+    window.location.href =
+    "login.html";
+
+}
+
+
+/* OUTSIDE CLICK */
+
+document
+.querySelectorAll(".modal")
+.forEach(function(modal){
+
+    modal.addEventListener(
+        "click",
+        function(event){
+
+            if(event.target === modal){
+
+                modal.classList.remove(
+                    "show"
+                );
+
+            }
+
+        }
+    );
+
+});
+
+
+/* ESC */
+
+document.addEventListener(
+"keydown",
+function(event){
+
+    if(event.key === "Escape"){
+
+        document
+        .querySelectorAll(".modal")
+        .forEach(function(modal){
+
+            modal.classList.remove(
+                "show"
+            );
+
+        });
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
