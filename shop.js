@@ -162,7 +162,7 @@ $(document).ready(function(){
 
         if (shop == null) {
             alert("First Choose Your Items!");
-            window.location.href = 'shop.html';
+            window.location.href = 'index.html';
         }
 
         
@@ -174,7 +174,7 @@ $(document).ready(function(){
                 if (ans){
                     localStorage.removeItem('shops');
                     alert('Successful Order Now');
-                    window.location.href = 'shop.html';
+                    window.location.href = 'index.html';
                 }
 
       
