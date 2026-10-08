@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+    <script src="./jquery.min.js"></script>
+    <script src="./shop.js"></script>
+    <header>
+        <nav class="navbar">
+            <div class="logo">ZAW-<span>IT Shop</span></div>
+
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="checkout.html">
+                <div class="btn primary cart">
+                🛒
+                <span class="count_item">0</span>
+                </div>
+            </a>  
+            
+            
+            
+        </nav>
+    </header>
+
+    
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <p class="small-title">WELCOME TO ZAWITSHOP</p>
+            <h1>Your Trusted <span>IT Shop</span></h1>
+            <p>
+                Laptop, Computer, Accessories နှင့် IT Services
+                များကို အရည်အသွေးကောင်းမွန်စွာ ဝယ်ယူနိုင်ပါသည်။
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#products" class="btn primary">Shop Now</a>
+                <a href="#contact" class="btn secondary">Contact Us</a>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            <div class="computer-icon">💻</div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="products section" id="products">
+        <div class="section-title">
+            <p>OUR PRODUCTS</p>
+            <h2>Popular Products</h2>
+        </div>
+
+        <div class="product-grid">
+
+            <div class="product-card">
+                <div class="product-image">💻</div>
+                <h3>Gaming Laptop</h3>
+                <p>Intel Core i7 / 16GB RAM / 512GB SSD</p>
+                <h4>1,850,000 MMK</h4>
+                <button class="addToCart" data-id="1" data-name="Gaming Laptop"  data-price="1850000">Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">🖥️</div>
+                <h3>Desktop PC</h3>
+                <p>Core i5 / 16GB RAM / 1TB SSD</p>
+                <h4>1,250,000 MMK</h4>
+                <button class="addToCart" data-id="2" data-name="Desktop PC" data-price="1250000">Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">⌨️</div>
+                <h3>Mechanical Keyboard</h3>
+                <p>RGB Gaming Mechanical Keyboard</p>
+                <h4>85,000 MMK</h4>
+                <button class="addToCart" data-id="3" data-name="Mechanical Keyboard" data-price="85000" >Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">🖱️</div>
+                <h3>Gaming Mouse</h3>
+                <p>High Precision RGB Gaming Mouse</p>
+                <h4>45,000 MMK</h4>
+                <button class="addToCart" data-id="4" data-name="Gaming Mouse" data-price="45000">Add to Cart</button>
+            </div>
+
+        </div>
+    </section>
+
+   
+
+   
+    <footer>
+        <div class="logo">ZAW<span>IT SHOP</span></div>
+        <p>© 2026 TechZone IT Shop. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
